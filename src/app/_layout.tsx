@@ -1,18 +1,37 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { DefaultTheme, Stack, ThemeProvider } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import '@/global.css';
+import { colors } from '@/theme';
 
-SplashScreen.preventAutoHideAsync();
+/**
+ * Root navigator.
+ *
+ * The tabs group holds Scan and History. The result screen is pushed on top of
+ * the tabs rather than living inside them, because the prototype shows it with
+ * a back arrow and no bottom navigation.
+ */
+const recyclensNavTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: colors.background,
+    card: colors.card,
+    text: colors.ink,
+    primary: colors.primary,
+    border: colors.hairline,
+  },
+};
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
+    <ThemeProvider value={recyclensNavTheme}>
+      <StatusBar style="dark" />
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        {/* The result screen draws its own header, to match the prototype. */}
+        <Stack.Screen name="result/[id]" options={{ headerShown: false }} />
+      </Stack>
     </ThemeProvider>
   );
 }

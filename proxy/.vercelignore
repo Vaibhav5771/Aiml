@@ -1,0 +1,3 @@
+# Test files are not functions and have no business in a deployment.
+# Vercel turns every file in api/ into a route, so these must not be uploaded.
+api/*.test.ts

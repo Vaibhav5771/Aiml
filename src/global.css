@@ -1,9 +1,193 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+
+/*
+ * Recyclens design tokens: Apple inspired.
+ *
+ * THIS FILE IS THE SOURCE OF TRUTH for colour, type size, radius and motion.
+ * `src/theme.ts` mirrors the COLOURS ONLY, for props that take a colour value
+ * rather than a className. It never grows to carry type, spacing or radius.
+ *
+ * `docs/design.md` explains the direction and the component contract. It
+ * points here for every value rather than restating one, so there is only ever
+ * one number to change.
+ *
+ * Three things to know before you edit a colour here:
+ *
+ * 1. These are NOT Apple's published values. Apple's own `#86868b` secondary
+ *    text scores 3.62:1 on white, which fails the 4.5:1 bar that Apple's own
+ *    guidance asks for, and every system accent (green, red, orange) fails
+ *    badly as small text. Each value below was measured and chosen to pass.
+ *    If you change one, measure it.
+ *
+ * 2. The type scale is Apple's iOS scale (34 / 28 / 17 / 13), not the 48px web
+ *    scale. A 48px hero on a 360px phone is not a hero, it is a wrapping mess.
+ *
+ * 3. This replaced the warm eco palette from `docs/figma-prototype-prompt.md`
+ *    and `screen-shots/`. Those documents now describe something the app is
+ *    not. That is a deliberate decision, recorded here so nobody has to guess.
+ *
+ * `npm run check:tokens` fails the build when a value lands outside this file.
+ */
+
+@layer theme {
+  @theme {
+    /* Surfaces. Content first, chrome recedes. */
+    --color-background: #ffffff;
+    --color-card: #f5f5f7;
+    --color-hairline: rgba(0, 0, 0, 0.08);
+    --color-track: #e8e8ed;
+
+    /* Accent. Apple blue, darkened so it clears 4.5:1 on the grey card too. */
+    --color-primary: #0062c4;
+    --color-accent: #0062c4;
+
+    /* Text */
+    --color-ink: #1d1d1f;
+    --color-ink-soft: #6e6e73;
+
+    /*
+     * One colour per verdict, each darkened from the Apple system colour until
+     * it is legible as small text. Never the only signal: every verdict also
+     * carries an icon and a word, so greyscale and colour blind both work.
+     * `src/components/verdict.ts` is the one place that pairs them up.
+     */
+    --color-verdict-ok: #176b33;
+    --color-verdict-no: #d70015;
+    --color-verdict-maybe: #b25000;
+
+    /* Barely there tints behind a verdict. Deference: the content leads. */
+    --color-surface-ok: #f0f9f2;
+    --color-surface-no: #fdf0ef;
+    --color-surface-maybe: #fdf4ec;
+
+    --color-edge-ok: #d6e9dc;
+    --color-edge-no: #f5d9d6;
+    --color-edge-maybe: #f5e3d2;
+
+    /* The caveat row */
+    --color-note-surface: #f5f5f7;
+    --color-note-edge: rgba(0, 0, 0, 0.08);
+
+    /*
+     * Apple's iOS type scale, not the web one. FOUR SIZES, no more.
+     *
+     * Each carries its own line height through Tailwind's `--<name>--line-height`
+     * companion, so the two always travel together and no file writes
+     * `leading-*` by hand.
+     *
+     * The companion is a RATIO, never a px length, and that is not a style
+     * preference. Tailwind compiles `text-title` to
+     * `line-height: var(--tw-leading, var(--text-title--line-height))`, and a
+     * `line-height` holding a `var()` is handed to react-native-css's runtime
+     * resolver, which multiplies whatever it finds by the font size because
+     * the px unit is already gone by then. A px companion therefore renders as
+     * `34 * 28 = 952dp` of line height, silently, with no warning and no
+     * bundler error. Ratios are also what Tailwind's own scale uses
+     * (`--text-xs--line-height: calc(1 / 0.75)`), so this is the shape the
+     * library expects. Written as a division so the designed px value stays
+     * readable: `calc(34 / 28)` IS 34px at 28px.
+     *
+     * Weight does the rest of the work: regular, medium, semibold and bold all
+     * ship with the Android system font, so four weights cost nothing to load.
+     *
+     *   text-label    section labels, captions, chips, control labels
+     *   text-body     body copy, button labels, attribute values, bar titles
+     *   text-title    screen titles, the reading overlay
+     *   text-verdict  the verdict word, and nothing else
+     */
+    --text-label: 13px;
+    --text-label--line-height: calc(18 / 13);
+    --text-body: 17px;
+    --text-body--line-height: calc(24 / 17);
+    --text-title: 28px;
+    --text-title--line-height: calc(34 / 28);
+    --text-verdict: 34px;
+    --text-verdict--line-height: calc(41 / 34);
+
+    /*
+     * Continuous, generous corners. Each radius is named for the thing it
+     * belongs to, so picking one is a question about the content rather than
+     * about a number.
+     *
+     * No `borderCurve: "continuous"` anywhere: it maps to an iOS layer
+     * property and does nothing on Android, which is the only target. It is
+     * left out deliberately, not forgotten.
+     */
+    --radius-bar: 4px;
+    --radius-tile: 12px;
+    --radius-thumb: 16px;
+    --radius-card: 18px;
+    --radius-frame: 24px;
+    --radius-button: 980px;
+  }
+}
+
+/*
+ * SPACING: Tailwind's default 4px base, which is already right for Android, so
+ * nothing is declared here. What is declared is which steps exist and what
+ * each one means, because one padding value used at every level is a known
+ * tell that destroys proximity as a signal.
+ *
+ *   1   4px   inside a tight pair, a label above its value
+ *   2   8px   row gap, between items on one line
+ *   3   12px  the in between step, use sparingly
+ *   4   16px  card padding, screen gutter, group gap
+ *   6   24px  section gap, between blocks on a screen
+ *   8   32px  the bottom of a scrolling screen
+ *
+ * HARD RULE: row gap 2 < group gap 4 < section gap 6. A screen that uses the
+ * same value for all three is wrong even though every value is on the scale.
+ *
+ * MOTION: Tailwind v4 has no `--duration-*` theme namespace, so these three
+ * cannot generate utility names the way colours and radii do. They are
+ * recorded here and the code writes the bare Tailwind utility: `duration-150`
+ * for a press or a toggle, `duration-250` for something entering or leaving,
+ * `duration-400` for a whole surface. There is no `duration-fast` class and
+ * there cannot be one.
+ */
 :root {
-  --font-display:
-    Spline Sans, Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji,
-    Segoe UI Symbol, Noto Color Emoji;
-  --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  --font-rounded: 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif;
-  --font-serif: Georgia, 'Times New Roman', serif;
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+}
+
+/*
+ * The one focus treatment, used by every interactive primitive through the
+ * component contract rather than decided per screen.
+ *
+ * Written as a plain rule rather than as `focus:outline-2 focus:outline-primary`
+ * because Tailwind v4's outline utilities route the style through a registered
+ * `@property` custom property, which react-native-css does not implement. The
+ * explicit four declarations below compile cleanly and the `:focus` selector
+ * out-specifies any utility, so a caller's `className` can never flatten it.
+ *
+ * Android reaches this through an attached keyboard or Switch Access. It is
+ * the only way those users can see where they are, so it is not optional on
+ * anything tappable.
+ */
+.focus-ring:focus {
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media android {
+  :root {
+    --font-sans: normal;
+    --font-mono: monospace;
+    --font-serif: serif;
+    --font-rounded: normal;
+  }
+}
+
+@media ios {
+  :root {
+    --font-sans: system-ui;
+    --font-mono: ui-monospace;
+    --font-serif: ui-serif;
+    --font-rounded: ui-rounded;
+  }
 }
