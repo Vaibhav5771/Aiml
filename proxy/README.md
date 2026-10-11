@@ -35,10 +35,10 @@ it does not, spec 0001 names the fallback and its cost.
 
 ```
 POST  { "image": "<base64 jpeg>", "mimeType": "image/jpeg" }
-200   { "attributes": { ... } }
+200   { "itemName": "...", "note": "...", "attributes": { ...six } }
 4xx   { "error": "<machine readable code>" }
 ```
 
-Never a partial result. Feature 3 defines the attribute vocabulary and fills in
-the Gemini call; until then the handler validates the request and returns
-`501 not_implemented`.
+Never a partial result. Spec 0003 defines the six attribute vocabulary in
+`api/schema.ts` and fills in the Gemini call, so every failure arrives as one
+of eleven machine readable codes the app switches on.

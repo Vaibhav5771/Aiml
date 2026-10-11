@@ -10,7 +10,9 @@ This is **not** React Native. It runs on Vercel's Node runtime as its own deploy
 
 | File | Owns |
 |---|---|
-| `api/vision.ts` | The whole function: request validation, the Gemini call, and the response contract |
+| `api/vision.ts` | The handler: request validation, the Gemini call, the retry, the deadline, and the error taxonomy |
+| `api/schema.ts` | The attribute vocabulary, declared once in `zod`. Produces the validator, the types and the JSON schema handed to Gemini |
+| `api/prompt.ts` | The instruction text and `PROMPT_VERSION` |
 | `vercel.json` | The function timeout. See Gotchas, this is the risk in the design |
 | `.env.example` | The one variable this needs, `GEMINI_API_KEY` |
 
@@ -19,6 +21,7 @@ This is **not** React Native. It runs on Vercel's Node runtime as its own deploy
 ```bash
 npm install            # from inside proxy/
 npm run typecheck      # tsc --noEmit
+npm test               # unit tests, no network and no Gemini quota
 vercel                 # first deploy, links the project
 vercel --prod          # production deploy
 ```
@@ -38,7 +41,8 @@ Set the Vercel project's **root directory to `proxy`**, so Vercel never tries to
 
 - **The function timeout is the real risk in this whole design.** A Gemini vision call on a large photo can take several seconds, and the default is short. `vercel.json` asks for `maxDuration: 60`, but that has not been confirmed against the free tier yet. Check it before building anything heavier on top. If 60 seconds is not available, spec 0001 names the fallback and what it costs you.
 - The app resizes photos to roughly a 1568px long edge before sending, so a request body should land near 500KB once base64 encoded. A much larger body means the app side resize did not run.
-- Feature 3 owns the attribute vocabulary and the prompt. Until it lands, the handler validates the request and returns `501 not_implemented` on purpose. Do not invent an attribute schema here; that decision belongs to feature 3.
+- **The attribute vocabulary is declared once, in `api/schema.ts`.** `src/vision/types.ts` in the app carries a copy kept by hand, because the app and the proxy may not import each other. Change a code in one and you must change it in the other; nothing catches that drift until a validation failure in production. Spec 0003 names this the most likely thing here to bite you.
+- **`@google/genai` has two unrelated error families and exports only one of them.** `interactions.create` throws the internal family (`RateLimitError` extends `APIError` extends `GeminiNextGenAPIClientError`), which is **not** an instance of the exported `ApiError`. An `instanceof` check against `ApiError` silently misses every real failure while a unit test holding a hand built one stays green. Discriminate on the numeric `status` instead, as `callErrorCode` does.
 
 ## Agent skills
 

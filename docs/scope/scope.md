@@ -12,7 +12,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | # | Feature | Phase | Status |
 |---|---------|-------|--------|
 | 1 | Stack & architecture | Foundation | done |
-| 2 | Coding standards & tooling | Foundation | planned |
+| 2 | Coding standards & tooling | Foundation | in-progress |
 | 3 | Packaging vision read | Foundation | in-progress |
 | 4 | Local recycling rule set | Foundation | planned |
 | 5 | Data model | Foundation | planned |
@@ -36,7 +36,7 @@ spec [0001](../specs/0001-stack-and-architecture/index.md) · code in `src/`, `p
 ### 2. Coding standards & tooling
 Capture the conventions from the real scaffolded project, then install the lint, format, and check tooling every later feature has to pass.
 **Done when:** root `AGENTS.md` reflects the real stack, and lint and format run clean on the scaffold.
-- [ ] Capture conventions + tooling choices: `/audit`
+- [x] Capture conventions + tooling choices: `/audit`
 - [ ] Install the tooling: `/develop tooling`
 
 ### 3. Packaging vision read · Beta
