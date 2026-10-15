@@ -20,7 +20,7 @@ import {
   normalise,
   TEXT_CAPS,
   type FoundReply,
-} from './schema';
+} from './schema.js';
 
 /** A complete, valid model reply. Tests bend one field at a time off this. */
 function validReply(): Record<string, unknown> {

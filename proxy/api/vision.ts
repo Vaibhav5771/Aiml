@@ -21,24 +21,33 @@
 
 import { GoogleGenAI } from '@google/genai';
 
-import { PROMPT_VERSION, SYSTEM_INSTRUCTION, USER_PROMPT } from './prompt';
+import { PROMPT_VERSION, SYSTEM_INSTRUCTION, USER_PROMPT } from './prompt.js';
 import {
   geminiJsonSchema,
   geminiReplySchema,
   normalise,
   type GeminiReply,
   type VisionRead,
-} from './schema';
+} from './schema.js';
 
 export const config = { runtime: 'nodejs' };
 
 /**
  * The model that produced a result is recoverable from git, which is why this
- * is a constant rather than an environment variable. Spec 0003 names
- * `gemini-3.5-flash-lite` as the fallback if quota becomes the binding
- * constraint, but reread the photo set before trusting it on a faded symbol.
+ * is a constant rather than an environment variable.
+ *
+ * Spec 0003 chose `gemini-3.8-flash` and named `gemini-3.5-flash-lite` as the
+ * fallback. On 2026-10-16 the first was returning 503 "experiencing high
+ * demand" on every `interactions.create` call, 0 of 3, while the fallback
+ * answered 3 of 3, so this swapped to the fallback the spec had already
+ * sanctioned. It is a stopgap, not a new decision.
+ *
+ * The spec's own warning still stands and is now load bearing: reread the
+ * photo set before trusting a lite model on a faded symbol. Reading a damaged
+ * symbol is the product's hardest job, and this model has never been measured
+ * on it. Switch back once 3.8 is healthy, or ratify this with /architect.
  */
-const MODEL = 'gemini-3.8-flash';
+const MODEL = 'gemini-3.5-flash-lite';
 
 /**
  * One budget for BOTH attempts, started before the first call.
@@ -216,6 +225,12 @@ function geminiCall(
       // earns the retry rather than failing the request outright.
       return { ok: true, text: interaction.output_text ?? '' };
     } catch (error) {
+      // Why the call failed, not just that it did. `vision_unavailable` is a
+      // catch all, and without this the cause never leaves the function.
+      const e = error as { name?: string; status?: number; message?: string };
+      console.error(
+        `[gemini] ${e.name ?? 'Error'} status=${e.status ?? 'none'} ${String(e.message ?? error).slice(0, 400)}`,
+      );
       return { ok: false, code: callErrorCode(error, signal.aborted) };
     }
   };
@@ -242,7 +257,7 @@ function log({ raw, ...fields }: LogFields): void {
   );
 }
 
-export default async function handler(request: Request): Promise<Response> {
+export async function handler(request: Request): Promise<Response> {
   let sizeChars = 0;
   let geminiLatencyMs = 0;
 
@@ -295,3 +310,12 @@ export default async function handler(request: Request): Promise<Response> {
     clearTimeout(timer);
   }
 }
+
+/*
+ * Vercel's Node runtime reads a bare `export default function(request)` as the
+ * old `(req, res)` signature, passes two Node objects, and throws away the
+ * `Response` we return, so the request hangs until `maxDuration` kills it. The
+ * `{ fetch }` object is what marks this as a Web standard handler.
+ * https://vercel.com/docs/functions/runtimes/node-js
+ */
+export default { fetch: handler };

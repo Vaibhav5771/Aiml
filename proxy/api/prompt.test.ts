@@ -10,8 +10,8 @@
 import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
-import { PROMPT_VERSION, SYSTEM_INSTRUCTION, USER_PROMPT } from './prompt';
-import { ATTRIBUTE_KEYS, CODES } from './schema';
+import { PROMPT_VERSION, SYSTEM_INSTRUCTION, USER_PROMPT } from './prompt.js';
+import { ATTRIBUTE_KEYS, CODES } from './schema.js';
 
 const PROMPT = `${SYSTEM_INSTRUCTION}\n${USER_PROMPT}`.toLowerCase();
 

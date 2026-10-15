@@ -11,7 +11,7 @@
  * no handler either.
  */
 
-import { ATTRIBUTE_KEYS, CODES, TEXT_CAPS, type AttributeKey } from './schema';
+import { ATTRIBUTE_KEYS, CODES, TEXT_CAPS, type AttributeKey } from './schema.js';
 
 /**
  * Bump this whenever the text below changes meaningfully. It is logged with

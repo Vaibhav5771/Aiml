@@ -11,7 +11,7 @@ import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it, mock } from 'node:test';
 import { ApiError } from '@google/genai';
 
-import handler, { callErrorCode, readPackaging, type CallResult, type GeminiCall } from './vision';
+import { callErrorCode, handler, readPackaging, type CallResult, type GeminiCall } from './vision.js';
 
 const VALID_REPLY = JSON.stringify({
   packagingFound: true,
