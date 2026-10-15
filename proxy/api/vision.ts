@@ -108,8 +108,7 @@ export type CallResult = { ok: true; text: string } | { ok: false; code: ErrorCo
 export type GeminiCall = () => Promise<CallResult>;
 
 export type ReadResult =
-  | { ok: true; value: VisionRead }
-  | { ok: false; code: ErrorCode; raw?: string };
+  { ok: true; value: VisionRead } | { ok: false; code: ErrorCode; raw?: string };
 
 function parseReply(text: string): { ok: true; reply: GeminiReply } | { ok: false } {
   let data: unknown;
@@ -131,10 +130,7 @@ function parseReply(text: string): { ok: true; reply: GeminiReply } | { ok: fals
  * failure is not retried at all, since it already carries a declared code the
  * app can act on, and retrying it would spend the budget on the same wall.
  */
-export async function readPackaging(
-  call: GeminiCall,
-  expired: () => boolean,
-): Promise<ReadResult> {
+export async function readPackaging(call: GeminiCall, expired: () => boolean): Promise<ReadResult> {
   let raw: string | undefined;
 
   for (let attempt = 1; attempt <= 2; attempt++) {

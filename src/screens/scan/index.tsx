@@ -17,9 +17,10 @@ import { Pressable, Text, View } from '@/tw';
 /**
  * Scan, the home screen.
  *
- * The camera is real; what happens after the shutter is not yet. Feature 3
- * (the vision read) and feature 7 (the walking skeleton) replace the fake
- * delay below with a real call through `proxy/`.
+ * The camera is real; what happens after the shutter is not yet. Feature 7
+ * built the chain behind it (`src/vision/prepare.ts` and
+ * `src/vision/client.ts`, provable today on the Dev: the chain screen), and
+ * feature 8 is what replaces the fake delay below with it.
  */
 
 /**
@@ -47,7 +48,8 @@ export function ScanScreen() {
 
   /**
    * Stands in for the real pipeline: resize, send to the proxy, read the
-   * attributes back, run the rules. Feature 7 replaces the wait with that work.
+   * attributes back, run the rules. All four exist now; feature 8 replaces the
+   * wait with them, and feature 10 owns what the failures look like.
    */
   function readPackaging(capture: () => Promise<string | undefined>) {
     if (reading) return;
@@ -172,8 +174,9 @@ export function ScanScreen() {
           disabled={reading}
           className={cn(
             'focus-ring w-[84px] h-[84px] rounded-full border-[3px] border-accent items-center justify-center',
-            reading ? 'opacity-40' : 'active:opacity-85'
-          )}>
+            reading ? 'opacity-40' : 'active:opacity-85',
+          )}
+        >
           <View className="w-[68px] h-[68px] rounded-full bg-primary items-center justify-center">
             <Ionicons name="camera" size={28} color={colors.card} />
           </View>
@@ -186,6 +189,33 @@ export function ScanScreen() {
           onPress={() => setTorch((on) => !on)}
         />
       </View>
+
+      {/*
+       * The only way into the two dev screens, and only in development.
+       * Feature 8 deletes the chain link with `src/app/dev-scan.tsx`, and
+       * feature 11 deletes the data one with `src/app/dev-data.tsx`.
+       */}
+      {__DEV__ ? (
+        <View className="flex-row items-center justify-center gap-6 pb-2">
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Open the vision chain dev screen"
+            onPress={() => router.push('/dev-scan')}
+            className="focus-ring active:opacity-85"
+          >
+            <Text className="text-label text-ink-soft">Dev: the chain</Text>
+          </Pressable>
+
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Open the data layer dev screen"
+            onPress={() => router.push('/dev-data')}
+            className="focus-ring active:opacity-85"
+          >
+            <Text className="text-label text-ink-soft">Dev: data layer</Text>
+          </Pressable>
+        </View>
+      ) : null}
     </Screen>
   );
 }
@@ -213,7 +243,8 @@ function ControlButton({
       accessibilityLabel={label}
       accessibilityState={{ selected: active }}
       onPress={onPress}
-      className="focus-ring items-center gap-2 w-[72px] rounded-tile active:opacity-85">
+      className="focus-ring items-center gap-2 w-[72px] rounded-tile active:opacity-85"
+    >
       <IconTile icon={icon} size="md" variant={active ? 'accent' : 'soft'} />
       <Text className="text-label text-ink-soft text-center">{label}</Text>
     </Pressable>

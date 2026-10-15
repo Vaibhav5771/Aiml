@@ -1,0 +1,23 @@
+# Prettier only touches code this project actually writes.
+# `node_modules` is ignored by Prettier already and needs no entry here.
+
+# Generated, or produced by a tool that owns its own formatting.
+.expo/
+dist/
+android/
+ios/
+package-lock.json
+skills-lock.json
+
+# Installed agent skills. Three collections, not ours to reformat.
+.agents/
+
+# Binary and asset files.
+assets/
+
+# Every markdown file here is hand written prose: the specs, the scope, the
+# context files and the design system. Prettier reflows tables, rewraps lists
+# and normalises emphasis, which would fight the way those are deliberately
+# written and would make a real edit impossible to spot in a diff. Markdown
+# stays by hand.
+*.md

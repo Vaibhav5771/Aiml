@@ -41,7 +41,8 @@ const RULES = [
   {
     id: 'off-scale-type-size',
     pattern: /\btext-(xs|sm|base|lg|xl|[2-9]xl)\b/,
-    message: 'off scale type size. The scale is exactly four: text-label, text-body, text-title, text-verdict.',
+    message:
+      'off scale type size. The scale is exactly four: text-label, text-body, text-title, text-verdict.',
   },
   {
     id: 'arbitrary-line-height',
@@ -71,7 +72,8 @@ const RULES = [
   {
     id: 'font-scaling-disabled',
     pattern: /allowFontScaling\s*=?\s*\{?\s*false/,
-    message: 'allowFontScaling must never be false. A person who needs large text gets clipped words.',
+    message:
+      'allowFontScaling must never be false. A person who needs large text gets clipped words.',
   },
   {
     /*
@@ -83,12 +85,15 @@ const RULES = [
      */
     id: 'interpolated-class-name',
     pattern: /className=\{`[^`]*[a-z0-9]-\$\{/,
-    message: 'class name completed by interpolation. Tailwind only sees class names written out literally, so this silently renders nothing. Use a literal class map.',
+    message:
+      'class name completed by interpolation. Tailwind only sees class names written out literally, so this silently renders nothing. Use a literal class map.',
   },
   {
     id: 'unwrapped-rn-import',
-    pattern: /^import\s*\{[^}]*\b(View|Text|Pressable|ScrollView|Image)\b[^}]*\}\s*from\s*'react-native'/,
-    message: "import from '@/tw', not 'react-native'. The react-native original takes no className and fails silently.",
+    pattern:
+      /^import\s*\{[^}]*\b(View|Text|Pressable|ScrollView|Image)\b[^}]*\}\s*from\s*'react-native'/,
+    message:
+      "import from '@/tw', not 'react-native'. The react-native original takes no className and fails silently.",
   },
 ];
 
@@ -112,12 +117,14 @@ const ALLOW = [
   {
     file: 'src/components/loading-overlay.tsx',
     match: 'border-[#FFFFFFBF]',
-    reason: 'The ring inside the scrim, over live video. Calibrated against the scrim, not the palette.',
+    reason:
+      'The ring inside the scrim, over live video. Calibrated against the scrim, not the palette.',
   },
   {
     file: 'src/components/loading-overlay.tsx',
     match: 'text-[#FFFFFFD9]',
-    reason: 'The sub line inside the scrim, over live video. Calibrated against the scrim, not the palette.',
+    reason:
+      'The sub line inside the scrim, over live video. Calibrated against the scrim, not the palette.',
   },
 ];
 
@@ -168,27 +175,29 @@ function lineHeightFindings() {
     });
 }
 
-const findings = lineHeightFindings().concat(sourceFiles(SCAN_DIR).flatMap((file) => {
-  const relPath = relative(ROOT, file).split(sep).join('/');
+const findings = lineHeightFindings().concat(
+  sourceFiles(SCAN_DIR).flatMap((file) => {
+    const relPath = relative(ROOT, file).split(sep).join('/');
 
-  return readFileSync(file, 'utf8')
-    .split('\n')
-    .flatMap((line, index) => {
-      if (isAllowed(relPath, line)) return [];
+    return readFileSync(file, 'utf8')
+      .split('\n')
+      .flatMap((line, index) => {
+        if (isAllowed(relPath, line)) return [];
 
-      return RULES.filter((rule) => rule.pattern.test(line)).map((rule) => ({
-        where: `${relPath}:${index + 1}`,
-        rule: rule.id,
-        message: rule.message,
-        line: line.trim(),
-      }));
-    });
-}));
+        return RULES.filter((rule) => rule.pattern.test(line)).map((rule) => ({
+          where: `${relPath}:${index + 1}`,
+          rule: rule.id,
+          message: rule.message,
+          line: line.trim(),
+        }));
+      });
+  }),
+);
 
 if (findings.length === 0) {
   console.log(
     `check:tokens  no drift in ${sourceFiles(SCAN_DIR).length} files` +
-      (ALLOW.length ? `, ${ALLOW.length} allow list entries` : '')
+      (ALLOW.length ? `, ${ALLOW.length} allow list entries` : ''),
   );
   process.exit(0);
 }

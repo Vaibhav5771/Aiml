@@ -40,7 +40,8 @@
           "photosPermission": "Recyclens needs your photos so you can pick packaging you have already photographed."
         }
       ],
-      "expo-font"
+      "expo-font",
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true,

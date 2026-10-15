@@ -7,7 +7,7 @@ This build targets **Android only**, run through Expo Go on a real device. There
 - **Language / Runtime**: TypeScript, React Native 0.86.3, React 19.2.3
 - **Framework**: Expo SDK 57 with Expo Router. Routes live in `src/app`, and `@/*` maps to `./src/*`
 - **Styling**: NativeWind 5 over Tailwind CSS v4. `src/global.css` is the one token file, declared with `@theme`, and there is no `tailwind.config.js` in v4. The runtime is `react-native-css` 3.1, which does not patch React Native globally, so each styleable component is wrapped once in `src/tw` and imported from there. `.npmrc` pins `include=optional` and `lightningcss` to 1.30.1, without which the build dies on a missing `.node` module
-- **Key dependencies**: installed today, `expo-router`, `expo-camera`, `expo-image-picker`, `expo-image`, `nativewind`, `tailwindcss`, `react-native-css`, `clsx`, `tailwind-merge`. Decided by spec 0001 and installed just in time by the feature that needs each one: `expo-image-manipulator`, `expo-sqlite`, `expo-file-system`, `zustand`
+- **Key dependencies**, all installed: routing `expo-router`; capture `expo-camera`, `expo-image-picker`, `expo-image`, `expo-image-manipulator`; storage `expo-sqlite`, `expo-file-system`, `expo-crypto`; state `zustand`; citations `expo-web-browser`; styling `nativewind`, `tailwindcss`, `react-native-css`, `clsx`, `tailwind-merge`; the navigator runtime `react-native-screens`, `react-native-safe-area-context`, `react-native-gesture-handler`, `react-native-reanimated`, `react-native-worklets`. Decided by spec 0001; add any new one with `npx expo install`
 - **Package manager**: npm, but always add packages with `npx expo install` so versions stay SDK compatible
 - **Vision**: Google Gemini via `@google/genai` 2.3.0 or newer, reached only through the `proxy/` function, never directly from the app
 - Mirrors [spec 0001](docs/specs/0001-stack-and-architecture/index.md), which is the source of truth. Do not let this section drift from it.
@@ -33,6 +33,7 @@ npx expo install <package>  # ALWAYS use instead of npm/yarn/pnpm/bun add — re
 npx expo start              # start the dev server
 npx expo lint               # lint
 npx tsc --noEmit            # typecheck
+npm test                    # the node:test suites (pure logic, no device)
 npx expo-doctor             # diagnose dependency and config issues
 npx expo install --fix      # fix incompatible package versions
 npm run check:tokens        # fails when a raw colour, size, spacing or radius lands in src/

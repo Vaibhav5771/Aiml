@@ -10,6 +10,8 @@
 >
 > Nothing here is the current design. It stays in the repository so the record
 > of what was tried, and why it was dropped, is readable rather than lost.
+>
+> **The current prompt is [`figma-make-prompt.md`](figma-make-prompt.md).**
 
 # Figma Make prompt: Recyclens prototype
 

@@ -31,17 +31,16 @@ export function LoadingOverlay({
       accessibilityLiveRegion="polite"
       className={cn(
         'absolute inset-0 bg-[#00000099] items-center justify-center gap-2 px-6',
-        className
-      )}>
+        className,
+      )}
+    >
       <View className="w-[84px] h-[84px] rounded-full border-2 border-[#FFFFFFBF] items-center justify-center mb-2">
         <Ionicons name="sparkles" size={24} color={colors.card} />
       </View>
 
       <Text className="text-title font-bold text-white text-center">{title}</Text>
 
-      {detail ? (
-        <Text className="text-label text-[#FFFFFFD9] text-center">{detail}</Text>
-      ) : null}
+      {detail ? <Text className="text-label text-[#FFFFFFD9] text-center">{detail}</Text> : null}
     </View>
   );
 }

@@ -230,13 +230,16 @@ export function normalise(reply: FoundReply): VisionRead {
 
 /** What each attribute means, in the model's words rather than ours. */
 const HINTS: Record<AttributeKey, string> = {
-  material: 'The material the packaging is mostly made of. Use the resin if a code or symbol identifies it.',
+  material:
+    'The material the packaging is mostly made of. Use the resin if a code or symbol identifies it.',
   form: 'The physical form of that material: rigid, a thin film, foam, or a fibrous moulded pulp.',
   recyclingSymbol:
     'Use "readable" only if you can actually read the symbol, "faded" if one is there but not legible, "absent" if you looked and there is none, and "unknown" if you cannot tell either way.',
-  construction: 'Whether more than one material is joined together, such as a film lid on a plastic tray.',
+  construction:
+    'Whether more than one material is joined together, such as a film lid on a plastic tray.',
   contamination: 'How clean the item looks: food residue, liquid, or grease left on or in it.',
-  photoQuality: 'How usable this photo was for the read: focus, lighting, framing, and how much of the item is visible.',
+  photoQuality:
+    'How usable this photo was for the read: focus, lighting, framing, and how much of the item is visible.',
 };
 
 function attributeSchema(key: AttributeKey) {
@@ -251,7 +254,8 @@ function attributeSchema(key: AttributeKey) {
       },
       score: {
         type: 'integer',
-        description: 'How sure you are of this one code, 0 to 100. Be honest; a low number is more useful than a confident guess.',
+        description:
+          'How sure you are of this one code, 0 to 100. Be honest; a low number is more useful than a confident guess.',
       },
     },
     required: ['code', 'display', 'score'],
@@ -266,18 +270,26 @@ export function geminiJsonSchema(): Record<string, unknown> {
     anyOf: [
       {
         type: 'object',
-        description: 'Use this shape when there is no packaging in the photo at all. Answer nothing else.',
+        description:
+          'Use this shape when there is no packaging in the photo at all. Answer nothing else.',
         properties: {
-          packagingFound: { type: 'boolean', description: 'false: there is no packaging in this photo.' },
+          packagingFound: {
+            type: 'boolean',
+            description: 'false: there is no packaging in this photo.',
+          },
         },
         required: ['packagingFound'],
         propertyOrdering: ['packagingFound'],
       },
       {
         type: 'object',
-        description: 'Use this shape when there is packaging in the photo. Every attribute is required.',
+        description:
+          'Use this shape when there is packaging in the photo. Every attribute is required.',
         properties: {
-          packagingFound: { type: 'boolean', description: 'true: there is packaging in this photo.' },
+          packagingFound: {
+            type: 'boolean',
+            description: 'true: there is packaging in this photo.',
+          },
           itemName: {
             type: 'string',
             description: `What the item appears to be, such as "Yogurt tub", ${TEXT_CAPS.itemName} characters or fewer.`,

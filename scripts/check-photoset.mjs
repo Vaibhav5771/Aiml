@@ -39,7 +39,12 @@ const ATTRIBUTES = [
   'photoQuality',
 ];
 
-const MIME = { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp' };
+const MIME = {
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.png': 'image/png',
+  '.webp': 'image/webp',
+};
 
 function die(message, hint) {
   console.error(`check:photoset  ${message}`);
@@ -66,7 +71,10 @@ if (!existsSync(EXPECTED_FILE)) {
 
 const entries = JSON.parse(readFileSync(EXPECTED_FILE, 'utf8'));
 if (!Array.isArray(entries) || entries.length === 0) {
-  die('expected.json is empty', 'Spec 0003 asks for at least ten photos before this means anything.');
+  die(
+    'expected.json is empty',
+    'Spec 0003 asks for at least ten photos before this means anything.',
+  );
 }
 
 const endpoint = `${proxyUrl}/api/vision`;

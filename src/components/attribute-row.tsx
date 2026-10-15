@@ -32,9 +32,16 @@ const ICONS: Record<AttributeKey, IconName> = {
  * come from the key, not the wire, because sending six constant strings per
  * scan buys nothing.
  *
- * `tone` defaults to neutral so the word never renders green by default.
- * Feature 4 owns the thresholds that choose any other tone; see
- * `confidence-bar.tsx` for why the default matters.
+ * `tone` defaults to neutral so the word never renders green by default. Only
+ * a read the rule actually leaned on earns a tone, which the reads section
+ * decides; see `confidence-bar.tsx` for why the default matters.
+ *
+ * An ABSENT attribute is a real state, not a missing prop. A scan saved before
+ * an attribute existed genuinely has no reading for it (spec 0006), and the
+ * screen used to skip the row entirely, which quietly showed a five row scan
+ * as though six had been read. The row now says it was not recorded: no value,
+ * no confidence word and no bar, because there is nothing to be confident
+ * about (spec 0007, AC-5).
  */
 export function AttributeRow({
   attributeKey,
@@ -43,27 +50,34 @@ export function AttributeRow({
   className,
 }: {
   attributeKey: AttributeKey;
-  attribute: DisplayAttribute<string>;
+  attribute?: DisplayAttribute<string>;
   tone?: ConfidenceTone;
   className?: string;
 }) {
   return (
-    <View
-      className={cn('bg-card border border-hairline rounded-card p-4 gap-2', className)}>
+    <View className={cn('bg-card border border-hairline rounded-card p-4 gap-2', className)}>
       <View className="flex-row items-start gap-2">
         <IconTile icon={ICONS[attributeKey]} />
 
         <View className="flex-1 gap-1">
           <Text className="text-label text-ink-soft">{ATTRIBUTE_LABEL[attributeKey]}</Text>
-          <Text className="text-body font-semibold text-ink">{attribute.display}</Text>
+          {attribute === undefined ? (
+            <Text className="text-body text-ink-soft">Not recorded</Text>
+          ) : (
+            <Text className="text-body font-semibold text-ink">{attribute.display}</Text>
+          )}
         </View>
 
-        <Text className={cn('text-label font-bold', CONFIDENCE_TEXT_TONE[tone])}>
-          {confidenceText(attribute.confidence)}
-        </Text>
+        {attribute === undefined ? null : (
+          <Text className={cn('text-label font-bold', CONFIDENCE_TEXT_TONE[tone])}>
+            {confidenceText(attribute.confidence)}
+          </Text>
+        )}
       </View>
 
-      <ConfidenceBar confidence={attribute.confidence} tone={tone} />
+      {attribute === undefined ? null : (
+        <ConfidenceBar confidence={attribute.confidence} tone={tone} />
+      )}
     </View>
   );
 }

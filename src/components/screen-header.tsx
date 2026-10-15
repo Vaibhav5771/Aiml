@@ -37,7 +37,8 @@ export function ScreenHeader({
         accessibilityRole="button"
         accessibilityLabel="Go back"
         onPress={onBack ?? (() => router.back())}
-        className="focus-ring w-[48px] h-[48px] rounded-full bg-card border border-hairline items-center justify-center active:opacity-85">
+        className="focus-ring w-[48px] h-[48px] rounded-full bg-card border border-hairline items-center justify-center active:opacity-85"
+      >
         <Ionicons name="chevron-back" size={22} color={colors.ink} />
       </Pressable>
 

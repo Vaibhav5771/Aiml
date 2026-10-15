@@ -1,0 +1,260 @@
+{
+  "region": "Pune, India",
+  "version": "1.1.0",
+  "gates": [
+    {
+      "id": "gate-photo-unreadable",
+      "when": { "photoQuality": ["poor"] },
+      "action": "Take another photo in better light",
+      "text": "The photo was too unclear to read the packaging properly. A verdict built on a photo this poor would not be worth trusting, so nothing is decided from it.",
+      "source": { "document": "General recycling practice", "scope": "general" }
+    },
+    {
+      "id": "gate-material-unreadable",
+      "when": { "material": ["unknown"] },
+      "action": "Check the packaging yourself",
+      "text": "The material could not be identified with enough confidence. Every rule here turns on what the item is made of, so without that there is nothing to apply.",
+      "source": { "document": "General recycling practice", "scope": "general" }
+    },
+    {
+      "id": "gate-multi-material",
+      "when": { "construction": ["multi_material"] },
+      "action": "Separate the parts if you can, then check each one",
+      "text": "Two or more materials are joined together. Recycling handles each material separately, and the Plastic Waste Management Rules single out multilayered packaging as its own category for exactly this reason.",
+      "source": {
+        "document": "Plastic Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/plastic-waste/"
+      }
+    },
+    {
+      "id": "gate-heavy-residue",
+      "when": { "contamination": ["heavy_residue"] },
+      "action": "Clean it out, then look again",
+      "text": "Too much food or liquid is left inside. Dry waste has to be kept clean and dry to be worth recycling, and heavily soiled packaging is usually rejected.",
+      "source": {
+        "document": "Solid Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/rules-2/"
+      }
+    },
+    {
+      "id": "gate-learned-unreliable",
+      "when": {},
+      "action": "Check the packaging yourself",
+      "text": "Every written check passed, but a model trained on our own photos of damaged packaging judged this reading itself too unreliable to decide on. The model can only ever hold an answer back, never give one, so no rule here was overruled.",
+      "source": {
+        "document": "Recyclens reliability model {version}, trained on {photos} labelled photos and measured on {heldOut} held out",
+        "scope": "model"
+      }
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule-plastic-film",
+      "when": {
+        "material": ["pet", "hdpe", "pvc", "ldpe", "pp", "ps", "other_plastic"],
+        "form": ["film"]
+      },
+      "verdict": "checkManually",
+      "action": "Check how thick it is before deciding",
+      "text": "Thin plastic film, such as a carry bag or a wrapper, turns on its thickness rather than its resin. The Plastic Waste Management Rules ban carry bags below the minimum thickness rather than recycling them, and film is sorted separately from rigid plastic, so this one cannot be called from the material alone.",
+      "source": {
+        "document": "Plastic Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/plastic-waste/"
+      }
+    },
+    {
+      "id": "rule-ps-foam",
+      "when": { "material": ["ps"], "form": ["foam"] },
+      "verdict": "notRecyclable",
+      "action": "Dry waste, but not for recycling",
+      "text": "Expanded polystyrene foam is almost entirely air, so collecting and carrying it costs more than the plastic ever recovered from it. Very few recyclers take it.",
+      "source": { "document": "General recycling practice", "scope": "general" }
+    },
+    {
+      "id": "rule-ps",
+      "when": { "material": ["ps"] },
+      "verdict": "notRecyclable",
+      "action": "Dry waste, but not for recycling",
+      "text": "Polystyrene, resin code 6, is seldom accepted for recycling in India. It still belongs with your dry waste rather than your wet waste, but do not expect it to be recycled.",
+      "source": { "document": "General recycling practice", "scope": "general" }
+    },
+    {
+      "id": "rule-pet",
+      "when": { "material": ["pet"] },
+      "verdict": "recyclable",
+      "action": "Dry waste",
+      "text": "PET, resin code 1, is the most widely recycled plastic in India. Empty it and keep it with your dry waste.",
+      "source": {
+        "document": "Plastic Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/plastic-waste/"
+      }
+    },
+    {
+      "id": "rule-hdpe",
+      "when": { "material": ["hdpe"] },
+      "verdict": "recyclable",
+      "action": "Dry waste",
+      "text": "High density polyethylene, resin code 2, the plastic of milk and detergent bottles, is readily recycled. Empty it and keep it with your dry waste.",
+      "source": {
+        "document": "Plastic Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/plastic-waste/"
+      }
+    },
+    {
+      "id": "rule-ldpe",
+      "when": { "material": ["ldpe"] },
+      "verdict": "recyclable",
+      "action": "Dry waste",
+      "text": "Low density polyethylene, resin code 4, in a solid form such as a squeeze bottle or a lid, is a recyclable plastic under the resin codes the Plastic Waste Management Rules use.",
+      "source": {
+        "document": "Plastic Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/plastic-waste/"
+      }
+    },
+    {
+      "id": "rule-pp",
+      "when": { "material": ["pp"] },
+      "verdict": "recyclable",
+      "action": "Dry waste",
+      "text": "Polypropylene, resin code 5, used for tubs, lids and food containers, is a recyclable plastic. Empty it and keep it with your dry waste.",
+      "source": {
+        "document": "Plastic Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/plastic-waste/"
+      }
+    },
+    {
+      "id": "rule-pvc",
+      "when": { "material": ["pvc"] },
+      "verdict": "checkManually",
+      "action": "Check the packaging yourself",
+      "text": "PVC, resin code 3, is a recyclable resin on paper, but very few recyclers in India accept it and it is not safe to assume yours will. Worth asking locally rather than guessing.",
+      "source": { "document": "General recycling practice", "scope": "general" }
+    },
+    {
+      "id": "rule-other-plastic",
+      "when": { "material": ["other_plastic"] },
+      "verdict": "checkManually",
+      "action": "Check the packaging yourself",
+      "text": "Resin code 7 simply means other. It covers many unrelated plastics with no single answer between them, so there is no one rule to apply here.",
+      "source": {
+        "document": "Plastic Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/plastic-waste/"
+      }
+    },
+    {
+      "id": "rule-composite-laminate",
+      "when": { "material": ["composite_laminate"] },
+      "verdict": "notRecyclable",
+      "action": "Dry waste, but not for recycling",
+      "text": "Multilayered packaging, such as a snack packet or a drink carton, bonds plastic, paper or foil into a single sheet that cannot be pulled apart again. The Plastic Waste Management Rules treat it as its own category rather than as a recyclable plastic.",
+      "source": {
+        "document": "Plastic Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/plastic-waste/"
+      }
+    },
+    {
+      "id": "rule-glass",
+      "when": { "material": ["glass"] },
+      "verdict": "recyclable",
+      "action": "Dry waste",
+      "text": "Glass can be recycled over and over without losing quality. Empty it, keep it whole if you can, and keep it with your dry waste.",
+      "source": {
+        "document": "Solid Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/rules-2/"
+      }
+    },
+    {
+      "id": "rule-aluminium",
+      "when": { "material": ["aluminium"] },
+      "verdict": "recyclable",
+      "action": "Dry waste",
+      "text": "Aluminium is one of the most valuable things in your dry waste and is recycled again and again with very little loss. Empty it and keep it with your dry waste.",
+      "source": {
+        "document": "Solid Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/rules-2/"
+      }
+    },
+    {
+      "id": "rule-steel",
+      "when": { "material": ["steel"] },
+      "verdict": "recyclable",
+      "action": "Dry waste",
+      "text": "Steel and tin are pulled out magnetically during sorting, which makes them among the most reliably recycled materials. Empty it and keep it with your dry waste.",
+      "source": {
+        "document": "Solid Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/rules-2/"
+      }
+    },
+    {
+      "id": "rule-cardboard",
+      "when": { "material": ["cardboard"] },
+      "verdict": "recyclable",
+      "action": "Dry waste",
+      "text": "Corrugated cardboard is recycled readily as long as it stays dry. Flatten it, keep it away from your wet waste, and keep it dry until it is collected.",
+      "source": {
+        "document": "Solid Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/rules-2/"
+      }
+    },
+    {
+      "id": "rule-paper",
+      "when": { "material": ["paper"] },
+      "verdict": "recyclable",
+      "action": "Dry waste",
+      "text": "Clean dry paper is recycled readily. Once paper is wet or greasy the fibres are spoiled and it is no longer worth recycling, so keep it dry and away from your wet waste.",
+      "source": {
+        "document": "Solid Waste Management Rules, 2016 (India)",
+        "scope": "national",
+        "url": "https://cpcb.nic.in/rules-2/"
+      }
+    },
+    {
+      "id": "no-match",
+      "when": {},
+      "verdict": "checkManually",
+      "action": "Check the packaging yourself",
+      "text": "Nothing in this rule set covers that combination, so there is no cited rule to stand behind an answer. Checking it yourself beats a guess dressed up as a verdict.",
+      "source": { "document": "General recycling practice", "scope": "general" }
+    }
+  ],
+  "notes": [
+    {
+      "id": "note-symbol-faded",
+      "when": { "recyclingSymbol": ["faded"] },
+      "text": "The recycling symbol was faded, so the material was judged from the shape and the surface as well."
+    },
+    {
+      "id": "note-symbol-absent",
+      "when": { "recyclingSymbol": ["absent"] },
+      "text": "There was no recycling symbol to read, so the material was judged from the shape and the surface alone."
+    },
+    {
+      "id": "note-symbol-unknown",
+      "when": { "recyclingSymbol": ["unknown"] },
+      "text": "It could not tell whether there is a recycling symbol, so the material was judged from the shape and the surface alone."
+    },
+    {
+      "id": "note-contamination-unknown",
+      "when": { "contamination": ["unknown"] },
+      "text": "How clean the inside is could not be seen, so rinse it before you go by this answer."
+    },
+    {
+      "id": "note-photo-fair",
+      "when": { "photoQuality": ["fair"] },
+      "text": "The photo was usable but not sharp, so every read behind this answer is a little less certain than usual."
+    }
+  ]
+}

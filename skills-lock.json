@@ -1,17 +1,467 @@
 {
   "version": 1,
   "skills": {
+    "accessibility-a11y": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "accessibility-a11y/SKILL.md",
+      "computedHash": "a7a8947652a00f43aaa38106c8b5bdb46bf3ec7a5d1e8dd9f94518b442e1c3e0"
+    },
+    "alpine-js": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "alpine-js/SKILL.md",
+      "computedHash": "a392f33e817ef14d8d33ad33b9d21bb3be31ad285ade96dfa0b416d2393f6ed6"
+    },
+    "analytics-data-analysis": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "analytics-data-analysis/SKILL.md",
+      "computedHash": "2f9a61af944be21774695184b05aa28737d9cf817003022ef9bae6ffa8e96c73"
+    },
+    "android-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "android-development/SKILL.md",
+      "computedHash": "a4178dd1d185937f422d87be1bc17a427d19c1b7e0b81dd34fbf5790996ad487"
+    },
+    "angular": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "angular/SKILL.md",
+      "computedHash": "5d3578558d41d6855d086065b3553152f58dc2cab118d6e04100591012073c40"
+    },
+    "angular-architect": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/angular-architect/SKILL.md",
+      "computedHash": "5fd4bb5e8dcaecf6c2f3ee581b39a5104cf0dbb86d17e5bbdaa67d3882b5f2b6"
+    },
+    "angular-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "angular-development/SKILL.md",
+      "computedHash": "284eeec99ba7ba531a5253a6c8140da09931a882932e4a2942c24956986d8b67"
+    },
+    "anime-js": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "anime-js/SKILL.md",
+      "computedHash": "092f77c2ef4d2c062f5c7495fcafe20b997f79eabf3f6559c8156f3fd97f8b11"
+    },
+    "anthropic-claude-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "anthropic-claude-development/SKILL.md",
+      "computedHash": "dcb89ca1dfc0f9f98cc91fe08c4d40c2f3fe23bf10248ba193f6ec47938c9260"
+    },
+    "api-designer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/api-designer/SKILL.md",
+      "computedHash": "8c8f104eb1e4fcdd370664fbfa76b35b94d917a54568634f3f9c0dcfa8ef0dee"
+    },
+    "api-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "api-development/SKILL.md",
+      "computedHash": "05482fd0adcdc675e63d89a88da4ffe22e46729ef72c7a44ae0de47790b96c58"
+    },
+    "apollo-graphql": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "apollo-graphql/SKILL.md",
+      "computedHash": "4e391aeacfc9066adf4f82879a25b769eab9f86f348e84b8c5d8eaaa0a2ddd5b"
+    },
+    "architecture-designer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/architecture-designer/SKILL.md",
+      "computedHash": "15ba13db2799f0ed2545e26c373bfc5fea5892a3bb1311a71bacb2f3864a2ad5"
+    },
+    "aspnet-core": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/aspnet-core/SKILL.md",
+      "computedHash": "192537b889ef60aba67db5f3c1f694e460fde9b6a45fb4c35ecab8e7710bfa67"
+    },
     "assess-react-native-migration": {
       "source": "callstackincubator/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/assess-react-native-migration/SKILL.md",
       "computedHash": "4e19b27921ba3eaac6ba153579ed3f63da231f0b1830d019ee15dc879c03e7ae"
     },
+    "astro": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "astro/SKILL.md",
+      "computedHash": "bb93fe385f821224066645e0094e4ef14c11e3b143cf9175d69da01e863d6096"
+    },
+    "atlassian-mcp": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/atlassian-mcp/SKILL.md",
+      "computedHash": "d0bfd449c508fa525402fb2d8b6fce1f6df9f15ca65bdf9f0b605b8222460175"
+    },
+    "auth0-authentication": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "auth0-authentication/SKILL.md",
+      "computedHash": "b548488ea5b579bb3f3c9c3ac50834606708afb7180aadc55d256baea5901308"
+    },
+    "autogen-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "autogen-development/SKILL.md",
+      "computedHash": "a7d97c9e7a762d6aab69bcc93b8686656452e949959400d67602c2877b0684c3"
+    },
+    "automl-hyperparameter-optimization": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "automl-hyperparameter-optimization/SKILL.md",
+      "computedHash": "44873a3f890343efd2a2a201087b02527193f6144f4d9aa1082163bdd5a450ce"
+    },
+    "aws-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "aws-development/SKILL.md",
+      "computedHash": "db6b70a7537bf9cd3dc68eb6771616b76903dab44ce314368986210800c52c18"
+    },
+    "azure": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "azure/SKILL.md",
+      "computedHash": "1a14a32e2eca6052ef9106bc2df6a54ca2161a81307513062675e88801cdccba"
+    },
+    "backend-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "backend-development/SKILL.md",
+      "computedHash": "dc1525c7495d1cbf60bd52c9b400066e4b66eecd2f2574c741ee0a06f0c89a76"
+    },
+    "bash-scripting": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "bash-scripting/SKILL.md",
+      "computedHash": "48557db7a07cf28feb51a41d8c11f1e76f6baa4678616c7228f9d7c2e273bf84"
+    },
+    "beautifulsoup-parsing": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "beautifulsoup-parsing/SKILL.md",
+      "computedHash": "4179eb6b16a16018482d02b131ac0de9d10062097c20cd6e66ff368ce2841ea5"
+    },
+    "bitbucket-workflow": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "bitbucket-workflow/SKILL.md",
+      "computedHash": "b144a817a4e21258ef4d01fb5d8fb76abc70977f608d8563382b5b91be0a53c0"
+    },
+    "blazor": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "blazor/SKILL.md",
+      "computedHash": "e1efbb5f692d4919947d6fe5a12655dec36aa67a05b011cc339516b9c0438fd3"
+    },
+    "blender-python-addon": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "blender-python-addon/SKILL.md",
+      "computedHash": "489ee972adeee6f5e3edeaae0fc1de7f6d4460388fa34374a0d53c1772f5241e"
+    },
+    "blockchain": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "blockchain/SKILL.md",
+      "computedHash": "3b7f0cd70dfab5402d3a6de10404787db0d5dfde0378dbcf30b275594a3336d3"
+    },
+    "bootstrap": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "bootstrap/SKILL.md",
+      "computedHash": "d6961e409f7f117cfe080cea600b029f356d00822d66a34bc457d362f73d0148"
+    },
+    "business-central-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "business-central-development/SKILL.md",
+      "computedHash": "8219ae00ab3f1a692b4926d6b6f1f5d0cdfe4b158a015fb7adf72dfd507f37fa"
+    },
+    "c-sharp": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "c-sharp/SKILL.md",
+      "computedHash": "1f1b34843fb12cbc10d5543d66477f1cd1e50027a411984869035ee27becd8d3"
+    },
+    "chaos-engineer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/chaos-engineer/SKILL.md",
+      "computedHash": "1129e818189dfa5c50c779a11fa18c17a41045b43f4326ac8f8249c414dda0ab"
+    },
+    "chatgpt-apps": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/chatgpt-apps/SKILL.md",
+      "computedHash": "7c9deab8ef5dd5dd3a4d99cb93dbdddd3e413cc12d9b196922ac4a9d3a62ce4b"
+    },
+    "cheerio-parsing": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "cheerio-parsing/SKILL.md",
+      "computedHash": "d9c430396c8bace09629481eb35439fba24e386c424813453a1a48c16dbe29dd"
+    },
+    "chrome-extension-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "chrome-extension-development/SKILL.md",
+      "computedHash": "654a4562a42addf7f00d708048e5232b10bda7f8852517df2bae14bdda9d0510"
+    },
+    "ci-cd-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "ci-cd-best-practices/SKILL.md",
+      "computedHash": "523731e762a6c6573bfe9c7183ca0ba6bd321ff4aab3dd8b56103689e69a61e0"
+    },
+    "clean-architecture": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "clean-architecture/SKILL.md",
+      "computedHash": "d5f556a499b99ad265647c72dfc8a34edcb2961a6a7ac3408069e89aee544402"
+    },
+    "clean-code": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "clean-code/SKILL.md",
+      "computedHash": "90c690ee09515aa36c718e929952b5cc119744b3833b3885a14fd655cbd492e1"
+    },
+    "clerk-authentication": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "clerk-authentication/SKILL.md",
+      "computedHash": "7fb2055176bd80f9e229a0f25703f58f6bf2883251433854e44de2b23d3da9cd"
+    },
+    "cli-creator": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/cli-creator/SKILL.md",
+      "computedHash": "6ece3fe7f3bcae2662deeaa19d1fa40bf9d1bd57cbfcb318e96618ae31ce0f23"
+    },
+    "cli-developer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/cli-developer/SKILL.md",
+      "computedHash": "24926a38ea47ee9b3ccd3c250f49e980f7bed9f066660b33864759e92df7dd6e"
+    },
+    "cloud-architect": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/cloud-architect/SKILL.md",
+      "computedHash": "3a17b1e2e4390fb4d007ae4ea88e40a51c7277bc7e9ca52e19e81304b55a7456"
+    },
+    "cloudflare-deploy": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/cloudflare-deploy/SKILL.md",
+      "computedHash": "6fee45f564189edfb4d0ee4a94a3b2b2caf9825fdac5b69f466f4ea05029ddf9"
+    },
+    "cloudflare-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "cloudflare-development/SKILL.md",
+      "computedHash": "6ae4b397abfc500a7f75b1876070efa7d019f0f97690fc64e8c25be7087c19fc"
+    },
+    "code-documenter": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/code-documenter/SKILL.md",
+      "computedHash": "5bfe3ed2c1f5d7baf008b559888042b65b038f70920f49e0c366d5379ef3b1c6"
+    },
+    "code-reviewer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/code-reviewer/SKILL.md",
+      "computedHash": "88575bf85b4186e5b7ebb6d7b38caeea1aada3581c9d5b1aa835433fadbf35b3"
+    },
+    "computer-vision-opencv": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "computer-vision-opencv/SKILL.md",
+      "computedHash": "d50ff99f520cf6bfb44971f1e915b61a6a4971ee0fcccdd1986d6522a31b61fc"
+    },
+    "convex": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "convex/SKILL.md",
+      "computedHash": "856d62a2112b0f0e3bb82e2194ab1e2c5055f0c302fde33f9fc1ce410ac440bb"
+    },
+    "cpp": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "cpp/SKILL.md",
+      "computedHash": "dca612befdb26cf133476e9392450645c359ef61bb60e769d529860ea6d01346"
+    },
+    "cpp-pro": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/cpp-pro/SKILL.md",
+      "computedHash": "573e4dc3bc80d2a1889aa481af0d65b111c5dc96a15a3bb2b897beb5342b6ea2"
+    },
     "create-react-native-library": {
       "source": "callstackincubator/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/create-react-native-library/SKILL.md",
       "computedHash": "626b307d7fee57751e18e3fe73471d4215e28aaa0e993c2ba7b75cc4bfc9f350"
+    },
+    "csharp-developer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/csharp-developer/SKILL.md",
+      "computedHash": "62c92cb3e20a83e637d5015eeed7f5f8bb1afd9ed8106696bab4b8d4268cf985"
+    },
+    "css": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "css/SKILL.md",
+      "computedHash": "2a905a052180c68b1a9f0f5bdc56230a0e542a6395471ced4f516d577cd48f71"
+    },
+    "cypress": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "cypress/SKILL.md",
+      "computedHash": "a735dd2f6d23473f60ee6c8908f753bb53c734b33b1251a5ef81c3cb51c3bdd0"
+    },
+    "data-analysis-jupyter": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "data-analysis-jupyter/SKILL.md",
+      "computedHash": "8e471107d732ad0983458c327f7ee9e67d8662090f74d93d6ab8b071861103d0"
+    },
+    "data-analyst": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "data-analyst/SKILL.md",
+      "computedHash": "05004ebcad2b540b556152795532289374c2b7c7d03428050afb1c4c6c9f002e"
+    },
+    "data-jupyter-python": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "data-jupyter-python/SKILL.md",
+      "computedHash": "d3903d429cd1aa781d26d2475721aca8b99e69472dadce5db005ee7a938ffdc9"
+    },
+    "database-optimizer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/database-optimizer/SKILL.md",
+      "computedHash": "6b4bf917227430bf404d93679de4616013b613036a899b5a62ad5802a8441d2f"
+    },
+    "debugging-wizard": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/debugging-wizard/SKILL.md",
+      "computedHash": "2258e9dcfd378dc8fd94de4b2dd5fa8a15aa78b80be0621fb5054f9d69d8ac19"
+    },
+    "deep-learning": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "deep-learning/SKILL.md",
+      "computedHash": "1b8931d23223cbf28aaee5007f0f9a6bfd0dfe03fefc0132f18db64fce784221"
+    },
+    "deep-learning-python": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "deep-learning-python/SKILL.md",
+      "computedHash": "9ed7b9c6acf0838dd6adb8256ee2c26450925fc21002a12c51304d596698f22a"
+    },
+    "deep-learning-pytorch": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "deep-learning-pytorch/SKILL.md",
+      "computedHash": "4bb2317139f98a2b32ddd0ca2f625c285872c439af57ab26758eb1ad7f276a4c"
+    },
+    "define-goal": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/define-goal/SKILL.md",
+      "computedHash": "0fab24178b759e1ebedc894f524d32fd3e580b55455cfeb459ea39a9cf4927c2"
+    },
+    "deno-typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "deno-typescript/SKILL.md",
+      "computedHash": "36bc74dea83bf4e9a3f625b1f5373bc27b7d43dbc1e1d772f91b8eaf1b297fc1"
+    },
+    "design-systems": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "design-systems/SKILL.md",
+      "computedHash": "abd5a3ffbc5c1edb0efeca51a12fea207ed7ef0bd4bda6019a70cccaf8ee23e0"
+    },
+    "devops": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "devops/SKILL.md",
+      "computedHash": "eb9a3cf2067b7abefe2233462e0b5466e74a94302c330d36c44e6ab196d0c829"
+    },
+    "devops-engineer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/devops-engineer/SKILL.md",
+      "computedHash": "e5c9737ba42c44a889fde3514c9c75104ea273a99772e2a6970d8fbbe418e4d0"
+    },
+    "django-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/django-expert/SKILL.md",
+      "computedHash": "e84ddc372edcfd44fc4f3f486ed455240a2d31caa83afef74e54081737ca6b40"
+    },
+    "django-python": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "django-python/SKILL.md",
+      "computedHash": "c08c67c2037bcafc8ad5a2a8ab84f37be71261684c4749699663e6d32ffee40a"
+    },
+    "django-rest-api-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "django-rest-api-development/SKILL.md",
+      "computedHash": "dff929a921b4bb678f256aecb8ca0d6352e07ce069ac97077481f7ffb281fb70"
+    },
+    "django-storages-s3": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/django-storages-s3/SKILL.md",
+      "computedHash": "9e259f0795314074384da1ab7528e867065e3c5d4ad55d918c14886682bcd508"
+    },
+    "docker": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "docker/SKILL.md",
+      "computedHash": "bd484887f74ef7c03e1c67c1dfa03eaca0e13d47c8015766fcbe911bb9c9d81a"
+    },
+    "dotnet": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "dotnet/SKILL.md",
+      "computedHash": "af552265395c0f7e3e866bdcef6c835c1c2b3c80e387031a1be6be8244fbf18f"
+    },
+    "dotnet-core-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/dotnet-core-expert/SKILL.md",
+      "computedHash": "1768748edfcf3379e1195447fcd80937c42f944456a320b58c995aa939c64e6a"
+    },
+    "drizzle-orm": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "drizzle-orm/SKILL.md",
+      "computedHash": "6bbe7c6fe2dd98e505b27d09fe559075a9da64783dca825daaaaf235bbcc2d8b"
+    },
+    "drupal-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "drupal-development/SKILL.md",
+      "computedHash": "a532ff8551a582c4ecc78e1c3e628893861c11666c7fe5ca38c145c6365896a0"
     },
     "eas-app-stores": {
       "source": "expo/skills",
@@ -54,6 +504,48 @@
       "sourceType": "github",
       "skillPath": "plugins/expo/skills/eas-workflows/SKILL.md",
       "computedHash": "45ae128c7328a149b61b367ca667400543d7f7fc9ba2f3be973fca219c40d490"
+    },
+    "elasticsearch-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "elasticsearch-best-practices/SKILL.md",
+      "computedHash": "8dc5b313b5e0b681943b08a88ef6eb28a2dced1de92f91bb4dc7d8c0d8a6ede9"
+    },
+    "electron-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "electron-development/SKILL.md",
+      "computedHash": "17ca5c91fbd91272f9314770f40fb0654be1112b3367407d3ab0d36110531a70"
+    },
+    "elixir": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "elixir/SKILL.md",
+      "computedHash": "457989ef4c6f01cef33827fcaad43bf6faaf49b72841d01c6d9675edd0b88207"
+    },
+    "embedded-stm32": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "embedded-stm32/SKILL.md",
+      "computedHash": "ca46d0b1fdc844fe46d7136ce291e4d3b1f29a7df9fdc73017169d691484bd38"
+    },
+    "embedded-systems": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/embedded-systems/SKILL.md",
+      "computedHash": "5d3583d29a8dc95b0bd295c3761fa5717cc52a24fd1aab3ecd89802540e10025"
+    },
+    "esbuild-bundler": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "esbuild-bundler/SKILL.md",
+      "computedHash": "1032bca13f11e960eec22105dc5faf7b02c8ed688b3e4b6d173627d6981a2b83"
+    },
+    "ethereum": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "ethereum/SKILL.md",
+      "computedHash": "46314f4c07e952a44c6630a6b6b2b5a9d1b3a17f44f268c0925572d59b4b10dc"
     },
     "expo-animation": {
       "source": "expo/skills",
@@ -133,6 +625,18 @@
       "skillPath": "plugins/expo/skills/expo-project-structure/SKILL.md",
       "computedHash": "ceb76a04626e04452890a6b3102e4ac1f5475ade1de7931e3b3dea8a3d4cee3c"
     },
+    "expo-react-native-javascript-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "expo-react-native-javascript-best-practices/SKILL.md",
+      "computedHash": "a36919d0cf8f0f7326ecd0634a46e2ad70d9eebdd21c91feb4de0efbc77be397"
+    },
+    "expo-react-native-typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "expo-react-native-typescript/SKILL.md",
+      "computedHash": "a4047695c6286f6e64a0d646e1160f128623d59298714e6e90f82a8627e139d7"
+    },
     "expo-router": {
       "source": "expo/skills",
       "sourceType": "github",
@@ -169,6 +673,180 @@
       "skillPath": "plugins/expo/skills/expo-web-to-native/SKILL.md",
       "computedHash": "e24fcb65a83e6c15f8bed9b4cc4a2481cb5a6bc55d43bc9fc173fbffe9779516"
     },
+    "express-typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "express-typescript/SKILL.md",
+      "computedHash": "e4d46d6427da9e507e92595d4f9320b566a464a29f0d42ea20140b439d02a682"
+    },
+    "fastapi-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/fastapi-expert/SKILL.md",
+      "computedHash": "da4ddd563ae0e1975d70069b7e45caf85cf3029c083f0c1ec5eccb9147e049ff"
+    },
+    "fastapi-microservices-serverless": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "fastapi-microservices-serverless/SKILL.md",
+      "computedHash": "da6a213766d895a18825a26ae534d4fde7e319e46c566b56bbdcf895bcd50090"
+    },
+    "fastapi-python": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "fastapi-python/SKILL.md",
+      "computedHash": "1336c9e9d787b635c775729f65337f9afebeca56cb1150033d9cdbc474408a66"
+    },
+    "fastify-typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "fastify-typescript/SKILL.md",
+      "computedHash": "b1d1187ec6754e31ff7ca9bdb6f9a44a023af3827168c753507c5839286ebf4d"
+    },
+    "feature-forge": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/feature-forge/SKILL.md",
+      "computedHash": "59cbfcc3222581feccc937f75db09df56528bdb6185c838abfe4c0ddb30bfb44"
+    },
+    "figma": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/figma/SKILL.md",
+      "computedHash": "0139fbd3f7afd9d81dbf128e3ad912daf21047bcd7f2be0f6997f718b48c0643"
+    },
+    "figma-code-connect-components": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/figma-code-connect-components/SKILL.md",
+      "computedHash": "7af50c1c8848ba0fcfe9fb45bbe0dd7bf9a1acdf3121e2bde239c4865bb12ace"
+    },
+    "figma-create-design-system-rules": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/figma-create-design-system-rules/SKILL.md",
+      "computedHash": "a2ba7ea022677bdd366cd6cfd8e5326f3b3051b92a06ec3e215e0ad484956a87"
+    },
+    "figma-create-new-file": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/figma-create-new-file/SKILL.md",
+      "computedHash": "7a70a1e2996bfab15aafec6837d2f45a0e1a8e095fef77b5c4d8b63083325737"
+    },
+    "figma-generate-design": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/figma-generate-design/SKILL.md",
+      "computedHash": "61fde9e23b4377e9c0058590e90f3758abddf3ac1b3eaf740d239376a2787663"
+    },
+    "figma-generate-library": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/figma-generate-library/SKILL.md",
+      "computedHash": "67e96c3d5a55afc7c76430918340e6c94b7c7d1770ecb6a5ed963f98366c2752"
+    },
+    "figma-implement-design": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/figma-implement-design/SKILL.md",
+      "computedHash": "f86f7eb84aeda74334e1eb33faf08dc67e19d88ef5f2cc84eee559333e88e001"
+    },
+    "figma-integration": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "figma-integration/SKILL.md",
+      "computedHash": "7cba621d00f6d8f09b02e358a064ffdea062e56e8977df693ad972ef4130d0ba"
+    },
+    "figma-use": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/figma-use/SKILL.md",
+      "computedHash": "d067eb72def273b5d6117c27dd9e8af08fbb957068b8faf6a214aa0d71d520db"
+    },
+    "fine-tuning-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/fine-tuning-expert/SKILL.md",
+      "computedHash": "91e35fbd0932be38126b116cf8e787ab955470df9465570c7b1adc2ee5dcb8a9"
+    },
+    "firebase-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "firebase-development/SKILL.md",
+      "computedHash": "29ff629cce4f2367cc3ca57c35d0dcdab6886ae3497975ade0d6ed4bd114d8df"
+    },
+    "flask-python": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "flask-python/SKILL.md",
+      "computedHash": "6b3af9f13305b41a6162a6eb304462ffc79579ce50bb6cca7a2bc96f56bbf36b"
+    },
+    "flutter": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "flutter/SKILL.md",
+      "computedHash": "99d8b8b90d320336cca046ed818d0fa2df8a25912d9f3b168bb4c545c82796f4"
+    },
+    "flutter-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/flutter-expert/SKILL.md",
+      "computedHash": "16154f81b75f13d48c065bd000ddba572eadd7a9bf4c11b214bc8c136e0fdf76"
+    },
+    "fortran": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "fortran/SKILL.md",
+      "computedHash": "2cab9e9b9ccfbe2cda8a214851f38110a612a92f305691500ac7bcd53eb5d377"
+    },
+    "fpga": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "fpga/SKILL.md",
+      "computedHash": "4bee59d8879e14f6fa7a7e5a1680dfd1c72dccd3b3402aa08276469841402964"
+    },
+    "framer-motion": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "framer-motion/SKILL.md",
+      "computedHash": "2ebb847f1286bdd95261538a8bbb935b39c788c9bff690949c4036704f32a37c"
+    },
+    "front-end-developer": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "front-end-developer/SKILL.md",
+      "computedHash": "54f448cbc0f0854284abd18a195220cf62ca13b0879005fac26040660ad287d5"
+    },
+    "fullstack-guardian": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/fullstack-guardian/SKILL.md",
+      "computedHash": "a834c4cc39b8c8dfdad7b87434f53c61fb95bb53a40e9fc29807ebf7067b1f10"
+    },
+    "game-developer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/game-developer/SKILL.md",
+      "computedHash": "f6fc0dc05f77e9a338478b9ab441e2ffe13c29a2028c9bb881b78b45ed2ba0b9"
+    },
+    "game-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "game-development/SKILL.md",
+      "computedHash": "b88e6a45b7cc09e7a86c0f03ff41612f2bcb09d6922e0dcfebed209ab0650d57"
+    },
+    "gamemaker-gml": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "gamemaker-gml/SKILL.md",
+      "computedHash": "e10921474ec30a21319a03f1bf81c402283edadc42dafbb02b32a21787a541c1"
+    },
+    "gcp-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "gcp-development/SKILL.md",
+      "computedHash": "a877b6ad6624f438d606a51d4075c04814858302ad5bbe5e20efe546361154af"
+    },
     "gemini-api-dev": {
       "source": "google-gemini/gemini-skills",
       "sourceType": "github",
@@ -187,11 +865,857 @@
       "skillPath": "skills/gemini-omni-flash-api/SKILL.md",
       "computedHash": "7b6267b4479d755fa31cd8c6b11acbe030fbc8c7ff8bd6339e598d747f5ab03e"
     },
+    "general-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "general-best-practices/SKILL.md",
+      "computedHash": "a1aa84ff97994993d9ee802b49f083d703a1f87bdaa33234fd4be7f852eb3c9a"
+    },
+    "gh-address-comments": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/gh-address-comments/SKILL.md",
+      "computedHash": "d37268fc7264390862129b554b13f3d35e1b7b9c16ea8d748261a480ace75300"
+    },
+    "gh-fix-ci": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/gh-fix-ci/SKILL.md",
+      "computedHash": "62b4c9b9aeb0e52925882185019e65c7785da8e7fa16ddb95dd3aaa00883961a"
+    },
+    "ghost": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "ghost/SKILL.md",
+      "computedHash": "604050db9e99b3304b3f4ae34f871de33afd89d6445ea692c8e82ea88ebfe481"
+    },
+    "git-workflow": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "git-workflow/SKILL.md",
+      "computedHash": "54b5ff503d91c5e226f84a877f812e5d35d7961472dcab92215894a45202e419"
+    },
+    "gitflow": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "gitflow/SKILL.md",
+      "computedHash": "d7540aa5274a887b63d2a3e0999b7bca72a36e1383862c3d53aec5d1d3ac9c1e"
+    },
     "github-actions": {
       "source": "callstackincubator/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/github-actions/SKILL.md",
       "computedHash": "0407e0b1d5aa45f4d4acd4f0dc6742453b3ec964097cb3a5f0383e3bb74615ed"
+    },
+    "github-workflow": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "github-workflow/SKILL.md",
+      "computedHash": "e8dae883b9f625deda8a40084a511c03536dddfadcf9230e530e3a4967f827ed"
+    },
+    "gitlab-workflow": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "gitlab-workflow/SKILL.md",
+      "computedHash": "e61ac24ef6b50d6d200132d084c157bc195aa39e1278f492c3ec97d43773e5a8"
+    },
+    "go": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "go/SKILL.md",
+      "computedHash": "fb648b2388129010bcf73c39ca7b688d3f533dbf8d8bd17315ba4d02e9db4c73"
+    },
+    "go-api-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "go-api-development/SKILL.md",
+      "computedHash": "21c65186fc4a6dd3f34c0cadc9a73c974b20c3ba70adfa525d1766e0694f1908"
+    },
+    "go-backend-microservices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "go-backend-microservices/SKILL.md",
+      "computedHash": "d1f1601c1202a0a62a084c6d4b43ba7c10e1b5b9ad2cb450e54939dd8d4b7d5c"
+    },
+    "golang-pro": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/golang-pro/SKILL.md",
+      "computedHash": "9d6b01d6bd3e1ae7e390e9ce3fe190ce054f4580a03c42a82214c30675ea25b6"
+    },
+    "google-adk": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "google-adk/SKILL.md",
+      "computedHash": "c21e046e17c81e88d9f46ced7820d725610507531a8aa7af897ad7f412103c6f"
+    },
+    "graalvm": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "graalvm/SKILL.md",
+      "computedHash": "688b7a4c6f5998efa9d7220e889444795b5e901832523cff2e55ea1f50e1a5ba"
+    },
+    "graphql": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "graphql/SKILL.md",
+      "computedHash": "ebb719055afb63ef1902bc9cd2a928b5f21e78a2936eefa2bc727f7d3381dbb0"
+    },
+    "graphql-architect": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/graphql-architect/SKILL.md",
+      "computedHash": "cc2ff2e5ff08641438552b1dc56e02ed7539f97d0a90699d1eb778368a738351"
+    },
+    "graphql-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "graphql-development/SKILL.md",
+      "computedHash": "049a1c82e2823a4daac824d2e7cb1185280a6ef118848924d57bf04920e3798f"
+    },
+    "grpc-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "grpc-development/SKILL.md",
+      "computedHash": "50ebd91bb7920acdfba02741b66910b608d2296f8ed6899e9ca97255b5d85596"
+    },
+    "gsap": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "gsap/SKILL.md",
+      "computedHash": "373ec0d723f94c0680a134d7ba39ad4d08f11ce2aceb4991c19987d9e5673270"
+    },
+    "harmony-arkts": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "harmony-arkts/SKILL.md",
+      "computedHash": "2e509c191f293a1ab17c1a8e204d567d255758aee15f4686b09e8984537dc46f"
+    },
+    "hatch-pet": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/hatch-pet/SKILL.md",
+      "computedHash": "d6799a5929bec4aab1f3aae347faec9f614cc9d0af69fda5c5191c557986f5c4"
+    },
+    "hono-typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "hono-typescript/SKILL.md",
+      "computedHash": "c46726a5224a48f8c18cb0fbe573b41a3c3d24fcef1fa88828c93b1887330640"
+    },
+    "html": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "html/SKILL.md",
+      "computedHash": "a3a1c61bb38f44df64aa22f3a257451508cf14da40e39287aee05f0916eed920"
+    },
+    "htmx": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "htmx/SKILL.md",
+      "computedHash": "dac82c12f2b217517c7df952dcd9630e46aeef489d05729a9a59a0ab42c59ec1"
+    },
+    "imagegen": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.system/imagegen/SKILL.md",
+      "computedHash": "e5ad287e1419f8ed2adf74769fecbfc03b89e611121d59c228a2950c0567c7b6"
+    },
+    "internationalization-i18n": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "internationalization-i18n/SKILL.md",
+      "computedHash": "b618b4b76084b0a5f15343a442e117196abac8d367a175729e92a59dce668cee"
+    },
+    "ionic": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "ionic/SKILL.md",
+      "computedHash": "bf3a4e8ac675ee34d4bf39e4bfeb5c6e7f8267368e85f8fa3be759c5264e0c17"
+    },
+    "java": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "java/SKILL.md",
+      "computedHash": "2e14dbad7cf9039bd02b37f7816ffbc2220b8ab0f17a3dc19c07b2d7795aea3c"
+    },
+    "java-architect": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/java-architect/SKILL.md",
+      "computedHash": "cfc4bf603c607da15e6ecbc06e07ab1199c370ecc8dbbe95d489cd37aa640565"
+    },
+    "java-quarkus-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "java-quarkus-development/SKILL.md",
+      "computedHash": "a9b564f8ac1aab6cf53392895d04e50d98dd947adaba7a9ff9c2d8881ef07577"
+    },
+    "java-spring-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "java-spring-development/SKILL.md",
+      "computedHash": "b1e8555fde3df6487a646c65654bb03ab116f59083faf206a11173ed36630b5e"
+    },
+    "javascript-pro": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/javascript-pro/SKILL.md",
+      "computedHash": "ac960782dce4f93092e48dd788663cc3ce05a0f141689be5023bf00d50a03700"
+    },
+    "jax-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "jax-best-practices/SKILL.md",
+      "computedHash": "e1eb2b24e60ca1b0e15f4906d40acff46f80669295a1380df8d39b80e60e50f5"
+    },
+    "jest": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "jest/SKILL.md",
+      "computedHash": "487e2d51d3584aa4af1df4e4ca4150941d06fd990804f62b4a57bb92312a8457"
+    },
+    "julia": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "julia/SKILL.md",
+      "computedHash": "c8e54d817739527ee9c58a18e49692ee1ca6acb494b4f4c2a1fdf2138c919c6c"
+    },
+    "jupyter-notebook": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/jupyter-notebook/SKILL.md",
+      "computedHash": "ed6cf5b159eeb076eaa43007920ae5aca10336ad1e6cec7baf973f3f83a9eb7f"
+    },
+    "jwt-security": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "jwt-security/SKILL.md",
+      "computedHash": "4f4ac96906e45977591928ff3f176cdc908c014c45fdebb9bf80ba6f3301067a"
+    },
+    "kafka-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "kafka-development/SKILL.md",
+      "computedHash": "7cebbf89b19c809cc317eb70605209e971a30d99a3e64ce88f52a32e92920aa7"
+    },
+    "koa-typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "koa-typescript/SKILL.md",
+      "computedHash": "677ff00707ff75473171d3a9e550e40e9a87960f41059443666734dfc62a2e5a"
+    },
+    "kotlin-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "kotlin-development/SKILL.md",
+      "computedHash": "6e21b6dfad832951c8f2d0b9595a5dd6ab5b9a3526d5a35c62fe24cb304141a1"
+    },
+    "kotlin-specialist": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/kotlin-specialist/SKILL.md",
+      "computedHash": "c87493347a135529fd8ee6cbe6544fbe2b2237554e815bd746cf4ac9d8cd37cd"
+    },
+    "kubernetes": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "kubernetes/SKILL.md",
+      "computedHash": "5d15664e672e5638afa6152d65447353fe998228a65168adb83d6627c0816c0f"
+    },
+    "kubernetes-specialist": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/kubernetes-specialist/SKILL.md",
+      "computedHash": "c1a98ffa770e6bd4bdab13382f3bc17e3cdebac49a4c7324564bdd11b3c894af"
+    },
+    "kysely": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "kysely/SKILL.md",
+      "computedHash": "70ea7350759eb36f04b058275562db2beab342863941ecd4056658613017bc30"
+    },
+    "langchain-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "langchain-development/SKILL.md",
+      "computedHash": "e8a0c3949a2844b530f74f4e1cbb270fdaf2202ca1c74c69c332498128511899"
+    },
+    "laravel": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "laravel/SKILL.md",
+      "computedHash": "66641a63417ab5e2ff384b13c5286a098bf9a4e21a0d29db5380f3fb3158f34f"
+    },
+    "laravel-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "laravel-development/SKILL.md",
+      "computedHash": "d55710d19d0cbe5b3c857ecaee3a7cba1a3d753614e2b21c9d18a8b91ec51a2d"
+    },
+    "laravel-specialist": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/laravel-specialist/SKILL.md",
+      "computedHash": "54d63412e4b4024f384edaa7758e9ad7e76a5ff91a134f8042dbf6200b031800"
+    },
+    "legacy-modernizer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/legacy-modernizer/SKILL.md",
+      "computedHash": "0e5410bbd80c4834a100f2d7ecb91ad87fd63649f8a2b4cc7fdbd56a2bfbf706"
+    },
+    "lerna": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "lerna/SKILL.md",
+      "computedHash": "399009343529e324c52774d76bb086f994252e9da179350000dcd30ee5dc0110"
+    },
+    "less-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "less-best-practices/SKILL.md",
+      "computedHash": "b05b1c80af602d618797ae6818398fd09550f761695a0ffd0de11b8e8447db93"
+    },
+    "linear": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/linear/SKILL.md",
+      "computedHash": "d798e8a2da07a2a228a46c506fcc547693bedfb935e561e582ce9a706f380f67"
+    },
+    "llamaindex-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "llamaindex-development/SKILL.md",
+      "computedHash": "4b2df3c540421c042a7caacf7f023e8a0e130d79f2765e6aec6c75cab10ba6da"
+    },
+    "llm": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "llm/SKILL.md",
+      "computedHash": "26b4dd6e86dc020a22889eb8f98c7dc9c23f08541f72eafae369cee8be6d0ca1"
+    },
+    "localization-l10n": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "localization-l10n/SKILL.md",
+      "computedHash": "f4609b1a47122ac291834367589b5d544a41e6fd06b78a4096670b9f21c81704"
+    },
+    "logging-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "logging-best-practices/SKILL.md",
+      "computedHash": "9e977844fda0f769f6046edf37d8301f0ad72886d96fa35f35fe60388668edc8"
+    },
+    "lottie": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "lottie/SKILL.md",
+      "computedHash": "4a5fe1eeae43a739782c45f0546fbf736015c39d29b546638bfa1464e9fdcb8c"
+    },
+    "lua": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "lua/SKILL.md",
+      "computedHash": "6be95e440b664b367a4b8b1218515167bb829b66c5629b4f79f070bea8225d85"
+    },
+    "machine-learning": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "machine-learning/SKILL.md",
+      "computedHash": "8226b165c426787b758160b227a12b4c29ead3b9b836f1842f1392d6db672441"
+    },
+    "matplotlib-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "matplotlib-best-practices/SKILL.md",
+      "computedHash": "806bbd19dbd0eec6af5eef7b5e66f5b2540150680cc179f862855c7f883690db"
+    },
+    "mcp-developer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/mcp-developer/SKILL.md",
+      "computedHash": "e27dc49f1c189d8a9214051474f0d8603af0947bb68662a97a44ce5a1098d6c9"
+    },
+    "medusa-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "medusa-development/SKILL.md",
+      "computedHash": "b914116b883a669efabb1b58d4a61bbc6033f4041c04c9f323e4c879020a01fa"
+    },
+    "meta-prompt": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "meta-prompt/SKILL.md",
+      "computedHash": "42a777e5d92c971f84b4e596eb0434152f663439982fbc679fa23e8efb326075"
+    },
+    "micronaut": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "micronaut/SKILL.md",
+      "computedHash": "023ac1e43876df42fcee1ed1920e3cbeedeb4b8e878950a6e654c328f83436a1"
+    },
+    "microservices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "microservices/SKILL.md",
+      "computedHash": "ed0a449bed79482a745a304d0ed31b834089c3ebbd417b0a25b2c854a5ea0209"
+    },
+    "microservices-architect": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/microservices-architect/SKILL.md",
+      "computedHash": "c388eade4d1f6a21f722be217b11cd3dea6a81ed3c7545ad62f4e97100b14e24"
+    },
+    "migrate-to-codex": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/migrate-to-codex/SKILL.md",
+      "computedHash": "cfcc22ebf0f69bb9cc3f38e180c35e60905f6bbbd93c0049290a217877243e23"
+    },
+    "ml-pipeline": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ml-pipeline/SKILL.md",
+      "computedHash": "f98979bd58cce65465bf853c646ede6c5a3d7fbe98621dbd41fd9b9668c3c170"
+    },
+    "modern-web-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "modern-web-development/SKILL.md",
+      "computedHash": "5bad59eb1456731198c5683e5c43d4be8663ee55fa2e6be0800168e88e83e667"
+    },
+    "mongodb-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "mongodb-development/SKILL.md",
+      "computedHash": "b9c472700c8ac3335c2a8f3b581ee696ee46e3f17e2159740ab07c85096421b2"
+    },
+    "monitoring-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/monitoring-expert/SKILL.md",
+      "computedHash": "aebd0eab467dc5b2ead56cd318bed6270f10c6369098099743df179dc649252d"
+    },
+    "monitoring-guidelines": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "monitoring-guidelines/SKILL.md",
+      "computedHash": "b09e47e59efdb1551ff28ab8048826991e6ff8708dfb6e33c1686cb267646b3a"
+    },
+    "monorepo": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "monorepo/SKILL.md",
+      "computedHash": "96cfa5ef4c1e3de308302013ff109652573187d70fb6a757ad928784fdc827f6"
+    },
+    "monorepo-tamagui": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "monorepo-tamagui/SKILL.md",
+      "computedHash": "c349de459dbdadbd5ba1be6b8253da2ea0ea5e77190223778a0f237188c73fdb"
+    },
+    "motion": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "motion/SKILL.md",
+      "computedHash": "efb701cba45269b64f63b73860fb07c29bac1cd4bfb958117af0d7cb05042789"
+    },
+    "mqtt-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "mqtt-development/SKILL.md",
+      "computedHash": "15a4b898bac96be7c6dc86678dd88164716dd96d96f19d8ec106345da2cf1c82"
+    },
+    "mysql-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "mysql-best-practices/SKILL.md",
+      "computedHash": "37124f2b56aa4468a3d41aee441d51b17ea4430c3fce00b151a40e16f5f7d625"
+    },
+    "nestjs-clean-typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "nestjs-clean-typescript/SKILL.md",
+      "computedHash": "a1387a2de2f7c641fbed2fadad389d3b14403dc6a18252e15c9fd4f4c584c9a2"
+    },
+    "nestjs-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/nestjs-expert/SKILL.md",
+      "computedHash": "f953684a6c2bbba0b0d8fbafea5d85164e9f59449aba72e3453bd9cea55430dd"
+    },
+    "netlify-deploy": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/netlify-deploy/SKILL.md",
+      "computedHash": "d92c426e39620e737f9415bb7b059e46abc57fb39217692aff878e4085e00206"
+    },
+    "netlify-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "netlify-development/SKILL.md",
+      "computedHash": "ca5a0f4267c2fce16f82b8f414317ccb70f38d288d82c5a35c5083b8291a0894"
+    },
+    "network-troubleshooting": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "network-troubleshooting/SKILL.md",
+      "computedHash": "a26915104a2b95123723dab9011e6818bbc9b451815ca85824ddedac6ccdf6a9"
+    },
+    "nextauth-authentication": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "nextauth-authentication/SKILL.md",
+      "computedHash": "3e6ce473c0b191ff7588f1a0e073f76ce856de201f4069347642a8b6a5c03760"
+    },
+    "nextjs-developer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/nextjs-developer/SKILL.md",
+      "computedHash": "17f01465f086971d35353627cb1c432722d61a163fdb39fcb1bdcfc20d3d22a2"
+    },
+    "nextjs-react-redux-typescript-cursor-rules": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "nextjs-react-redux-typescript-cursor-rules/SKILL.md",
+      "computedHash": "1f092592a6059033ea8509bded66b11d839d5171cb283540c6fdc01e4d7e3e3c"
+    },
+    "nextjs-react-typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "nextjs-react-typescript/SKILL.md",
+      "computedHash": "6120951a7a8c0d05eba8853be2cd0d2ee5d5660bf9622b1103df2c2be40044cd"
+    },
+    "nextjs-typescript-tailwindcss-supabase": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "nextjs-typescript-tailwindcss-supabase/SKILL.md",
+      "computedHash": "ed57076a4c6473fd6f2a60557a1d1629e12a057c50f50c556cbd4809b0eee6b9"
+    },
+    "nlp-natural-language-processing": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "nlp-natural-language-processing/SKILL.md",
+      "computedHash": "a66f6dccccd29a4d8dc41d31791e270d4f6050deb5125cdcd9c52cf7eecdf278"
+    },
+    "nodejs-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "nodejs-development/SKILL.md",
+      "computedHash": "163dd4360360dc919d8c329476df4d34e55a3c9930b78a65e549997750eeb321"
+    },
+    "notion-knowledge-capture": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/notion-knowledge-capture/SKILL.md",
+      "computedHash": "6195e4ae1b5d418ee7ea88b862e35985e75a24f3d790906174f75fc9ee186e9c"
+    },
+    "notion-meeting-intelligence": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/notion-meeting-intelligence/SKILL.md",
+      "computedHash": "cdfdf62a53f09090274178466d058b48952defca718e6cb6f49596517c2f8ee0"
+    },
+    "notion-research-documentation": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/notion-research-documentation/SKILL.md",
+      "computedHash": "58f6d7ee593087d2a8c4dc85f282b09240e43eb63683b2b55e13084b3e035429"
+    },
+    "notion-spec-to-implementation": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/notion-spec-to-implementation/SKILL.md",
+      "computedHash": "af316e2d0689762d9837178b899d35648ca05c999780da49723fe75e71d15579"
+    },
+    "numpy-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "numpy-best-practices/SKILL.md",
+      "computedHash": "c4b9d29d388481c1a256d0a9dbeed8e7f167c3f50c71563162050714133b76e0"
+    },
+    "nuxtjs-vue-typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "nuxtjs-vue-typescript/SKILL.md",
+      "computedHash": "bf7b6b727a2322b988705c4be6bc14f40f12853d0f4e488286b9392587e5be70"
+    },
+    "nx": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "nx/SKILL.md",
+      "computedHash": "9351e889311a53edc567ca06f43b0874a21a476c5b8ef1abc761bbec2cf5cbe5"
+    },
+    "oauth-implementation": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "oauth-implementation/SKILL.md",
+      "computedHash": "8230db7b623d8bad68cb09c5e028a42d0ae712e06c29acbe7a0f10ad0906c8d3"
+    },
+    "observability-guidelines": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "observability-guidelines/SKILL.md",
+      "computedHash": "b666c15f19635e32f8134cfc47f2d5a3f96b4e5ecb414479b4cc7bc5bca29a1b"
+    },
+    "odoo-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "odoo-development/SKILL.md",
+      "computedHash": "3119e062de373eaa1d945f8aa7295206cf243243480bd1179546fbedfbd82bc1"
+    },
+    "onchainkit": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "onchainkit/SKILL.md",
+      "computedHash": "8f114e10cbcae7a94c398b2dadba07bc96bd02620660ca5edd71d1d8d3cf8f70"
+    },
+    "openai-api-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "openai-api-development/SKILL.md",
+      "computedHash": "7a413745a99187d8264e36098af080dabf94dae3bc3426cc97ce5065a818fe9e"
+    },
+    "openai-docs": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/openai-docs/SKILL.md",
+      "computedHash": "80d1836b9c7cdee24521c47e33a77cbf02b34783267f5a7e32c41557170fa6dd"
+    },
+    "optimized-nextjs-typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "optimized-nextjs-typescript/SKILL.md",
+      "computedHash": "438f2fb77926b1732bbaa6501697e1ac207edca4aa0f17dad07da2acaddc32c3"
+    },
+    "pandas-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "pandas-best-practices/SKILL.md",
+      "computedHash": "257718463935cbd02899304f565952b2a2d4abeac3e7c42b34909d9fe6d70396"
+    },
+    "pandas-pro": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/pandas-pro/SKILL.md",
+      "computedHash": "48ba92580df48e7711e41435770e10c59bb1ee7c1aaf1f3136de2ddde53dbbd1"
+    },
+    "parcel-bundler": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "parcel-bundler/SKILL.md",
+      "computedHash": "f574fc11ab7698d2d1b1056e9b15017998a64afff02eca8dec9869eaae727b69"
+    },
+    "pdf": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/pdf/SKILL.md",
+      "computedHash": "af1e0791f5356b6de053e6b97d7703fe0d7ea1997371b9023afd4720bebcf93f"
+    },
+    "performance-optimization": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "performance-optimization/SKILL.md",
+      "computedHash": "f1225afb21b4850548bc592f89d7b504a261b7efd82ea928f5b5a8de6081ceb6"
+    },
+    "phoenix": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "phoenix/SKILL.md",
+      "computedHash": "3dc9c87dcd289838be01d2eac6500fa8d76b8db9817cda33654186aee0573454"
+    },
+    "php-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "php-development/SKILL.md",
+      "computedHash": "0dea408102eaa6e58c547242aeaeee779b1a7d385d4f0f5288715e365376cf77"
+    },
+    "php-pro": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/php-pro/SKILL.md",
+      "computedHash": "c3f6f20bf204e8c7659596210086a9560cf3314801ec725613a7e1dbcee4db8e"
+    },
+    "pixi-js": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "pixi-js/SKILL.md",
+      "computedHash": "88fb73d1154f9e30fc81c18a73ea8d775981e79fbb5b4216e9b9c34f5ec789f7"
+    },
+    "playwright": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/playwright/SKILL.md",
+      "computedHash": "844a180ab348b8d13044a320b8306e6263e1cda75e158e479a463225e43a5eb1"
+    },
+    "playwright-cursor-rules": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "playwright-cursor-rules/SKILL.md",
+      "computedHash": "444bc518060bbf3b4836417ffae8db674f647bce0e2e30bed339f5aa5d262b24"
+    },
+    "playwright-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/playwright-expert/SKILL.md",
+      "computedHash": "058d93c288af3469471c86da79b7edfef8710d4d5c428301ea275aa7416e4cd9"
+    },
+    "playwright-interactive": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/playwright-interactive/SKILL.md",
+      "computedHash": "3e9e650b0fe2fe0659fd5b4054fafa62fd07b7153210a41c4a812b05b4f52b69"
+    },
+    "plugin-creator": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.system/plugin-creator/SKILL.md",
+      "computedHash": "2816bb5c02cae45510dd5592af59f8334cf17228218244b77489384f3255dee5"
+    },
+    "pnpm": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "pnpm/SKILL.md",
+      "computedHash": "a3b3d103c7b094935a483737000e85141738df0db925cb774686d8cf12a30e8b"
+    },
+    "postcss-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "postcss-best-practices/SKILL.md",
+      "computedHash": "e5e0fdae606f19ceb1163a2f2aa1115e7901fd2357b5ed4c8c693bbf2aa3e921"
+    },
+    "postgres-pro": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/postgres-pro/SKILL.md",
+      "computedHash": "96b07d42d8f5193e3b2e087b90d5db992064be4e18763d9dbf91516b7060d9d5"
+    },
+    "postgresql-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "postgresql-best-practices/SKILL.md",
+      "computedHash": "19058889ece971551763b424f6004bde22c0cc315a39a51d2bcf15f386609b83"
+    },
+    "pr-review": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "pr-review/SKILL.md",
+      "computedHash": "3d59f0d9de77a7d719abe1c0884c0bc0db6b89af6fdc7a857f9b5045880dd4b9"
+    },
+    "prisma": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "prisma/SKILL.md",
+      "computedHash": "0b98210870ca905ccf4225444525437603b4ae26d09f264b350a7e3e3c42033e"
+    },
+    "prisma-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "prisma-development/SKILL.md",
+      "computedHash": "8dc869c02c9da6e4172bb431bb6c1c62c17912dc74d9ab986f3a5b676ea90533"
+    },
+    "prompt-engineer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/prompt-engineer/SKILL.md",
+      "computedHash": "fa9ceeb949c19b516ddac7d5abbeca098a65a28742d49e1ad61c7792bc95d563"
+    },
+    "puppeteer-automation": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "puppeteer-automation/SKILL.md",
+      "computedHash": "c747f4baa0b896ea70f4a1eb4e631ab6cf551c042326b81a563687a3708a0ce2"
+    },
+    "pwa-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "pwa-development/SKILL.md",
+      "computedHash": "f799487b30ea63dd7cefc2fc83047b1735f068d268bccb31308c8fb51610eb44"
+    },
+    "pyspark-etl": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "pyspark-etl/SKILL.md",
+      "computedHash": "aaf3163efd8fc71d819ea32f15e5c8774727f810971faa9167a4969c64148be5"
+    },
+    "python": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "python/SKILL.md",
+      "computedHash": "123633b233864d45acccf751e473321ac3df9f25acc22418f625dc57ddf20e14"
+    },
+    "python-cybersecurity-tool-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "python-cybersecurity-tool-development/SKILL.md",
+      "computedHash": "f50b45381fb2fd7ec70d77aae523cded2d29c8462a186ae4fa4693f4562c8217"
+    },
+    "python-odoo-cursor-rules": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "python-odoo-cursor-rules/SKILL.md",
+      "computedHash": "908bd781e463bda4929046594e56dd7853f6b5751e349020031d02e11717b8b4"
+    },
+    "python-pro": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/python-pro/SKILL.md",
+      "computedHash": "78f0a0b5d42c3598d07766e8d3eaf164830693711625f880087ed633b48deafe"
+    },
+    "python-testing": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "python-testing/SKILL.md",
+      "computedHash": "3a9df52580f77570694bb781934a3d54791bc567cc9dc2485e10258f29cbfe71"
+    },
+    "python-uv": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "python-uv/SKILL.md",
+      "computedHash": "e571e810597ed7953a52a86e537088515caedbf511eb1ea3a2ceae351323cbc6"
+    },
+    "pytorch": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "pytorch/SKILL.md",
+      "computedHash": "0bc4289dcfc531ccd87a8a3f6436bf4a67ec16a1b932e293a02ce0e23181031b"
+    },
+    "quarkus": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "quarkus/SKILL.md",
+      "computedHash": "7c9b1e77af686e6ffff1be9e7ee9c64f537a1e5fb5f432ad7b4492fe6f38fe01"
+    },
+    "rabbitmq-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "rabbitmq-development/SKILL.md",
+      "computedHash": "53614b256ddc11bf7680ff67a573d2326cf8bc19d23854154a98862d8131a10f"
+    },
+    "rag-architect": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/rag-architect/SKILL.md",
+      "computedHash": "c8298c262962af573e6b2cd8258eaa8aeac6eb4e13232eda1317453af69fbc42"
+    },
+    "rails-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/rails-expert/SKILL.md",
+      "computedHash": "af333810ee7d2061402adacd905be14b6a89bb8fb86448eca77bde99716e50d0"
+    },
+    "react": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "react/SKILL.md",
+      "computedHash": "0a485ae554a253e2970d406e93c785cf6183665eb73d6cadab1e355941b3cd36"
+    },
+    "react-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-expert/SKILL.md",
+      "computedHash": "a4bdf3a28fd33de493950e29d8390efe7e9bae57e35751f8ffa920c7509cb5c5"
     },
     "react-native-best-practices": {
       "source": "callstackincubator/agent-skills",
@@ -205,6 +1729,24 @@
       "skillPath": "skills/react-native-brownfield-migration/SKILL.md",
       "computedHash": "1943df4bfd336c285a816551dbbe2752d1c5c6eb13e67ac1c3dfb25999233046"
     },
+    "react-native-cursor-rules": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "react-native-cursor-rules/SKILL.md",
+      "computedHash": "745a32fcb1bf6b24352d6a49979ea3812cd3a0c0ec2558d6cb4e9ccccf0194eb"
+    },
+    "react-native-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-native-expert/SKILL.md",
+      "computedHash": "41d07d33b4e0a463dc30c7c615dfbb6483f57f99cec28506601e5120e74a66ab"
+    },
+    "react-native-r3f": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "react-native-r3f/SKILL.md",
+      "computedHash": "b1bc1bf456e7c135daacf8e6f6802d4b9c55f3d59de9177e922637b8f94284c1"
+    },
     "react-native-tv-best-practices": {
       "source": "callstackincubator/agent-skills",
       "sourceType": "github",
@@ -217,11 +1759,575 @@
       "skillPath": "skills/react-navigation/SKILL.md",
       "computedHash": "1b8127ce614fac048720e528fe3ff957da08f7777bc88ae9b1922108f72bdc61"
     },
+    "react-query": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "react-query/SKILL.md",
+      "computedHash": "32ca23d651905aa5aa6a30d413ae946c13830662ac6c430beab1ea3636d0533e"
+    },
+    "react-router-v7": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "react-router-v7/SKILL.md",
+      "computedHash": "f02a61eb68bf87e62e75f6fb477eaa84c5aee73cb935bae90869b06922a09300"
+    },
+    "readme-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "readme-best-practices/SKILL.md",
+      "computedHash": "3e12a67129172af066fb61d3bbf977c7c80cfe8627dd3eb007546bc002146c58"
+    },
+    "redis-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "redis-best-practices/SKILL.md",
+      "computedHash": "1f46d1cd4f179db51a7d4cb9ffee9376ff85298ac72640bee7a0f41aaf6ed523"
+    },
+    "redux-toolkit": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "redux-toolkit/SKILL.md",
+      "computedHash": "a556ef873fbc88be2243dc5cdb017b111c51e0097859e7159aef11b8afc4d043"
+    },
+    "remix": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "remix/SKILL.md",
+      "computedHash": "3c0016eee18dc1f954bccee8ee3e71024d2ac4a9bf36d5240a428248028e8f75"
+    },
+    "render-deploy": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/render-deploy/SKILL.md",
+      "computedHash": "5ccf3f9d94511258cc568484b8ebee170e8dbec4a74428acae948fe6021ff8d8"
+    },
+    "responsive-design": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "responsive-design/SKILL.md",
+      "computedHash": "59502aa7f4e3a12d38b233ff3a3c025357d1d32a35ac41e602364077d1769838"
+    },
+    "rest-api-django": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "rest-api-django/SKILL.md",
+      "computedHash": "60773b4452131057d048f0f2af908db4a098ee82e81e8eeaab96a0002c27c915"
+    },
+    "robocorp-cursor-rules": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "robocorp-cursor-rules/SKILL.md",
+      "computedHash": "809eca14cfbc06e260ce1b832b4860851f38a0ead8b8c4fcd0420d32db4dd5a2"
+    },
+    "rollup-bundler": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "rollup-bundler/SKILL.md",
+      "computedHash": "e7261ac820bb170a66074238e60e1205892ec05179974e1a966c1f761ddf3154"
+    },
+    "ros2-robotics": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "ros2-robotics/SKILL.md",
+      "computedHash": "cf0f390ee3bfc9f1518f4362f372c146eb5cf956264073b2636ccad4cd70e6fc"
+    },
+    "rspec": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "rspec/SKILL.md",
+      "computedHash": "3fc9ed9d9fe572dddfc1fe6c9d49b90765e068f4e250b6d7f778fe95cf8cd067"
+    },
+    "rtl-internationalization": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "rtl-internationalization/SKILL.md",
+      "computedHash": "b7b379dd4c6eb0b823f40bae1b4efae5486b786620c96ecbdd53c7e016810ef4"
+    },
+    "ruby": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "ruby/SKILL.md",
+      "computedHash": "ff9342ce912eb24cef9a060be0b0bed377b05947d6695dd9d01f028ce69097c7"
+    },
+    "ruby-rails": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "ruby-rails/SKILL.md",
+      "computedHash": "030f0b70566cf7e35aeaabfd52afa8bfe07d09b62650ca83c1455cff80a78022"
+    },
+    "rust": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "rust/SKILL.md",
+      "computedHash": "780eb2f940cd2e7b7de6e89b8540fa1cfd9eee710577d4044f58121ba878ebd0"
+    },
+    "rust-engineer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/rust-engineer/SKILL.md",
+      "computedHash": "b75c5b2aebb91b639d886c6ae908c6a7874f69ef3a2bc691a64fdeae8a917405"
+    },
+    "salesforce-developer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/salesforce-developer/SKILL.md",
+      "computedHash": "da5186cdb0473070199d8b51fae7dda9285e6427cce787b99f94fa37228005c8"
+    },
+    "salesforce-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "salesforce-development/SKILL.md",
+      "computedHash": "8cb4b7caca19939d0202966237fd22ca35ae014b25aba566f198f9dfba51db3f"
+    },
+    "salesforce-dx": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "salesforce-dx/SKILL.md",
+      "computedHash": "4b0a592a5e2f62498f73920b816fb184e915170b46f2d096af625b606b83007b"
+    },
+    "sanity": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "sanity/SKILL.md",
+      "computedHash": "e1f02ad619cc10975719c30552dc00faa2fd15c27c0d8e7eeefecde57620d7db"
+    },
+    "sass-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "sass-best-practices/SKILL.md",
+      "computedHash": "5d32141e54993260e10cf1e1372c72bdf4cbfb4f0be3cc0744dd0e275f7fd36d"
+    },
+    "scikit-learn-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "scikit-learn-best-practices/SKILL.md",
+      "computedHash": "2056cd1a1383b3e13c10bf6ded6b48a62a221f83a34dd8a965c798cfc5a86bff"
+    },
+    "scipy-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "scipy-best-practices/SKILL.md",
+      "computedHash": "8e8bc94e80cfb9b3738d8f99c778b31e1cc797be4a190aed1563cb02d5510efe"
+    },
+    "scrapy-web-scraping": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "scrapy-web-scraping/SKILL.md",
+      "computedHash": "4e26132b4ab86123b7444f5db38d6769166272e842b77ee24ec272aae71df360"
+    },
+    "screenshot": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/screenshot/SKILL.md",
+      "computedHash": "08ad9780b78f73c1a9abdcedd443108019ba2264a56b7f287006cbe99c3ed0c1"
+    },
+    "scss-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "scss-best-practices/SKILL.md",
+      "computedHash": "411d1bcac3a96c9a9e60572285505aa10909548de43a614472fa0f0ae02b95e0"
+    },
+    "secure-code-guardian": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/secure-code-guardian/SKILL.md",
+      "computedHash": "4cebc5f003afe8115f5494aa39d686a1cf9fdc806245cd55fd974c4fa25a7685"
+    },
+    "security-best-practices": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/security-best-practices/SKILL.md",
+      "computedHash": "0c42fff660b6f7e85add36437edc36976466bb254b7cd9eb38ec67b2ad64a9bf"
+    },
+    "security-devsecops": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "security-devsecops/SKILL.md",
+      "computedHash": "deae330d5ff7ab28787ed9e2ff8f9a14c9427e64c698d5acf9aa4c2b5bc504dd"
+    },
+    "security-ownership-map": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/security-ownership-map/SKILL.md",
+      "computedHash": "b905fd278fe5385cfd1e0dea318777fa9f14de1e3490016773b2542be472428b"
+    },
+    "security-reviewer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/security-reviewer/SKILL.md",
+      "computedHash": "bfce07495c41ed47ccb97980b059760585e3221c668d680a13c4fcee5aaa3d25"
+    },
+    "security-threat-model": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/security-threat-model/SKILL.md",
+      "computedHash": "76fad9d4726561fce7442e965bfaf318e8db1b369a7aa95e6a2be241d11a1a9f"
+    },
+    "selenium-automation": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "selenium-automation/SKILL.md",
+      "computedHash": "a4fd729c2c98031de3e5b461309d201e4a38a5712156d497fa960ea56b65911f"
+    },
+    "sentry": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/sentry/SKILL.md",
+      "computedHash": "7f2811d9ff70b0aaf4d12b68ce2879e91a170197fbf192dc1011d40fe1c838bb"
+    },
+    "seo-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "seo-best-practices/SKILL.md",
+      "computedHash": "e77f986931bb80adb7fc7657db5a2c5b64dd733eb873f1f969880c8e9c9b8404"
+    },
+    "sequelize": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "sequelize/SKILL.md",
+      "computedHash": "cae163f3832446dd47cfa7c558a1164229ce42a2bd35385b16ec41ad8e282a70"
+    },
+    "serverless": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "serverless/SKILL.md",
+      "computedHash": "28b143ca62d21908c8c7481ac3b55707a4dbb021cc38ab9023718aca12bf866d"
+    },
+    "shopify": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "shopify/SKILL.md",
+      "computedHash": "6645d548a6e6695e3e92ce61916a52182983a5dd56b9633b60853aaaf7d03d25"
+    },
+    "shopify-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/shopify-expert/SKILL.md",
+      "computedHash": "23b524763034c6438f33c698ce335f78ee8b159585d682d8392ed7fa3c3916b3"
+    },
+    "shopify-theme-development-guidelines": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "shopify-theme-development-guidelines/SKILL.md",
+      "computedHash": "0652e05ce94b04a72934152b0d1cc2488b3d29494e7dcec090e898bb6e18094c"
+    },
+    "skill-creator": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.system/skill-creator/SKILL.md",
+      "computedHash": "4f29d93bdb1cfacbcd993a8c2a924cb0a12842267bb46f1317c224614b5400b9"
+    },
+    "skill-installer": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.system/skill-installer/SKILL.md",
+      "computedHash": "2bb153f40f6cd98b88eacc9d19c6565caedee6de561438dcd406c6a0c82bf965"
+    },
+    "snowflake-cortex-ai": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "snowflake-cortex-ai/SKILL.md",
+      "computedHash": "c0cb17fde2d77afad26ab8cd0bb77145fce600ca2025dbdd33873135c8902873"
+    },
+    "snowflake-data-engineering": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "snowflake-data-engineering/SKILL.md",
+      "computedHash": "a02fc1177ec05f1b9d3b97ce7de6efc25941c474c553f6c4a67a89afbce4240f"
+    },
+    "snowflake-snowpark-dbt": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "snowflake-snowpark-dbt/SKILL.md",
+      "computedHash": "f1611cc426ea82566438d1f1692e976a09275d807a5f6957f3109be9369dc388"
+    },
+    "solana": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "solana/SKILL.md",
+      "computedHash": "f2447a68d5a1cbab672be81150b22e15da1f383b3fdc1c82aeeb5c6445b47147"
+    },
+    "solidity": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "solidity/SKILL.md",
+      "computedHash": "ae71c7c7a27ba577028a73ce2e6cd7d07e262c1e5f8a576d84983ada615ef5ee"
+    },
+    "spark-engineer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spark-engineer/SKILL.md",
+      "computedHash": "039cedef834c316573b06ba073168b25b66bf6e37453698da2098f337bfa1d39"
+    },
+    "spec-miner": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spec-miner/SKILL.md",
+      "computedHash": "d7b1d1be2ae1fafa6a761b1ade8e5ed9289b858bd45b5cff27877f5e7efef94f"
+    },
+    "speech": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/speech/SKILL.md",
+      "computedHash": "099160d19d78785e38b411131f960f4a9c8f1745fba4d3419a8469db69a757cc"
+    },
+    "spring-boot": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "spring-boot/SKILL.md",
+      "computedHash": "3bcd1cecad6718bd274909d7bb720a3570b932a4ff8c90b88f5ecde0ef5b460e"
+    },
+    "spring-boot-engineer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spring-boot-engineer/SKILL.md",
+      "computedHash": "ab7d328760560dd7d5283e158a4add1f413ed9ae440e21be1ee3a79d376af5f8"
+    },
+    "spring-framework": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "spring-framework/SKILL.md",
+      "computedHash": "0ede2f9da9eff9133d48cef41a4b3f3ce4f9ee13565406b4a535ea36e8d67b7d"
+    },
+    "sql-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "sql-best-practices/SKILL.md",
+      "computedHash": "9d284cd9ebd2312ec2141322ce97315edf8e9b70200cd68cefce1d54c094c681"
+    },
+    "sql-pro": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sql-pro/SKILL.md",
+      "computedHash": "c8a06d60eff391929b47908e667baeedabb28cf32e5289bdc843be91060bdfa3"
+    },
+    "sre-engineer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/sre-engineer/SKILL.md",
+      "computedHash": "fa5ceebf45012d54ed3a9dae33706bc64d8b8f1b53f7b7c1ca6e48310727d1b1"
+    },
+    "storybook": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "storybook/SKILL.md",
+      "computedHash": "9b9712276057e9f813dad75a685827ce8d4855aa745f51a2e79d617f2ea16433"
+    },
+    "stripe": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "stripe/SKILL.md",
+      "computedHash": "d6ab311f13c7b40deddc4dd53cfb237d97e89f1636a0e38dc9d21946e204cbcf"
+    },
+    "styled-components-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "styled-components-best-practices/SKILL.md",
+      "computedHash": "ed22a9f0a78afc76a9275e7f36fbc17a6efc6915e6ccfaa463d2b43025f505ab"
+    },
+    "supabase": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "supabase/SKILL.md",
+      "computedHash": "2ce0553972a975947dd2482b60593e0921a1d7fef69a99087a61aa97b364f279"
+    },
+    "supabase-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "supabase-development/SKILL.md",
+      "computedHash": "598ef0280d609a2ef100ca0a710e8060b4e0557484a82ba68c701b37ca6a9f6b"
+    },
+    "svelte": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "svelte/SKILL.md",
+      "computedHash": "617ba8b4d9d21d182c0e9da53303e4af3e76fdee9339eb5669796f9a05aba99f"
+    },
+    "sveltekit": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "sveltekit/SKILL.md",
+      "computedHash": "2f1b3893d2c25502dde1360b46bc034f65254b823fac08765f7632b274791bd6"
+    },
+    "swift": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "swift/SKILL.md",
+      "computedHash": "ea521f26bcba6b1a02bd570c23a40b5b9e72b68dbcb0659ce8b8fceaed1fd10a"
+    },
+    "swift-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/swift-expert/SKILL.md",
+      "computedHash": "03c2d9062abed8b33878b0af52dbfccf6e38f1b1ec51639edd3da71febc941bf"
+    },
+    "swiftui-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "swiftui-development/SKILL.md",
+      "computedHash": "b45cd64a808e4bd56bac2d09f2137e79a67ddbe42691e016a0e65ce5154690fd"
+    },
+    "swr": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "swr/SKILL.md",
+      "computedHash": "cbdc88d39039fc4cdb90575fd279b449defeaa88f69fa460f369074adf5b4ed7"
+    },
+    "systemverilog": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "systemverilog/SKILL.md",
+      "computedHash": "77d40d34caf24ab28029456f211fcb6096f9ecb4e7de53829a197ccbc60a9ae5"
+    },
+    "tailwindcss": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "tailwindcss/SKILL.md",
+      "computedHash": "153aabb1099bd04c9a065b5ce86741ce5f991646a998efbcc1c3cdd057b15b06"
+    },
+    "tanstack-query": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "tanstack-query/SKILL.md",
+      "computedHash": "e2210d5652ce2ead591b14f5f392f57a9501c4e086d81e4070f5c9af52c882f7"
+    },
+    "tanstack-router": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "tanstack-router/SKILL.md",
+      "computedHash": "d14afa9e3339314beaa4175e0ed94d5225e8226b293ed8aa4f0cfb6faf949e31"
+    },
+    "tanstack-start": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "tanstack-start/SKILL.md",
+      "computedHash": "95096118be30120c1075e46d2b2c0e17c1bfef7a6092b621cda8689cf47589cc"
+    },
+    "tauri-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "tauri-development/SKILL.md",
+      "computedHash": "cc782575c81895cec3e51be4a1f7f3ef8e6b9906a5e7f3a8db80ec8c9004a254"
+    },
+    "technical-writing": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "technical-writing/SKILL.md",
+      "computedHash": "61f390bbd2b0f5dddb7ce1f3e601d9c8babedbdda2fd03bbfeea0ac15d4a4dc3"
+    },
+    "tensorflow-deep-learning": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "tensorflow-deep-learning/SKILL.md",
+      "computedHash": "4c112036d0af5978dab40b8ff56d799f50739edf6ab589445bd7fbe09dd4fe40"
+    },
+    "terraform": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "terraform/SKILL.md",
+      "computedHash": "8cbe45afce2d98800a864305debe85ba0ce07646c2a42a20208280c181a57482"
+    },
+    "terraform-engineer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/terraform-engineer/SKILL.md",
+      "computedHash": "d0a1a5e342eb2142aa6983742212f413e62d2f57ebc0b1b974f2cdd064b10412"
+    },
+    "test-master": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/test-master/SKILL.md",
+      "computedHash": "d46b5ae1526bfd07684a86f59148b675826f879415fc10e6afcb150f82b855d1"
+    },
+    "testing": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "testing/SKILL.md",
+      "computedHash": "d2ad42287d821921f36e98622040d310b74d3cbaf865a552af9ba2f5cde57016"
+    },
+    "the-fool": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/the-fool/SKILL.md",
+      "computedHash": "80b684f1d7e3f3d85edc2ba866cbdd387852c5d78a74149bc565b584ad3804c2"
+    },
+    "three-js": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "three-js/SKILL.md",
+      "computedHash": "e86efb7c9a8aec689bc5fdfc5663b93596d8309b5d0237751570d8c6a34e73fd"
+    },
+    "transcribe": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/transcribe/SKILL.md",
+      "computedHash": "a6319cde4e4ee267534117d15b462ea9bb972499bfeefaf6e1ce19eca27bbdad"
+    },
+    "transformers-huggingface": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "transformers-huggingface/SKILL.md",
+      "computedHash": "ffd2eb49ef2ac1a4a9e38b0e6133cab44739321ecbf263b2889620973ed8c6c5"
+    },
+    "trpc": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "trpc/SKILL.md",
+      "computedHash": "888063966b5b1e0a9c0bfbdf0981ab6b97f404ce8539aaef1e5eea56c1410034"
+    },
+    "turbopack-bundler": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "turbopack-bundler/SKILL.md",
+      "computedHash": "1a5e0f543616d09e8bc880d6895adbced0dfd2f33f4081d52b924bf3be532348"
+    },
+    "turborepo": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "turborepo/SKILL.md",
+      "computedHash": "73a11ad3de673223737a6ddf6de29f906e6f908e94077451b5a9075ef2afef17"
+    },
+    "typeorm": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "typeorm/SKILL.md",
+      "computedHash": "d84807fd732f23254e717af43bd88a8037bdc9185f6cf08000e5b8f15b806155"
+    },
+    "typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "typescript/SKILL.md",
+      "computedHash": "ec4c7e4f71a81b51aa68817f25c07463ae8f912dbaed5f871716915a97f7d562"
+    },
+    "typescript-pro": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/typescript-pro/SKILL.md",
+      "computedHash": "09f6e0722c8aa2167cedaeb4eb6dde4093e22f64d0ed290e4d8895f2bbe980fb"
+    },
+    "ui-design": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "ui-design/SKILL.md",
+      "computedHash": "ead26e139b46e39de9b4c8c0a9fd0267399422a741349e3a390aa73aec2eba70"
+    },
+    "unity": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "unity/SKILL.md",
+      "computedHash": "d0c85cc4a382d5f4a5add084077b4663716da77e7197e7ddc8c04857cbf6622d"
+    },
     "upgrading-react-native": {
       "source": "callstackincubator/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/upgrading-react-native/SKILL.md",
       "computedHash": "247d244c6c375bffbacf14c5b72c64363220778b1785aa78b9a643505c540391"
+    },
+    "ux-design": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "ux-design/SKILL.md",
+      "computedHash": "9653b3bc69a791e9fda25b42ae2c31f5303ddcc7f06e79e73a8fd28b6a477983"
     },
     "validate-skills": {
       "source": "callstackincubator/agent-skills",
@@ -229,11 +2335,137 @@
       "skillPath": ".claude/skills/validate-skills/SKILL.md",
       "computedHash": "42c61ce36bb5ab6cb610141401517b1ba08c027f7712f3d3eb5c94fcaf0385da"
     },
+    "vercel-deploy": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/vercel-deploy/SKILL.md",
+      "computedHash": "18c91dc583a912f6b4715819234a923e95d99c39f40b9fd3ac5b330e7555dedb"
+    },
+    "vercel-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "vercel-development/SKILL.md",
+      "computedHash": "77b06173d49fb6f7de37e89da18fcc13ccf5d686f5d697908cb14cb932cdf7f9"
+    },
+    "viewcomfy-api-rules": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "viewcomfy-api-rules/SKILL.md",
+      "computedHash": "11812f9468bf4d7863283ffc0f3e4d44f0d572607b4c67e0ba0e098df8a18529"
+    },
+    "vite": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "vite/SKILL.md",
+      "computedHash": "84c4b69567c672ebd17f56e767df0ec6c8e7ecb645115cbd7d049856a6057832"
+    },
+    "vue-expert": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vue-expert/SKILL.md",
+      "computedHash": "8bf97bbf225a7a48f3f3235ba3eb462b2b359f8de7f378f0fab5b07ef3567733"
+    },
+    "vue-expert-js": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/vue-expert-js/SKILL.md",
+      "computedHash": "4e84b9c0492b2e4b5da5451b04f247b400b464d8815fb6a9aee04e70c9e47fe0"
+    },
+    "vue-pinia": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "vue-pinia/SKILL.md",
+      "computedHash": "8f7c0ac81c0a8a03a35efbd139cc35857288f43026855779acdf4983ec4642dd"
+    },
+    "vue-typescript": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "vue-typescript/SKILL.md",
+      "computedHash": "587950cfdbfdbccdbf1d8f8f9480a0a904c80746657dc423769d98c2567c6d65"
+    },
+    "vuejs-typescript-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "vuejs-typescript-best-practices/SKILL.md",
+      "computedHash": "5eb2aff638365b200781c3a014899121a1ea82f99872fd050e2c7d050141fe18"
+    },
+    "web-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "web-development/SKILL.md",
+      "computedHash": "8a575642af50ea03bb88cc3590b85f943e384106a79b5917652b0d9e0c977c8b"
+    },
+    "web-scraping": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "web-scraping/SKILL.md",
+      "computedHash": "fa16538e4655788e044fcf2b7167b801d048543c739b37269ea4452bcc2d30f6"
+    },
+    "webpack-bundler": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "webpack-bundler/SKILL.md",
+      "computedHash": "edc4e39f0b73f8302b9bbeb23c85e2f8ec010166d15495a8aa082a7dc09a77a2"
+    },
+    "websocket-development": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "websocket-development/SKILL.md",
+      "computedHash": "aa8cac943beeb3b69625769fb1737635ecf3c2de3a8ab10d22f272eb01949314"
+    },
+    "websocket-engineer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/websocket-engineer/SKILL.md",
+      "computedHash": "3094d271e891f705e661008d5b5c4a4ddec97573c604ca8a66cee3ccce7af551"
+    },
+    "winui-app": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/winui-app/SKILL.md",
+      "computedHash": "d4d9408ca78c5f574af0699ad6749ba840505ba18d0913f470af32d5ffab7c64"
+    },
+    "woocommerce": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "woocommerce/SKILL.md",
+      "computedHash": "90ae04ca32c4ac3dd68272cca4a2abc6b1cd31e2b722f5f68fa823cb19eae417"
+    },
+    "wordpress": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "wordpress/SKILL.md",
+      "computedHash": "95fd140abedae3bb8bb946491dc0f1641ea06f609d42a276bcdd293672658c22"
+    },
+    "wordpress-pro": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/wordpress-pro/SKILL.md",
+      "computedHash": "1fdef34c7f551b598d1c2f47b9e8096e77fb299468ad6478bceda56d4a8dc4a7"
+    },
     "writing-user-docs": {
       "source": "callstackincubator/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/writing-user-docs/SKILL.md",
       "computedHash": "a9638883cabfda4b03930777d5106db97abfc4bc7ddb6219452a9370c57b1026"
+    },
+    "yeet": {
+      "source": "openai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/.curated/yeet/SKILL.md",
+      "computedHash": "34420aa2df73715c710c2e660ab212fbb7fd3c89b6e047e3763eb5540787fd22"
+    },
+    "zod-schema-validation": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "zod-schema-validation/SKILL.md",
+      "computedHash": "6330fa83f34790e3687336bf240797f63f49287701da00a6501b9dd938505baf"
+    },
+    "zustand-state-management": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "zustand-state-management/SKILL.md",
+      "computedHash": "e6343752eba1c3b80c0e4a870166c600c81fa70c21afe087b93ea6fd8970a8d3"
     }
   }
 }

@@ -36,8 +36,9 @@ export function LinkButton({
         'focus-ring min-h-[48px] justify-center px-3 rounded-tile',
         align === 'center' ? 'items-center' : 'items-start',
         disabled ? 'opacity-40' : 'active:opacity-60',
-        className
-      )}>
+        className,
+      )}
+    >
       <Text className="text-body font-semibold text-accent">{label}</Text>
     </Pressable>
   );

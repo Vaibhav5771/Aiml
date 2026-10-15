@@ -1,0 +1,9 @@
+{
+  "tool": "node:test",
+  "gate": null,
+  "additionalTools": ["tsx"],
+  "e2eTool": "none",
+  "testDir": "beside the file under test",
+  "filePattern": "*.test.ts",
+  "packageManager": "npm"
+}

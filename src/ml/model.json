@@ -1,0 +1,20 @@
+{
+  "version": "v0-stub",
+  "threshold": 0,
+  "features": [
+    "score_material",
+    "score_form",
+    "score_recyclingSymbol",
+    "score_construction",
+    "score_contamination",
+    "score_photoQuality",
+    "score_min",
+    "score_mean",
+    "unknown_share",
+    "symbol_unreadable",
+    "photo_fair"
+  ],
+  "weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  "bias": 0,
+  "trainedOn": { "photos": 0, "heldOut": 0, "date": "2026-10-13" }
+}

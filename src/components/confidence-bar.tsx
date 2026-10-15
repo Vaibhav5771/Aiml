@@ -70,7 +70,8 @@ export function ConfidenceBar({
     <View
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
-      className={cn('h-[3px] rounded-bar bg-track overflow-hidden', className)}>
+      className={cn('h-[3px] rounded-bar bg-track overflow-hidden', className)}
+    >
       <View
         className={cn('h-[3px] rounded-bar', FILL[tone])}
         style={{ width: `${fraction * 100}%` }}

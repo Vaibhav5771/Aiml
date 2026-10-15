@@ -56,8 +56,9 @@ export function IconTile({
         'items-center justify-center rounded-tile',
         size === 'sm' ? 'w-[34px] h-[34px]' : 'w-[48px] h-[48px]',
         SURFACE[variant],
-        className
-      )}>
+        className,
+      )}
+    >
       <Ionicons
         name={icon}
         size={size === 'sm' ? 18 : 20}

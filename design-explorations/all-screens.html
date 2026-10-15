@@ -1,0 +1,1508 @@
+<!--
+  Recyclens - four directions for every screen
+  Source: docs/specs/0002-design-system-ui-foundation/index.md, docs/specs/0007-verdict-screen/index.md, docs/design.md
+  Generated: 2026-10-14 by the explore-design skill
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recyclens - four directions for every screen</title>
+  <!-- No webfonts: Recyclens ships the platform system font (src/global.css, @media android/ios). -->
+  <style>
+    /* ----------------------------------------------------------------
+       NEUTRAL DEFAULTS — override these with the host repo's brand
+       tokens when detected (see header comment). Deliberately quiet so
+       the chrome reads as neutral tooling, not a competing brand.
+    ---------------------------------------------------------------- */
+    :root {
+      /* Recyclens brand, adapted to light chrome. Source: src/global.css @theme. */
+      --brand-50: #eef4fb;
+      --brand-100: #d7e5f6;
+      --brand-300: #5b9ada;
+      --brand-500: #0062c4;   /* --color-primary */
+      --brand-700: #004b97;
+      --accent-50: #f0f9f2;   /* --color-surface-ok */
+      --accent-500: #176b33;  /* --color-verdict-ok */
+      --accent-700: #115228;
+      --ink: #1d1d1f;         /* --color-ink */
+      --ink-soft: #4b4b50;
+      --ink-mute: #6e6e73;    /* --color-ink-soft */
+      --line: rgba(0, 0, 0, 0.08);   /* --color-hairline */
+      --line-soft: #e8e8ed;          /* --color-track */
+      --paper: #ffffff;       /* --color-background */
+      --bg: #f5f5f7;          /* --color-card */
+      --font-system: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-md: 0 4px 24px -10px rgba(0, 0, 0, 0.10), 0 1px 2px rgba(0, 0, 0, 0.03);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-system);
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 72px 48px 160px;
+    }
+
+    /* ---------- Page header ---------- */
+    .doc-header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 40px;
+      margin-bottom: 80px;
+    }
+    .doc-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand-500);
+      background: var(--brand-50);
+      padding: 6px 12px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .doc-eyebrow::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--brand-500);
+    }
+    .doc-title {
+      font-family: var(--font-system);
+      font-size: 52px;
+      line-height: 1.07;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px;
+      color: var(--ink);
+    }
+    .doc-subtitle {
+      font-size: 19px;
+      color: var(--ink-soft);
+      max-width: 720px;
+      margin: 0 0 32px;
+      line-height: 1.45;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      font-size: 13px;
+      color: var(--ink-mute);
+    }
+    .doc-meta > div { display: flex; gap: 6px; }
+    .doc-meta b {
+      color: var(--ink-soft);
+      font-weight: 600;
+    }
+
+    /* ---------- Variant section ---------- */
+    .variant {
+      margin-bottom: 96px;
+    }
+    .variant:last-child { margin-bottom: 0; }
+
+    .variant-head {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 28px;
+    }
+    .variant-letter {
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      background: var(--ink);
+      color: white;
+      font-family: var(--font-system);
+      font-weight: 500;
+      font-size: 20px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: -0.02em;
+    }
+    .variant-meta h2 {
+      margin: 4px 0 6px;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.015em;
+      color: var(--ink);
+    }
+    .variant-tradeoff {
+      font-size: 15px;
+      color: var(--ink-soft);
+      margin: 0;
+      max-width: 760px;
+    }
+    .variant-tradeoff b {
+      color: var(--brand-500);
+      font-weight: 600;
+    }
+
+    /* ---------- Preview frame ---------- */
+    .preview-frame {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 18px; /* --radius-card */
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      margin-left: 84px;
+      position: relative;
+    }
+    .preview-frame::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 16px;
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--line-soft);
+      box-shadow: 18px 0 0 var(--line-soft), 36px 0 0 var(--line-soft);
+      z-index: 2;
+    }
+    .preview-frame-bar {
+      background: #fbfbfd;
+      border-bottom: 1px solid var(--line-soft);
+      padding: 14px 16px 14px 76px;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+      font-weight: 600;
+    }
+    .preview {
+      padding: 0;
+      min-height: 200px;
+    }
+
+    /* ---------- Analysis ---------- */
+    .variant-analysis {
+      margin: 24px 0 0 84px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+    }
+    .analysis-block {
+      padding: 18px 20px;
+      border: 1px solid var(--line);
+      border-radius: 12px; /* --radius-tile */
+      background: var(--paper);
+    }
+    .analysis-block h4 {
+      margin: 0 0 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brand-500);
+    }
+    .analysis-block.is-risk h4 { color: #d70015; } /* --color-verdict-no */
+    .analysis-block.is-pick h4 { color: var(--accent-700); }
+    .analysis-block p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--ink-soft);
+    }
+
+    /* ---------- Decision row ---------- */
+    .decision {
+      margin-top: 120px;
+      padding: 40px 48px;
+      background: var(--ink);
+      color: white;
+      border-radius: 24px; /* --radius-frame */
+    }
+    .decision h3 {
+      font-family: var(--font-system);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 8px;
+    }
+    .decision-sub {
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 14px;
+      margin: 0 0 28px;
+    }
+    .decision-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .decision-cell b {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--brand-100);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .decision-cell span {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.45;
+    }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 900px) {
+      .page { padding: 40px 20px 80px; }
+      .doc-title { font-size: 36px; }
+      .variant-head { grid-template-columns: 48px 1fr; gap: 12px; }
+      .preview-frame { margin-left: 0; }
+      .variant-analysis { margin-left: 0; grid-template-columns: 1fr; }
+    }
+
+    /* ---------- Variant preview reset ----------
+       Anything inside .preview is the variant's own canvas.
+       Use scoped class prefixes per variant (.va-, .vb-, .vc-, .vd-)
+       to avoid cross-bleed of styles between variants.
+    */
+
+    /* ================================================================
+       PREVIEW SCAFFOLD — shared phone shell only. Deliberately neutral
+       and shared by all four variants so the comparison is about what
+       is drawn INSIDE, never about the frame around it. Everything a
+       variant actually decides is scoped .va- / .vb- / .vc- / .vd-.
+       Tokens below mirror src/global.css exactly.
+    ================================================================ */
+    .preview { padding: 32px 24px; background: #fbfbfd; }
+    .screens {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .screen-slot { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .screen-slot > figcaption {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--ink-mute);
+    }
+
+    .ph {
+      width: 320px;
+      height: 672px;
+      background: #ffffff;              /* --color-background */
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 36px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      box-shadow: 0 10px 40px -16px rgba(0,0,0,0.22);
+      font-size: 13px;                  /* --text-label */
+      line-height: calc(18 / 13);
+      color: #1d1d1f;                   /* --color-ink */
+    }
+    .ph * { box-sizing: border-box; }
+    .ph-status {
+      flex: none;
+      height: 34px;
+      padding: 0 20px 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .ph-status span:last-child { letter-spacing: 0.14em; font-size: 10px; }
+    .ph-body { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+    .ph-scroll { flex: 1; min-height: 0; overflow: hidden; }
+
+    /* Tab bar. Flush, full width, hairline above, no float — spec 0002. */
+    .ph-tabs {
+      flex: none;
+      height: 54px;
+      border-top: 1px solid rgba(0,0,0,0.08);   /* --color-hairline */
+      background: #ffffff;
+      display: flex;
+    }
+    .ph-tabs div {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #6e6e73;                   /* --color-ink-soft */
+    }
+    .ph-tabs div.on { color: #0062c4; } /* --color-primary */
+    .ph-tabs svg { width: 21px; height: 21px; }
+
+    /* Shared camera feed stand-in. Not a brand decision — it is "a photo". */
+    .feed {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(120% 80% at 50% 18%, #51565d 0%, #2d3136 52%, #17191c 100%);
+    }
+    .feed::after {
+      content: '';
+      position: absolute;
+      left: 50%; top: 46%;
+      width: 118px; height: 150px;
+      transform: translate(-50%, -50%);
+      border-radius: 14px 14px 10px 10px;
+      background: linear-gradient(168deg, #f2f1ee 0%, #dcdbd6 46%, #b9b8b3 100%);
+      box-shadow: 0 18px 36px -12px rgba(0,0,0,0.6);
+    }
+    .guide { position: absolute; width: 26px; height: 26px; border-color: rgba(255,255,255,0.9); }
+
+    .thumb {
+      background: linear-gradient(168deg, #f2f1ee 0%, #dcdbd6 46%, #b9b8b3 100%);
+      flex: none;
+    }
+
+    /* Verdict record — one place, mirroring src/components/verdict.ts */
+    .v-ok    { --vc: #176b33; --vs: #f0f9f2; --ve: #d6e9dc; }  /* recyclable */
+    .v-no    { --vc: #d70015; --vs: #fdf0ef; --ve: #f5d9d6; }  /* notRecyclable */
+    .v-maybe { --vc: #b25000; --vs: #fdf4ec; --ve: #f5e3d2; }  /* checkManually */
+
+    .dot {
+      width: 22px; height: 22px; border-radius: 999px;
+      background: var(--vc);
+      color: #fff;
+      display: inline-flex; align-items: center; justify-content: center;
+      flex: none;
+    }
+    .dot svg { width: 13px; height: 13px; }
+
+    /* Confidence bar — rounded-bar 4px, neutral ink unless earned */
+    .bar { height: 4px; border-radius: 4px; background: #e8e8ed; overflow: hidden; }
+    .bar i { display: block; height: 100%; border-radius: 4px; background: #6e6e73; }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      border-radius: 980px;             /* --radius-button */
+      padding: 3px 9px;
+      font-size: 11px; font-weight: 600;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: #f5f5f7; color: #6e6e73;
+    }
+
+    /* The one primary action, pill, 48dp floor */
+    .cta {
+      min-height: 48px;
+      border-radius: 980px;
+      background: #0062c4; color: #fff;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      font-size: 17px; font-weight: 600;   /* --text-body */
+      letter-spacing: -0.01em;
+    }
+    .cta.ghost { background: transparent; color: #0062c4; border: 1px solid #0062c4; }
+    .cta svg { width: 17px; height: 17px; }
+
+    .lbl {
+      font-size: 13px; font-weight: 600; letter-spacing: 0.04em;
+      text-transform: uppercase; color: #6e6e73;
+    }
+    .soft { color: #6e6e73; }
+    .hair { height: 1px; background: rgba(0,0,0,0.08); }
+
+    /* Manifest callout under a variant that leans on absent data */
+    .flagstrip {
+      margin: 16px 0 0 84px;
+      display: flex; gap: 8px; align-items: baseline;
+      font-size: 13px; color: var(--ink-soft);
+      background: #fdf4ec; border: 1px solid #f5e3d2;
+      border-radius: 12px; padding: 12px 16px;
+    }
+    .flagstrip b { color: #b25000; font-weight: 700; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    @media (max-width: 900px) {
+      .flagstrip { margin-left: 0; }
+      .preview { padding: 20px 12px; }
+    }
+
+    /* ---------- VARIANT A · Grouped Inset (iOS Settings / Health) ---------- */
+    .va-canvas { background: #f5f5f7; }
+    .va-canvas .ph-tabs, .va-canvas .va-navbar { background: rgba(255,255,255,0.94); }
+    .va-head { flex: none; padding: 4px 16px 12px; }
+    .va-head h1 { margin: 0; font-size: 28px; line-height: calc(34/28); font-weight: 700; letter-spacing: -0.02em; }
+    .va-navbar {
+      flex: none; height: 44px; display: flex; align-items: center; gap: 3px;
+      padding: 0 12px; color: #0062c4; font-size: 17px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .va-navbar svg { width: 19px; height: 19px; }
+    .va-navbar b { margin-left: auto; margin-right: auto; color: #1d1d1f; font-size: 17px; font-weight: 600; padding-right: 34px; }
+    .va-group {
+      background: #ffffff; border-radius: 18px; margin: 0 16px;
+      border: 1px solid rgba(0,0,0,0.08); overflow: hidden;
+    }
+    .va-row { min-height: 48px; display: flex; align-items: center; gap: 12px; padding: 10px 14px; }
+    .va-row + .va-row { box-shadow: inset 0 1px 0 rgba(0,0,0,0.08); }
+    .va-row .ico { width: 28px; height: 28px; border-radius: 8px; background: #f5f5f7; color: #6e6e73; display: flex; align-items: center; justify-content: center; flex: none; }
+    .va-row .ico svg { width: 16px; height: 16px; }
+    .va-row .grow { flex: 1; min-width: 0; }
+    .va-row .val { color: #6e6e73; font-size: 15px; text-align: right; }
+    .va-row svg.ch { width: 15px; height: 15px; color: #c4c4c9; flex: none; }
+    .va-sec { padding: 22px 16px 7px 30px; }
+    .va-cam {
+      flex: none; margin: 0 16px; height: 262px; border-radius: 24px;
+      overflow: hidden; position: relative; background: #000;
+    }
+    .va-toggle { width: 48px; height: 28px; border-radius: 999px; background: #e8e8ed; flex: none; position: relative; }
+    .va-toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 24px; height: 24px; border-radius: 999px; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    .va-verdict { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+    .va-verdict .word { font-size: 28px; line-height: calc(34/28); font-weight: 700; letter-spacing: -0.02em; color: var(--vc); display: flex; align-items: center; gap: 9px; }
+    .va-verdict .act { font-size: 17px; line-height: calc(24/17); }
+
+    /* ---------- VARIANT B · Answer First (Weather / Fitness hero) ---------- */
+    .vb-cam { position: relative; flex: 1; min-height: 0; background: #000; }
+    .vb-wordmark {
+      position: absolute; top: 14px; left: 16px; z-index: 2;
+      display: flex; align-items: center; gap: 8px;
+      color: #fff; font-size: 17px; font-weight: 600; letter-spacing: -0.01em;
+    }
+    .vb-wordmark .mk {
+      width: 26px; height: 26px; border-radius: 8px;
+      background: #0062c4; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .vb-wordmark .mk svg { width: 15px; height: 15px; }
+    .vb-hint {
+      position: absolute; left: 24px; right: 24px; bottom: 112px; z-index: 2;
+      text-align: center; color: #fff; font-size: 13px; font-weight: 500; line-height: 1.4;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+    }
+    .vb-controls {
+      position: absolute; left: 0; right: 0; bottom: 18px; z-index: 2;
+      display: flex; align-items: center; justify-content: space-around; padding: 0 28px;
+    }
+    .vb-glass {
+      width: 48px; height: 48px; border-radius: 999px;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      color: #fff; display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .vb-glass svg { width: 21px; height: 21px; }
+    .vb-shutter {
+      width: 72px; height: 72px; border-radius: 999px;
+      border: 3px solid rgba(255,255,255,0.9);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .vb-shutter i { width: 58px; height: 58px; border-radius: 999px; background: #fff; display: block; }
+
+    .vb-hero {
+      flex: none; background: var(--vs);
+      padding: 44px 24px 32px;
+      display: flex; flex-direction: column; gap: 14px;
+      border-bottom: 1px solid var(--ve);
+    }
+    .vb-hero .item { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #6e6e73; }
+    .vb-hero .word {
+      font-size: 34px; line-height: calc(41/34); font-weight: 700; letter-spacing: -0.03em;
+      color: var(--vc); display: flex; align-items: center; gap: 12px;
+    }
+    .vb-hero .word .dot { width: 32px; height: 32px; }
+    .vb-hero .word .dot svg { width: 19px; height: 19px; }
+    .vb-hero .act { font-size: 17px; line-height: calc(24/17); color: #1d1d1f; }
+    .vb-back {
+      position: absolute; top: 40px; left: 12px; z-index: 3;
+      width: 34px; height: 34px; border-radius: 999px;
+      background: rgba(255,255,255,0.72); color: #1d1d1f;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+    .vb-back svg { width: 17px; height: 17px; }
+    .vb-disclose {
+      min-height: 56px; display: flex; align-items: center; gap: 12px;
+      padding: 16px; margin: 0 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .vb-disclose b { flex: 1; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+    .vb-disclose svg { width: 17px; height: 17px; color: #6e6e73; }
+    .vb-list { padding: 8px 0; }
+    .vb-hrow {
+      padding: 18px 20px; display: flex; align-items: baseline; gap: 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .vb-hrow .nm { flex: 1; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+    .vb-hrow .vd { font-size: 13px; font-weight: 600; color: var(--vc); display: flex; align-items: center; gap: 6px; }
+    .vb-hrow .vd i { width: 8px; height: 8px; border-radius: 999px; background: var(--vc); display: block; }
+    .vb-day { padding: 26px 20px 8px; font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+
+    /* ---------- VARIANT C · Evidence Record (Wallet / App Privacy Report) ---------- */
+    .vc-bar {
+      flex: none; padding: 6px 16px 12px;
+      display: flex; align-items: center; gap: 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .vc-bar .mk { width: 28px; height: 28px; border-radius: 8px; background: #0062c4; color: #fff; display: flex; align-items: center; justify-content: center; flex: none; }
+    .vc-bar .mk svg { width: 16px; height: 16px; }
+    .vc-bar .nm { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; flex: 1; }
+    .vc-cam { flex: none; margin: 14px 16px 0; height: 228px; border-radius: 24px; overflow: hidden; position: relative; background: #000; }
+    .vc-strip {
+      margin: 12px 16px 0; padding: 11px 14px;
+      background: #f5f5f7; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px;
+      display: flex; gap: 10px; align-items: flex-start;
+      font-size: 13px; line-height: 1.4; color: #6e6e73;
+    }
+    .vc-strip svg { width: 15px; height: 15px; flex: none; margin-top: 2px; }
+    .vc-ctrls { flex: none; display: flex; align-items: center; justify-content: space-around; padding: 14px 20px 10px; }
+    .vc-ctrl { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 72px; }
+    .vc-ctrl .tile { width: 48px; height: 48px; border-radius: 12px; background: #f5f5f7; color: #6e6e73; display: flex; align-items: center; justify-content: center; }
+    .vc-ctrl .tile svg { width: 21px; height: 21px; }
+    .vc-ctrl span { font-size: 13px; color: #6e6e73; }
+    .vc-shutter { width: 72px; height: 72px; border-radius: 999px; border: 3px solid #0062c4; display: flex; align-items: center; justify-content: center; }
+    .vc-shutter i { width: 58px; height: 58px; border-radius: 999px; background: #0062c4; color: #f5f5f7; display: flex; align-items: center; justify-content: center; }
+    .vc-shutter i svg { width: 25px; height: 25px; }
+
+    .vc-head { flex: none; padding: 10px 16px 14px; display: flex; gap: 12px; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.08); }
+    .vc-head .meta { flex: 1; min-width: 0; }
+    .vc-head .meta b { display: block; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+    .vc-head .meta span { font-size: 13px; color: #6e6e73; }
+    .vc-vstrip {
+      display: flex; align-items: center; gap: 11px;
+      padding: 14px 16px; background: var(--vs); border-bottom: 1px solid var(--ve);
+    }
+    .vc-vstrip .word { font-size: 17px; font-weight: 700; color: var(--vc); letter-spacing: -0.01em; }
+    .vc-vstrip .act { font-size: 13px; color: #1d1d1f; }
+    .vc-sec { padding: 18px 16px 8px; display: flex; align-items: baseline; gap: 8px; }
+    .vc-sec .lbl { flex: 1; }
+    .vc-sec .ct { font-size: 13px; color: #6e6e73; }
+    .vc-body { padding: 0 16px; }
+    .vc-rule { font-size: 15px; line-height: 1.5; }
+    .vc-cite {
+      margin-top: 10px; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px;
+      background: #f5f5f7; padding: 11px 12px; display: flex; gap: 10px; align-items: center;
+    }
+    .vc-cite svg.d { width: 17px; height: 17px; color: #6e6e73; flex: none; }
+    .vc-cite .t { flex: 1; min-width: 0; font-size: 13px; line-height: 1.35; }
+    .vc-cite .t b { display: block; font-weight: 600; }
+    .vc-cite .t a { color: #0062c4; text-decoration: none; }
+    .vc-tbl { border-top: 1px solid rgba(0,0,0,0.08); }
+    .vc-tr { display: grid; grid-template-columns: 22px 1fr 56px; gap: 10px; align-items: center; padding: 9px 0; border-bottom: 1px solid rgba(0,0,0,0.08); }
+    .vc-tr .ic { color: #6e6e73; display: flex; }
+    .vc-tr .ic svg { width: 16px; height: 16px; }
+    .vc-tr .k { font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: #6e6e73; font-weight: 600; }
+    .vc-tr .v { font-size: 15px; line-height: 1.35; }
+    .vc-tr .c { font-size: 11px; color: #6e6e73; text-align: right; font-weight: 600; }
+    .vc-tr.lead { background: #fbfbfd; margin: 0 -8px; padding: 9px 8px; border-radius: 8px; }
+    .vc-note { margin: 14px 16px 0; padding: 11px 13px; background: #f5f5f7; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; display: flex; gap: 9px; font-size: 13px; line-height: 1.45; color: #1d1d1f; }
+    .vc-note svg { width: 15px; height: 15px; color: #6e6e73; flex: none; margin-top: 2px; }
+    .vc-chips { flex: none; display: flex; gap: 8px; padding: 4px 16px 12px; }
+    .vc-chips .pill.on { background: #0062c4; color: #fff; border-color: #0062c4; }
+    .vc-hrow { display: flex; align-items: center; gap: 11px; padding: 10px 16px; border-bottom: 1px solid rgba(0,0,0,0.08); }
+    .vc-hrow .nm { flex: 1; min-width: 0; font-size: 15px; font-weight: 600; }
+    .vc-hrow .nm span { display: block; font-size: 11px; font-weight: 400; color: #6e6e73; letter-spacing: 0.02em; }
+    .vc-hrow .vp { font-size: 11px; font-weight: 700; color: var(--vc); display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+    .vc-hrow .vp i { width: 8px; height: 8px; border-radius: 999px; background: var(--vc); display: block; }
+    .vc-hrow .tm { font-size: 11px; color: #6e6e73; width: 54px; text-align: right; }
+
+    /* ---------- VARIANT D · Sheet over Photo (Visual Look Up / Photos) ---------- */
+    .vd-cam { position: relative; flex: 1; min-height: 0; background: #000; }
+    .vd-ctrls { position: absolute; left: 0; right: 0; bottom: 86px; z-index: 2; display: flex; align-items: center; justify-content: space-around; padding: 0 30px; }
+    .vd-glass { width: 44px; height: 44px; border-radius: 999px; background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.32); color: #fff; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .vd-glass svg { width: 20px; height: 20px; }
+    .vd-shutter { width: 68px; height: 68px; border-radius: 999px; border: 3px solid rgba(255,255,255,0.9); display: flex; align-items: center; justify-content: center; }
+    .vd-shutter i { width: 54px; height: 54px; border-radius: 999px; background: #fff; display: block; }
+    .vd-peek {
+      position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border-top-left-radius: 24px; border-top-right-radius: 24px;
+      padding: 8px 14px 12px;
+      box-shadow: 0 -6px 24px -10px rgba(0,0,0,0.35);
+    }
+    .vd-grab { width: 36px; height: 5px; border-radius: 999px; background: rgba(0,0,0,0.18); margin: 0 auto 10px; }
+    .vd-peek .row { display: flex; align-items: center; gap: 8px; }
+    .vd-peek .row b { font-size: 13px; font-weight: 600; flex: 1; }
+    .vd-peek .row .t { width: 34px; height: 34px; border-radius: 10px; }
+
+    .vd-photo { flex: none; height: 252px; position: relative; background: #000; }
+    .vd-photo .close {
+      position: absolute; top: 12px; left: 12px; z-index: 3;
+      width: 32px; height: 32px; border-radius: 999px;
+      background: rgba(0,0,0,0.42); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(255,255,255,0.22);
+    }
+    .vd-photo .close svg { width: 15px; height: 15px; }
+    .vd-photo .tap {
+      position: absolute; right: 12px; bottom: 54px; z-index: 3;
+      display: flex; align-items: center; gap: 6px;
+      padding: 5px 10px; border-radius: 980px;
+      background: rgba(0,0,0,0.42); border: 1px solid rgba(255,255,255,0.22);
+      color: #fff; font-size: 11px; font-weight: 600;
+    }
+    .vd-photo .tap svg { width: 13px; height: 13px; }
+    .vd-sheet {
+      flex: 1; min-height: 0; margin-top: -26px; z-index: 4; position: relative;
+      background: #fff;
+      border-top-left-radius: 24px; border-top-right-radius: 24px;
+      box-shadow: 0 -8px 28px -12px rgba(0,0,0,0.4);
+      display: flex; flex-direction: column; overflow: hidden;
+      padding-top: 8px;
+    }
+    .vd-vrow { display: flex; align-items: center; gap: 11px; padding: 8px 18px 14px; }
+    .vd-vrow .word { font-size: 28px; line-height: calc(34/28); font-weight: 700; letter-spacing: -0.025em; color: var(--vc); }
+    .vd-vrow .dot { width: 28px; height: 28px; }
+    .vd-vrow .dot svg { width: 16px; height: 16px; }
+    .vd-seg {
+      margin: 0 16px 14px; padding: 2px; border-radius: 10px; background: #e8e8ed;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    }
+    .vd-seg span {
+      text-align: center; padding: 7px 0; font-size: 13px; font-weight: 500;
+      border-radius: 8px; color: #1d1d1f;
+    }
+    .vd-seg span.on { background: #fff; font-weight: 600; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+    .vd-sbody { padding: 0 18px 16px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+    .vd-sbody .act { font-size: 17px; line-height: calc(24/17); font-weight: 600; letter-spacing: -0.01em; }
+    .vd-kv { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.45; color: #6e6e73; }
+    .vd-kv svg { width: 15px; height: 15px; flex: none; margin-top: 2px; }
+    .vd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 8px 16px 16px; }
+    .vd-tile { position: relative; border-radius: 16px; overflow: hidden; height: 148px; }
+    .vd-tile .lab {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 18px 10px 9px;
+      background: linear-gradient(to top, rgba(0,0,0,0.62), rgba(0,0,0,0));
+      color: #fff; font-size: 13px; font-weight: 600; letter-spacing: -0.01em;
+    }
+    .vd-tile .vchip {
+      position: absolute; top: 8px; left: 8px;
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 3px 8px; border-radius: 980px;
+      background: rgba(255,255,255,0.94); color: var(--vc);
+      font-size: 11px; font-weight: 700;
+    }
+    .vd-tile .vchip i { width: 7px; height: 7px; border-radius: 999px; background: var(--vc); display: block; }
+  </style>
+</head>
+<body>
+  <main class="page">
+
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+      <defs>
+        <g id="g-str" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></g>
+      </defs>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 13l4.5 4.5L19 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-help" viewBox="0 0 24 24"><path d="M8.6 9a3.4 3.4 0 1 1 4.2 3.3c-.5.2-.8.7-.8 1.2v.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="18" r="1.4" fill="currentColor"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-chevdown" viewBox="0 0 24 24"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-camera" viewBox="0 0 24 24"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h1.8l1.2-2h6l1.2 2h1.8A2.5 2.5 0 0 1 20 8.5v8A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12.5" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+      <symbol id="i-images" viewBox="0 0 24 24"><rect x="7" y="4" width="14" height="11" rx="2.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M17 18.5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="11.5" cy="8.5" r="1.4" fill="currentColor"/><path d="M8 14l3-3 3 2.6 2-1.6 3 2.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+      <symbol id="i-flash" viewBox="0 0 24 24"><path d="M13 2.5L5 13.5h5.5L10 21.5l8-11h-5.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 12h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-time" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M12 7.2V12l3.2 2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-8.5 8.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 14.5v4a2 2 0 0 1-2 2H5.5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+      <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3.5h7.5L19 9v11.5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-16a1 1 0 0 1 1-1z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M13.5 3.5V9H19M8 13h8M8 16.5h5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-cube" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M3 13l9 5 9-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 3.5s6 6.2 6 10a6 6 0 0 1-12 0c0-3.8 6-10 6-10z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+      <symbol id="i-sym" viewBox="0 0 24 24"><path d="M12 4.2l2.6 4.6h-5.2zM5.6 15.6l2.6-4.6 2.6 4.6zM13.2 15.6h5.2l-2.6 4.6z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+      <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 6 12 6s9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.8" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5.2" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="7.9" r="1.2" fill="currentColor"/></symbol>
+    </svg>
+
+    <header class="doc-header">
+      <div class="doc-eyebrow">Design exploration</div>
+      <h1 class="doc-title">Recyclens — four directions<br>for every screen</h1>
+      <p class="doc-subtitle">
+        Scan, Result and History drawn four ways, on the real <b>Yogurt tub</b> and <b>Coffee cup</b> fixtures
+        from <code>src/vision/mock.ts</code> and the real rule <code>rule-pp</code> from <code>src/rules/pune.json</code>.
+        All four wear the same brand — the Apple-inspired tokens already in <code>src/global.css</code>.
+        What changes is structure: what leads, what is promoted, and how much reasoning is on screen at once.
+      </p>
+      <div class="doc-meta">
+        <div><b>Specs</b> 0002 design system · 0007 verdict screen</div>
+        <div><b>Surfaces</b> Scan, Result, History, Photo</div>
+        <div><b>Generated</b> 2026-10-14</div>
+        <div><b>Variants</b> 4</div>
+      </div>
+    </header>
+
+    <!-- ===== VARIANT A ===== -->
+    <section class="variant">
+      <div class="variant-head">
+        <div class="variant-letter">A</div>
+        <div class="variant-meta">
+          <h2>Grouped Inset</h2>
+          <p class="variant-tradeoff">
+            Every screen is the iOS grouped-inset list — white cards on grey, uppercase section headers, chevron rows.
+            <b>Optimizes for</b> instant familiarity and fast scanning; nothing here has to be learned.
+            <b>·  Tradeoff</b> the verdict reads as one row among many, so the answer loses its weight.
+          </p>
+        </div>
+      </div>
+      <div class="preview-frame">
+        <div class="preview-frame-bar">Variant A · Scan, Result, History</div>
+        <div class="preview">
+          <div class="screens">
+
+            <figure class="screen-slot">
+              <div class="ph va-canvas">
+                <div class="ph-status"><span>11:42</span><span>▮▮▮</span></div>
+                <div class="ph-body">
+                  <div class="va-head"><h1>Scan</h1></div>
+                  <div class="va-cam">
+                    <div class="feed"></div>
+                    <div class="guide" style="top:18px;left:18px;border-top:2px solid;border-left:2px solid;border-radius:12px 0 0 0"></div>
+                    <div class="guide" style="top:18px;right:18px;border-top:2px solid;border-right:2px solid;border-radius:0 12px 0 0"></div>
+                    <div class="guide" style="bottom:48px;left:18px;border-bottom:2px solid;border-left:2px solid;border-radius:0 0 0 12px"></div>
+                    <div class="guide" style="bottom:48px;right:18px;border-bottom:2px solid;border-right:2px solid;border-radius:0 0 12px 0"></div>
+                    <div style="position:absolute;left:0;right:0;bottom:14px;padding:0 20px;color:#fff;font-size:13px;font-weight:500;text-align:center;line-height:1.4">
+                      Fill the frame with the packaging. Include any symbols you can see.
+                    </div>
+                  </div>
+                  <div style="height:16px"></div>
+                  <div class="va-group">
+                    <div class="va-row">
+                      <span class="ico"><svg><use href="#i-images"/></svg></span>
+                      <span class="grow">Choose from gallery</span>
+                      <svg class="ch"><use href="#i-chev"/></svg>
+                    </div>
+                    <div class="va-row">
+                      <span class="ico"><svg><use href="#i-flash"/></svg></span>
+                      <span class="grow">Flash</span>
+                      <span class="va-toggle"></span>
+                    </div>
+                  </div>
+                  <div style="padding:16px;margin-top:auto">
+                    <div class="cta"><svg><use href="#i-camera"/></svg>Take photo</div>
+                  </div>
+                </div>
+                <div class="ph-tabs">
+                  <div class="on"><svg><use href="#i-scan"/></svg>Scan</div>
+                  <div><svg><use href="#i-time"/></svg>History</div>
+                </div>
+              </div>
+              <figcaption>Scan</figcaption>
+            </figure>
+
+            <figure class="screen-slot">
+              <div class="ph va-canvas">
+                <div class="ph-status"><span>11:42</span><span>▮▮▮</span></div>
+                <div class="va-navbar"><svg><use href="#i-back"/></svg>Scan<b>Result</b></div>
+                <div class="ph-scroll">
+                  <div style="height:16px"></div>
+                  <div class="va-group">
+                    <div class="va-row">
+                      <span class="thumb" style="width:40px;height:40px;border-radius:12px"></span>
+                      <span class="grow"><span class="soft">Scanned item</span><br><b style="font-size:17px;font-weight:600">Yogurt tub</b></span>
+                      <svg class="ch"><use href="#i-chev"/></svg>
+                    </div>
+                  </div>
+                  <div style="height:16px"></div>
+                  <div class="va-group v-ok">
+                    <div class="va-verdict">
+                      <div class="word"><span class="dot"><svg><use href="#i-check"/></svg></span>Recyclable</div>
+                      <div class="act">Dry waste, rinse it first</div>
+                      <div><span class="pill">High confidence</span></div>
+                    </div>
+                  </div>
+                  <div class="va-sec lbl">The rule I applied</div>
+                  <div class="va-group">
+                    <div class="va-row" style="display:block;padding:14px">
+                      <span style="font-size:15px;line-height:1.5">Rigid polypropylene, resin code 5, is a recyclable plastic. Empty it, rinse it, and keep it with your dry waste.</span>
+                    </div>
+                    <div class="va-row">
+                      <span class="ico"><svg><use href="#i-doc"/></svg></span>
+                      <span class="grow" style="font-size:13px;line-height:1.35">Plastic Waste Management Rules, 2016 <span class="soft">· National</span></span>
+                      <svg class="ch" style="color:#0062c4"><use href="#i-ext"/></svg>
+                    </div>
+                  </div>
+                  <div class="va-sec lbl">What I saw</div>
+                  <div class="va-group">
+                    <div class="va-row"><span class="grow">Material</span><span class="val">Polypropylene, code 5</span></div>
+                    <div class="va-row"><span class="grow">Form</span><span class="val">Rigid, holds its shape</span></div>
+                    <div class="va-row"><span class="grow">Recycling symbol</span><span class="val">Found, partly faded</span></div>
+                    <div class="va-row"><span class="grow">Construction</span><span class="val">Single material</span></div>
+                  </div>
+                </div>
+              </div>
+              <figcaption>Result</figcaption>
+            </figure>
+
+            <figure class="screen-slot">
+              <div class="ph va-canvas">
+                <div class="ph-status"><span>11:43</span><span>▮▮▮</span></div>
+                <div class="ph-body">
+                  <div class="va-head"><h1>History</h1></div>
+                  <div class="ph-scroll">
+                    <div class="va-sec lbl" style="padding-top:0">Today</div>
+                    <div class="va-group">
+                      <div class="va-row v-ok">
+                        <span class="thumb" style="width:44px;height:44px;border-radius:12px"></span>
+                        <span class="grow">
+                          <b style="font-size:17px;font-weight:600">Yogurt tub</b><br>
+                          <span style="color:var(--vc);font-weight:600">Recyclable</span><span class="soft"> · 11:42 PM</span>
+                        </span>
+                        <svg class="ch"><use href="#i-chev"/></svg>
+                      </div>
+                      <div class="va-row v-maybe">
+                        <span class="thumb" style="width:44px;height:44px;border-radius:12px"></span>
+                        <span class="grow">
+                          <b style="font-size:17px;font-weight:600">Coffee cup</b><br>
+                          <span style="color:var(--vc);font-weight:600">Check manually</span><span class="soft"> · 11:40 PM</span>
+                        </span>
+                        <svg class="ch"><use href="#i-chev"/></svg>
+                      </div>
+                    </div>
+                    <div style="padding:14px 30px;font-size:13px;color:#6e6e73;line-height:1.4">
+                      Swipe a row to delete it.
+                    </div>
+                  </div>
+                </div>
+                <div class="ph-tabs">
+                  <div><svg><use href="#i-scan"/></svg>Scan</div>
+                  <div class="on"><svg><use href="#i-time"/></svg>History</div>
+                </div>
+              </div>
+              <figcaption>History</figcaption>
+            </figure>
+
+          </div>
+        </div>
+      </div>
+      <div class="variant-analysis">
+        <div class="analysis-block">
+          <h4>What works</h4>
+          <p>Nothing has to be learned — this is the list idiom every phone user already reads without thinking, so the six attributes scan at a glance as label/value pairs. It is also the cheapest to build and the hardest to get wrong: no custom chrome, and one new primitive (<b>HistoryRow</b>) rather than four.</p>
+        </div>
+        <div class="analysis-block is-risk">
+          <h4>What risks</h4>
+          <p>The verdict is the product, and here it sits in a card that looks like every other card — "Recyclable" at 28px inside an inset group reads as a setting, not an answer. It also leans hardest into Cross-Platform Costume: iOS Settings rendered on Android is the most recognisable tell of the four.</p>
+        </div>
+        <div class="analysis-block is-pick">
+          <h4>Pick this if</h4>
+          <p>You want the lowest-risk build and a demo nobody can misread, and you accept the verdict sharing visual weight with its evidence.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== VARIANT B ===== -->
+    <section class="variant">
+      <div class="variant-head">
+        <div class="variant-letter">B</div>
+        <div class="variant-meta">
+          <h2>Answer First</h2>
+          <p class="variant-tradeoff">
+            The verdict owns the first screenful as a tinted hero; all six reads and the rule collapse behind one <i>Why this answer</i> row. The camera goes full-bleed with glass controls over it.
+            <b>Optimizes for</b> the answer landing in under a second, and a camera that feels like a camera.
+            <b>·  Tradeoff</b> the reasoning — the product's entire claim — is one tap away instead of on screen.
+          </p>
+        </div>
+      </div>
+      <div class="preview-frame">
+        <div class="preview-frame-bar">Variant B · Scan, Result, History</div>
+        <div class="preview">
+          <div class="screens">
+
+            <figure class="screen-slot">
+              <div class="ph">
+                <div class="ph-status" style="position:absolute;left:0;right:0;top:0;z-index:3;color:#fff"><span>11:42</span><span>▮▮▮</span></div>
+                <div class="ph-body">
+                  <div class="vb-cam">
+                    <div class="feed"></div>
+                    <div class="vb-wordmark"><span class="mk"><svg><use href="#i-scan"/></svg></span>Recyclens</div>
+                    <div class="guide" style="top:92px;left:26px;border-top:2px solid;border-left:2px solid;border-radius:12px 0 0 0"></div>
+                    <div class="guide" style="top:92px;right:26px;border-top:2px solid;border-right:2px solid;border-radius:0 12px 0 0"></div>
+                    <div class="guide" style="bottom:160px;left:26px;border-bottom:2px solid;border-left:2px solid;border-radius:0 0 0 12px"></div>
+                    <div class="guide" style="bottom:160px;right:26px;border-bottom:2px solid;border-right:2px solid;border-radius:0 0 12px 0"></div>
+                    <div class="vb-hint">Fill the frame with the packaging.<br>Include any symbols you can see.</div>
+                    <div class="vb-controls">
+                      <div class="vb-glass"><svg><use href="#i-images"/></svg></div>
+                      <div class="vb-shutter"><i></i></div>
+                      <div class="vb-glass"><svg><use href="#i-flash"/></svg></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ph-tabs">
+                  <div class="on"><svg><use href="#i-scan"/></svg>Scan</div>
+                  <div><svg><use href="#i-time"/></svg>History</div>
+                </div>
+              </div>
+              <figcaption>Scan</figcaption>
+            </figure>
+
+            <figure class="screen-slot">
+              <div class="ph">
+                <div class="ph-status"><span>11:42</span><span>▮▮▮</span></div>
+                <div class="vb-back"><svg><use href="#i-back"/></svg></div>
+                <div class="ph-body">
+                  <div class="vb-hero v-ok">
+                    <div class="item">Yogurt tub</div>
+                    <div class="word"><span class="dot"><svg><use href="#i-check"/></svg></span>Recyclable</div>
+                    <div class="act">Dry waste, rinse it first</div>
+                    <div><span class="pill" style="background:#fff">High confidence</span></div>
+                  </div>
+                  <div style="height:8px"></div>
+                  <div class="vb-disclose">
+                    <b>Why this answer</b>
+                    <span class="soft" style="font-size:13px">1 rule, 6 reads</span>
+                    <svg><use href="#i-chevdown"/></svg>
+                  </div>
+                  <div class="vb-disclose">
+                    <b style="font-weight:400">The photo you took</b>
+                    <span class="thumb" style="width:34px;height:34px;border-radius:10px"></span>
+                    <svg><use href="#i-chev"/></svg>
+                  </div>
+                  <div style="padding:20px 16px;margin-top:auto">
+                    <div class="cta"><svg><use href="#i-camera"/></svg>Scan another</div>
+                    <div style="padding-top:14px;text-align:center;font-size:13px;color:#6e6e73;line-height:1.45">
+                      Scanned 14 Oct 2026, 11:42 PM<br>Pune, India · rules 1.1.0
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <figcaption>Result</figcaption>
+            </figure>
+
+            <figure class="screen-slot">
+              <div class="ph">
+                <div class="ph-status"><span>11:43</span><span>▮▮▮</span></div>
+                <div class="ph-body">
+                  <div class="ph-scroll">
+                    <div class="vb-day">Today</div>
+                    <div class="vb-list">
+                      <div class="vb-hrow v-ok">
+                        <span class="nm">Yogurt tub</span>
+                        <span class="vd"><i></i>Recyclable</span>
+                      </div>
+                      <div class="vb-hrow v-maybe">
+                        <span class="nm">Coffee cup</span>
+                        <span class="vd"><i></i>Check manually</span>
+                      </div>
+                    </div>
+                    <div style="padding:30px 20px;text-align:center;font-size:13px;color:#6e6e73;line-height:1.5">
+                      Scans are kept on this phone only.
+                    </div>
+                  </div>
+                </div>
+                <div class="ph-tabs">
+                  <div><svg><use href="#i-scan"/></svg>Scan</div>
+                  <div class="on"><svg><use href="#i-time"/></svg>History</div>
+                </div>
+              </div>
+              <figcaption>History</figcaption>
+            </figure>
+
+          </div>
+        </div>
+      </div>
+      <div class="flagstrip">
+        <b>Manifest</b>
+        <span>The <i>1 rule, 6 reads</i> counter is honest for a fresh scan but not for a reopened one — <code>StoredAttributes</code> is <code>Partial</code>, so an older scan can carry fewer than six. The disclosure row has to count what is actually there, not print "6".</span>
+      </div>
+      <div class="variant-analysis">
+        <div class="analysis-block">
+          <h4>What works</h4>
+          <p>Someone holding a yogurt tub over a bin gets their answer without reading anything else, and the tinted hero gives each verdict its own unmistakable colour field while still carrying icon and word. The full-bleed camera is also the only variant where the viewfinder looks like a real camera app rather than a photo in a card.</p>
+        </div>
+        <div class="analysis-block is-risk">
+          <h4>What risks</h4>
+          <p>Recyclens exists because it shows its reasoning; folding the rule, its citation and all six reads behind one row concedes exactly that. In a four-person project graded on a defensible ML component, a demo where the evidence never appears on screen is the weakest possible framing of your own work.</p>
+        </div>
+        <div class="analysis-block is-pick">
+          <h4>Pick this if</h4>
+          <p>You think the real user is mid-bin-decision and will almost never open the reasoning, and you are willing to defend that in the write-up.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== VARIANT C ===== -->
+    <section class="variant">
+      <div class="variant-head">
+        <div class="variant-letter">C</div>
+        <div class="variant-meta">
+          <h2>Evidence Record</h2>
+          <p class="variant-tradeoff">
+            The result reads as an audit record: verdict as a compact band, the cited rule promoted directly under it, then all six reads as a dense evidence table with the deciding row highlighted. Provenance is visible from the Scan screen onward.
+            <b>Optimizes for</b> defensibility — every claim on screen shows where it came from.
+            <b>·  Tradeoff</b> the densest of the four; the answer competes with its own evidence.
+          </p>
+        </div>
+      </div>
+      <div class="preview-frame">
+        <div class="preview-frame-bar">Variant C · Scan, Result, History</div>
+        <div class="preview">
+          <div class="screens">
+
+            <figure class="screen-slot">
+              <div class="ph">
+                <div class="ph-status"><span>11:42</span><span>▮▮▮</span></div>
+                <div class="ph-body">
+                  <div class="vc-bar">
+                    <span class="mk"><svg><use href="#i-scan"/></svg></span>
+                    <span class="nm">Recyclens</span>
+                    <span class="pill">Pune · rules 1.1.0</span>
+                  </div>
+                  <div class="vc-cam">
+                    <div class="feed"></div>
+                    <div class="guide" style="top:18px;left:18px;border-top:2px solid;border-left:2px solid;border-radius:12px 0 0 0"></div>
+                    <div class="guide" style="top:18px;right:18px;border-top:2px solid;border-right:2px solid;border-radius:0 12px 0 0"></div>
+                    <div class="guide" style="bottom:18px;left:18px;border-bottom:2px solid;border-left:2px solid;border-radius:0 0 0 12px"></div>
+                    <div class="guide" style="bottom:18px;right:18px;border-bottom:2px solid;border-right:2px solid;border-radius:0 0 12px 0"></div>
+                  </div>
+                  <div class="vc-strip">
+                    <svg><use href="#i-info"/></svg>
+                    <span>Fill the frame with the packaging. Your photo is sent to the Recyclens service to be read — nothing is sent until you press the shutter.</span>
+                  </div>
+                  <div class="vc-ctrls" style="margin-top:auto">
+                    <div class="vc-ctrl">
+                      <span class="tile"><svg><use href="#i-images"/></svg></span>
+                      <span>Gallery</span>
+                    </div>
+                    <div class="vc-shutter"><i><svg><use href="#i-camera"/></svg></i></div>
+                    <div class="vc-ctrl">
+                      <span class="tile"><svg><use href="#i-flash"/></svg></span>
+                      <span>Flash</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="ph-tabs">
+                  <div class="on"><svg><use href="#i-scan"/></svg>Scan</div>
+                  <div><svg><use href="#i-time"/></svg>History</div>
+                </div>
+              </div>
+              <figcaption>Scan</figcaption>
+            </figure>
+
+            <figure class="screen-slot">
+              <div class="ph">
+                <div class="ph-status"><span>11:42</span><span>▮▮▮</span></div>
+                <div class="ph-body">
+                  <div class="vc-head">
+                    <span class="thumb" style="width:48px;height:48px;border-radius:16px"></span>
+                    <span class="meta">
+                      <b>Yogurt tub</b>
+                      <span>14 Oct 2026, 11:42 PM · Pune, India</span>
+                    </span>
+                    <svg style="width:17px;height:17px;color:#c4c4c9"><use href="#i-chev"/></svg>
+                  </div>
+                  <div class="vc-vstrip v-ok">
+                    <span class="dot"><svg><use href="#i-check"/></svg></span>
+                    <span style="flex:1">
+                      <span class="word">Recyclable</span><br>
+                      <span class="act">Dry waste, rinse it first</span>
+                    </span>
+                    <span class="pill" style="background:#fff">High</span>
+                  </div>
+                  <div class="ph-scroll">
+                    <div class="vc-sec"><span class="lbl">The rule I applied</span><span class="ct">rule-pp</span></div>
+                    <div class="vc-body">
+                      <div class="vc-rule">Rigid polypropylene, resin code 5, is a recyclable plastic. Empty it, rinse it, and keep it with your dry waste.</div>
+                      <div class="vc-cite">
+                        <svg class="d"><use href="#i-doc"/></svg>
+                        <span class="t">
+                          <b>Plastic Waste Management Rules, 2016 (India)</b>
+                          <a>cpcb.nic.in/plastic-waste</a>
+                        </span>
+                        <span class="pill">National</span>
+                      </div>
+                    </div>
+                    <div class="vc-sec"><span class="lbl">What I saw</span><span class="ct">6 reads</span></div>
+                    <div class="vc-body">
+                      <div class="vc-tbl">
+                        <div class="vc-tr lead">
+                          <span class="ic"><svg><use href="#i-cube"/></svg></span>
+                          <span><span class="k">Material · decided on</span><span class="v">Polypropylene, code 5</span></span>
+                          <span class="c">High</span>
+                        </div>
+                        <div class="vc-tr">
+                          <span class="ic"><svg><use href="#i-layers"/></svg></span>
+                          <span><span class="k">Form</span><span class="v">Rigid, holds its shape</span></span>
+                          <span class="c">High</span>
+                        </div>
+                        <div class="vc-tr">
+                          <span class="ic"><svg><use href="#i-sym"/></svg></span>
+                          <span><span class="k">Recycling symbol</span><span class="v">Found, partly faded</span></span>
+                          <span class="c">Medium</span>
+                        </div>
+                        <div class="vc-tr">
+                          <span class="ic"><svg><use href="#i-drop"/></svg></span>
+                          <span><span class="k">Cleanliness</span><span class="v">A little yogurt left inside</span></span>
+                          <span class="c">Medium</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="vc-note">
+                      <svg><use href="#i-info"/></svg>
+                      <span>The symbol was faded, so the material was judged from the shape and surface too.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <figcaption>Result</figcaption>
+            </figure>
+
+            <figure class="screen-slot">
+              <div class="ph">
+                <div class="ph-status"><span>11:43</span><span>▮▮▮</span></div>
+                <div class="ph-body">
+                  <div class="vc-bar"><span class="nm" style="font-size:28px">History</span></div>
+                  <div class="vc-chips">
+                    <span class="pill on">All</span>
+                    <span class="pill">Recyclable</span>
+                    <span class="pill">Check manually</span>
+                  </div>
+                  <div class="ph-scroll">
+                    <div style="padding:4px 16px 8px" class="lbl">Today</div>
+                    <div class="vc-hrow v-ok">
+                      <span class="thumb" style="width:40px;height:40px;border-radius:12px"></span>
+                      <span class="nm">Yogurt tub<span>rule-pp · National</span></span>
+                      <span class="vp"><i></i>Recyclable</span>
+                      <span class="tm">11:42 PM</span>
+                    </div>
+                    <div class="vc-hrow v-maybe">
+                      <span class="thumb" style="width:40px;height:40px;border-radius:12px"></span>
+                      <span class="nm">Coffee cup<span>gate-material-unreadable</span></span>
+                      <span class="vp"><i></i>Check</span>
+                      <span class="tm">11:40 PM</span>
+                    </div>
+                    <div style="padding:16px;font-size:13px;color:#6e6e73;line-height:1.45">
+                      2 scans, both under rules 1.1.0.
+                    </div>
+                  </div>
+                </div>
+                <div class="ph-tabs">
+                  <div><svg><use href="#i-scan"/></svg>Scan</div>
+                  <div class="on"><svg><use href="#i-time"/></svg>History</div>
+                </div>
+              </div>
+              <figcaption>History</figcaption>
+            </figure>
+
+          </div>
+        </div>
+      </div>
+      <div class="flagstrip">
+        <b>Manifest</b>
+        <span>The history row's second line (<code>rule-pp · National</code>) is <b>aspirational</b>: <code>listScans</code> selects six columns and never parses a stored attribute payload (spec 0006, AC-8). Showing it means widening <code>ScanSummary</code> — a real cost this direction has to pay or drop.</span>
+      </div>
+      <div class="variant-analysis">
+        <div class="analysis-block">
+          <h4>What works</h4>
+          <p>This is the only direction that argues the product's thesis on screen: verdict, then the named rule, then the cited document with its authority chip, then the evidence with the deciding read called out. For a graded project it is also the most demonstrable — a marker can trace any answer back to a source without tapping anything.</p>
+        </div>
+        <div class="analysis-block is-risk">
+          <h4>What risks</h4>
+          <p>Density is the cost: the verdict band is compact enough that on a bright phone outdoors it can lose to the table under it, and the 11px uppercase captions sit below the four-size type scale, so either the scale gains a fifth size or those captions grow and the table gets taller.</p>
+        </div>
+        <div class="analysis-block is-pick">
+          <h4>Pick this if</h4>
+          <p>The reasoning is the product and the submission is graded on it — and you would rather defend density than defend a hidden rule.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== VARIANT D ===== -->
+    <section class="variant">
+      <div class="variant-head">
+        <div class="variant-letter">D</div>
+        <div class="variant-meta">
+          <h2>Sheet over Photo</h2>
+          <p class="variant-tradeoff">
+            Apple's Visual Look Up idiom: the shot you just took stays on screen and the answer rides up over it on a sheet, with a segmented control switching between Answer, Rule and Reads. History becomes a photo grid.
+            <b>Optimizes for</b> unbroken continuity from shutter to answer — you never lose sight of what you photographed.
+            <b>·  Tradeoff</b> a hand-rolled sheet plus a photo-dependent history, in a codebase that already flags hand-rolled chrome as a known debt.
+          </p>
+        </div>
+      </div>
+      <div class="preview-frame">
+        <div class="preview-frame-bar">Variant D · Scan, Result, History</div>
+        <div class="preview">
+          <div class="screens">
+
+            <figure class="screen-slot">
+              <div class="ph">
+                <div class="ph-status" style="position:absolute;left:0;right:0;top:0;z-index:5;color:#fff"><span>11:42</span><span>▮▮▮</span></div>
+                <div class="ph-body">
+                  <div class="vd-cam">
+                    <div class="feed"></div>
+                    <div class="guide" style="top:86px;left:26px;border-top:2px solid;border-left:2px solid;border-radius:12px 0 0 0"></div>
+                    <div class="guide" style="top:86px;right:26px;border-top:2px solid;border-right:2px solid;border-radius:0 12px 0 0"></div>
+                    <div class="guide" style="bottom:226px;left:26px;border-bottom:2px solid;border-left:2px solid;border-radius:0 0 0 12px"></div>
+                    <div class="guide" style="bottom:226px;right:26px;border-bottom:2px solid;border-right:2px solid;border-radius:0 0 12px 0"></div>
+                    <div style="position:absolute;left:24px;right:24px;bottom:166px;z-index:2;text-align:center;color:#fff;font-size:13px;font-weight:500;line-height:1.4;text-shadow:0 1px 6px rgba(0,0,0,0.5)">
+                      Fill the frame with the packaging.<br>Include any symbols you can see.
+                    </div>
+                    <div class="vd-ctrls">
+                      <div class="vd-glass"><svg><use href="#i-images"/></svg></div>
+                      <div class="vd-shutter"><i></i></div>
+                      <div class="vd-glass"><svg><use href="#i-flash"/></svg></div>
+                    </div>
+                    <div class="vd-peek">
+                      <div class="vd-grab"></div>
+                      <div class="row">
+                        <b>Recent scans</b>
+                        <span class="thumb t"></span>
+                        <span class="thumb t"></span>
+                        <svg style="width:15px;height:15px;color:#6e6e73"><use href="#i-chev"/></svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <figcaption>Scan</figcaption>
+            </figure>
+
+            <figure class="screen-slot">
+              <div class="ph">
+                <div class="ph-status" style="position:absolute;left:0;right:0;top:0;z-index:5;color:#fff"><span>11:42</span><span>▮▮▮</span></div>
+                <div class="ph-body">
+                  <div class="vd-photo">
+                    <div class="feed" style="background:radial-gradient(120% 80% at 50% 30%, #585d64 0%, #33373c 55%, #1b1d20 100%)"></div>
+                    <div class="close"><svg><use href="#i-close"/></svg></div>
+                    <div class="tap"><svg><use href="#i-eye"/></svg>Tap to enlarge</div>
+                  </div>
+                  <div class="vd-sheet v-ok">
+                    <div class="vd-grab"></div>
+                    <div class="vd-vrow">
+                      <span class="dot"><svg><use href="#i-check"/></svg></span>
+                      <span style="flex:1">
+                        <span class="soft" style="font-size:13px">Yogurt tub</span><br>
+                        <span class="word">Recyclable</span>
+                      </span>
+                      <span class="pill">High</span>
+                    </div>
+                    <div class="vd-seg">
+                      <span class="on">Answer</span><span>Rule</span><span>Reads</span>
+                    </div>
+                    <div class="vd-sbody">
+                      <div class="act">Dry waste, rinse it first</div>
+                      <div class="vd-kv">
+                        <svg><use href="#i-info"/></svg>
+                        <span>The symbol was faded, so the material was judged from the shape and surface too.</span>
+                      </div>
+                      <div class="hair"></div>
+                      <div class="vd-kv">
+                        <svg><use href="#i-doc"/></svg>
+                        <span>Decided by <b style="color:#1d1d1f;font-weight:600">rule-pp</b>, from the Plastic Waste Management Rules, 2016. Pune, India · rules 1.1.0</span>
+                      </div>
+                      <div class="cta" style="margin-top:4px"><svg><use href="#i-camera"/></svg>Scan another</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <figcaption>Result</figcaption>
+            </figure>
+
+            <figure class="screen-slot">
+              <div class="ph">
+                <div class="ph-status"><span>11:43</span><span>▮▮▮</span></div>
+                <div class="ph-body">
+                  <div style="flex:none;padding:4px 16px 10px">
+                    <h1 style="margin:0;font-size:28px;line-height:calc(34/28);font-weight:700;letter-spacing:-0.02em">History</h1>
+                  </div>
+                  <div class="ph-scroll">
+                    <div style="padding:0 16px 6px" class="lbl">Today</div>
+                    <div class="vd-grid">
+                      <div class="vd-tile thumb v-ok">
+                        <span class="vchip"><i></i>Recyclable</span>
+                        <span class="lab">Yogurt tub</span>
+                      </div>
+                      <div class="vd-tile thumb v-maybe">
+                        <span class="vchip"><i></i>Check</span>
+                        <span class="lab">Coffee cup</span>
+                      </div>
+                    </div>
+                    <div style="padding:4px 16px;font-size:13px;color:#6e6e73;line-height:1.45">
+                      Press and hold a scan to delete it.
+                    </div>
+                  </div>
+                </div>
+                <div class="ph-tabs">
+                  <div><svg><use href="#i-scan"/></svg>Scan</div>
+                  <div class="on"><svg><use href="#i-time"/></svg>History</div>
+                </div>
+              </div>
+              <figcaption>History</figcaption>
+            </figure>
+
+          </div>
+        </div>
+      </div>
+      <div class="flagstrip">
+        <b>Manifest</b>
+        <span>The photo grid is <b>⚠️ Sometimes</b> data. <code>src/db/index.ts</code> warns that <code>photoUri</code> can point at a file that is no longer there, and <code>photo.tsx</code> already ships a "That photo is gone" state — a grid built on photos needs a per-tile fallback that a text list would not.</span>
+      </div>
+      <div class="variant-analysis">
+        <div class="analysis-block">
+          <h4>What works</h4>
+          <p>Continuity: the thing you photographed never leaves the screen, so "Recyclable" is visibly attached to <i>that</i> tub rather than to an abstract record. The segmented control is also the only structure here that fits the answer, the rule and all six reads on one screen with no scrolling and no hidden disclosure.</p>
+        </div>
+        <div class="analysis-block is-risk">
+          <h4>What risks</h4>
+          <p>It is the most build, by a distance — a draggable sheet, a segmented control and a grid, none of which exist in <code>src/components/</code> today, on a project where the Scan screen's own camera chain is still unproven on a device. The segmented control also hides two of three panels, which is the same concession variant B makes, just in smaller print.</p>
+        </div>
+        <div class="analysis-block is-pick">
+          <h4>Pick this if</h4>
+          <p>The demo is the deliverable and you have time to spend on motion — this is the one that will look best in a two-minute video.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Shared across all four ===== -->
+    <section class="variant">
+      <div class="variant-head">
+        <div class="variant-letter" style="background:#6e6e73">=</div>
+        <div class="variant-meta">
+          <h2>The same in all four</h2>
+          <p class="variant-tradeoff">
+            Two surfaces are not a choice between directions, so they are drawn once.
+            The <b>Photo modal</b> is fixed by spec 0007 AC-10: the photo is judged against ink, not against a white app surface, because a white surround throws a colour cast onto the thing you are trying to look at.
+            The <b>state screens</b> all come from one <code>StateView</code> — icon, title, explanation, up to two actions — and whichever direction wins inherits them unchanged.
+          </p>
+        </div>
+      </div>
+      <div class="preview-frame">
+        <div class="preview-frame-bar">Shared · Photo modal, permission state, failure state</div>
+        <div class="preview">
+          <div class="screens">
+
+            <figure class="screen-slot">
+              <div class="ph" style="background:#1d1d1f">
+                <div class="ph-status" style="color:#fff"><span>11:42</span><span>▮▮▮</span></div>
+                <div class="ph-body">
+                  <div style="flex:1;min-height:0;position:relative">
+                    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+                      <span class="thumb" style="width:196px;height:250px;border-radius:4px"></span>
+                    </div>
+                  </div>
+                  <div style="padding:16px">
+                    <div class="cta">Done</div>
+                  </div>
+                </div>
+              </div>
+              <figcaption>Photo modal</figcaption>
+            </figure>
+
+            <figure class="screen-slot">
+              <div class="ph">
+                <div class="ph-status"><span>11:41</span><span>▮▮▮</span></div>
+                <div class="ph-body">
+                  <div class="vc-bar">
+                    <span class="mk"><svg><use href="#i-scan"/></svg></span>
+                    <span class="nm">Recyclens</span>
+                  </div>
+                  <div style="flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center">
+                    <span style="width:64px;height:64px;border-radius:16px;background:#f5f5f7;color:#6e6e73;display:flex;align-items:center;justify-content:center">
+                      <svg style="width:30px;height:30px"><use href="#i-camera"/></svg>
+                    </span>
+                    <b style="font-size:28px;line-height:calc(34/28);font-weight:700;letter-spacing:-0.02em">Recyclens needs the camera</b>
+                    <span style="font-size:17px;line-height:calc(24/17);color:#6e6e73">It reads the packaging from a photo you take, which is sent to the Recyclens service to be read. Nothing is sent until you press the shutter.</span>
+                    <div style="align-self:stretch;display:flex;flex-direction:column;gap:10px;padding-top:8px">
+                      <div class="cta"><svg><use href="#i-camera"/></svg>Allow camera</div>
+                      <div style="min-height:48px;display:flex;align-items:center;justify-content:center;color:#0062c4;font-size:17px;font-weight:500">Or pick a photo from your gallery</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ph-tabs">
+                  <div class="on"><svg><use href="#i-scan"/></svg>Scan</div>
+                  <div><svg><use href="#i-time"/></svg>History</div>
+                </div>
+              </div>
+              <figcaption>Camera refused</figcaption>
+            </figure>
+
+            <figure class="screen-slot">
+              <div class="ph">
+                <div class="ph-status"><span>11:44</span><span>▮▮▮</span></div>
+                <div class="ph-body">
+                  <div style="flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center">
+                    <span style="width:64px;height:64px;border-radius:16px;background:#f5f5f7;color:#6e6e73;display:flex;align-items:center;justify-content:center">
+                      <svg style="width:30px;height:30px"><use href="#i-doc"/></svg>
+                    </span>
+                    <b style="font-size:28px;line-height:calc(34/28);font-weight:700;letter-spacing:-0.02em">That scan is gone</b>
+                    <span style="font-size:17px;line-height:calc(24/17);color:#6e6e73">It looks like it was deleted. Everything else in your history is still here.</span>
+                    <div style="align-self:stretch;padding-top:8px">
+                      <div class="cta"><svg><use href="#i-camera"/></svg>Scan something</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ph-tabs">
+                  <div><svg><use href="#i-scan"/></svg>Scan</div>
+                  <div class="on"><svg><use href="#i-time"/></svg>History</div>
+                </div>
+              </div>
+              <figcaption>Scan unreadable</figcaption>
+            </figure>
+
+          </div>
+        </div>
+      </div>
+      <div class="variant-analysis">
+        <div class="analysis-block">
+          <h4>Already decided</h4>
+          <p>The photo-on-ink treatment, the five storage-failure messages and the camera-permission copy are settled in spec 0007 and in <code>src/screens/result/index.tsx</code>. None of the four directions touches them.</p>
+        </div>
+        <div class="analysis-block is-risk">
+          <h4>Still open</h4>
+          <p>The two <code>dev-*</code> routes are excluded here — features 8 and 11 delete them. If either survives to the demo it needs a treatment, and none of these four give it one.</p>
+        </div>
+        <div class="analysis-block is-pick">
+          <h4>Inherited either way</h4>
+          <p>Whichever direction wins, <code>StateView</code>, <code>AppButton</code>, <code>IconTile</code> and <code>verdict.ts</code> carry over. The choice is layout, not primitives.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Decision row ===== -->
+    <section class="decision">
+      <h3>How to pick a direction</h3>
+      <p class="decision-sub">Pick on the tradeoff you are willing to defend, not on which screenshot looks best.</p>
+      <div class="decision-grid">
+        <div class="decision-cell">
+          <b>If you want → A</b>
+          <span>The cheapest, least-risky build, and you accept that the verdict shares weight with everything around it.</span>
+        </div>
+        <div class="decision-cell">
+          <b>If you want → B</b>
+          <span>The answer to land in under a second for someone standing over a bin, with the reasoning one tap behind it.</span>
+        </div>
+        <div class="decision-cell">
+          <b>If you want → C</b>
+          <span>The reasoning argued on screen — verdict, named rule, cited source, deciding read. The defensible one.</span>
+        </div>
+        <div class="decision-cell">
+          <b>If you want → D</b>
+          <span>The best two-minute demo, and you have the time to build a sheet, a segmented control and a grid.</span>
+        </div>
+      </div>
+      <div style="margin-top:28px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.16);font-size:14px;line-height:1.55;color:rgba(255,255,255,0.82)">
+        <b style="color:#d7e5f6;display:block;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px">A reading, not a vote</b>
+        <span>
+          Recyclens is a four-person graded project whose stated claim is that you can read its reasoning and trust it.
+          <b style="color:#fff">C is the direction that argues that claim</b>, and its two real costs — density, and an 11px caption that the four-size scale does not have —
+          are both fixable: promote the captions to <code>text-label</code> and let the table grow.
+          B is the strongest if you decide the claim is marketing and the real use is bin-side.
+          A and D are the honest poles: A is what you build if time runs out, D is what you build if it does not.
+        </span>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

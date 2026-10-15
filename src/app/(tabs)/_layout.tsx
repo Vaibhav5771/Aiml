@@ -40,10 +40,7 @@ export default function TabsLayout() {
    * and a fixed height can only satisfy one of them). The bottom safe area
    * inset is added on top because the bar owns it now that it is flush.
    */
-  const barHeight = Math.max(
-    48,
-    ICON_SIZE + LABEL_LINE_HEIGHT * fontScale + BREATHING_ROOM
-  );
+  const barHeight = Math.max(48, ICON_SIZE + LABEL_LINE_HEIGHT * fontScale + BREATHING_ROOM);
 
   return (
     <Tabs
@@ -60,7 +57,8 @@ export default function TabsLayout() {
           shadowOpacity: 0,
         },
         tabBarLabelStyle: { fontSize: 13, fontWeight: '500' },
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{

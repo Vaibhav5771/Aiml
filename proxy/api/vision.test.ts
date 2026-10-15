@@ -51,7 +51,10 @@ describe('readPackaging: the happy path', () => {
 
 describe('readPackaging: the one retry', () => {
   it('retries exactly once when the first reply fails validation', async () => {
-    const call = stubCall({ ok: true, text: '{"packagingFound":true}' }, { ok: true, text: VALID_REPLY });
+    const call = stubCall(
+      { ok: true, text: '{"packagingFound":true}' },
+      { ok: true, text: VALID_REPLY },
+    );
     const result = await readPackaging(call, never);
 
     assert.equal(result.ok, true);
@@ -151,7 +154,10 @@ describe('callErrorCode', () => {
   });
 
   it('maps any other API error to vision_unavailable', () => {
-    assert.equal(callErrorCode(new SdkError('InternalServerError', 500), false), 'vision_unavailable');
+    assert.equal(
+      callErrorCode(new SdkError('InternalServerError', 500), false),
+      'vision_unavailable',
+    );
     assert.equal(
       callErrorCode(new ApiError({ message: 'boom', status: 500 }), false),
       'vision_unavailable',
@@ -184,7 +190,10 @@ describe('the handler: request validation', () => {
   });
 
   const post = (body: unknown) =>
-    new Request(URL, { method: 'POST', body: typeof body === 'string' ? body : JSON.stringify(body) });
+    new Request(URL, {
+      method: 'POST',
+      body: typeof body === 'string' ? body : JSON.stringify(body),
+    });
 
   async function errorFrom(request: Request): Promise<{ status: number; error: string }> {
     const response = await handler(request);

@@ -52,8 +52,9 @@ export function AppButton({
         'focus-ring flex-1 min-h-[52px] rounded-button items-center justify-center px-4',
         isPrimary ? 'bg-primary' : 'bg-card border border-primary',
         inactive ? 'opacity-40' : 'active:opacity-85',
-        className
-      )}>
+        className,
+      )}
+    >
       {loading ? (
         <ActivityIndicator color={tint} />
       ) : (
@@ -62,8 +63,9 @@ export function AppButton({
           <Text
             className={cn(
               'text-body font-semibold text-center',
-              isPrimary ? 'text-card' : 'text-primary'
-            )}>
+              isPrimary ? 'text-card' : 'text-primary',
+            )}
+          >
             {label}
           </Text>
         </View>

@@ -11,19 +11,14 @@ import { Text, View } from '@/tw';
  * It exists so nothing on screen claims more certainty than the attributes
  * support, which is an explicit requirement of feature 9.
  */
-export function NoteRow({
-  children,
-  className,
-}: {
-  children: string;
-  className?: string;
-}) {
+export function NoteRow({ children, className }: { children: string; className?: string }) {
   return (
     <View
       className={cn(
         'flex-row gap-2 bg-note-surface border border-note-edge rounded-card p-4',
-        className
-      )}>
+        className,
+      )}
+    >
       <Ionicons
         name="information-circle-outline"
         size={18}
