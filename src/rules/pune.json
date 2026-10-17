@@ -1,24 +1,36 @@
 {
   "region": "Pune, India",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "gates": [
     {
       "id": "gate-photo-unreadable",
-      "when": { "photoQuality": ["poor"] },
+      "when": {
+        "photoQuality": ["poor"]
+      },
       "action": "Take another photo in better light",
       "text": "The photo was too unclear to read the packaging properly. A verdict built on a photo this poor would not be worth trusting, so nothing is decided from it.",
-      "source": { "document": "General recycling practice", "scope": "general" }
+      "source": {
+        "document": "General recycling practice",
+        "scope": "general"
+      }
     },
     {
       "id": "gate-material-unreadable",
-      "when": { "material": ["unknown"] },
+      "when": {
+        "material": ["unknown"]
+      },
       "action": "Check the packaging yourself",
       "text": "The material could not be identified with enough confidence. Every rule here turns on what the item is made of, so without that there is nothing to apply.",
-      "source": { "document": "General recycling practice", "scope": "general" }
+      "source": {
+        "document": "General recycling practice",
+        "scope": "general"
+      }
     },
     {
       "id": "gate-multi-material",
-      "when": { "construction": ["multi_material"] },
+      "when": {
+        "construction": ["multi_material"]
+      },
       "action": "Separate the parts if you can, then check each one",
       "text": "Two or more materials are joined together. Recycling handles each material separately, and the Plastic Waste Management Rules single out multilayered packaging as its own category for exactly this reason.",
       "source": {
@@ -29,13 +41,25 @@
     },
     {
       "id": "gate-heavy-residue",
-      "when": { "contamination": ["heavy_residue"] },
+      "when": {
+        "contamination": ["heavy_residue"]
+      },
       "action": "Clean it out, then look again",
       "text": "Too much food or liquid is left inside. Dry waste has to be kept clean and dry to be worth recycling, and heavily soiled packaging is usually rejected.",
       "source": {
         "document": "Solid Waste Management Rules, 2016 (India)",
         "scope": "national",
         "url": "https://cpcb.nic.in/rules-2/"
+      }
+    },
+    {
+      "id": "gate-models-disagree",
+      "when": {},
+      "action": "Check the packaging yourself",
+      "text": "Two models read this photo and did not see the same kind of material. One reads the packaging and its symbols; the other is trained only on photographs of waste, and they are wrong in different ways, so when they conflict neither one can be shown to be the right one. A disagreement can only hold an answer back here, never give one, so no rule below was overruled.",
+      "source": {
+        "document": "Recyclens second opinion: Recycling-Net-11, a SigLIP2 classifier over 11 waste classes, read the same photo and reached a different material family",
+        "scope": "model"
       }
     },
     {
@@ -67,23 +91,36 @@
     },
     {
       "id": "rule-ps-foam",
-      "when": { "material": ["ps"], "form": ["foam"] },
+      "when": {
+        "material": ["ps"],
+        "form": ["foam"]
+      },
       "verdict": "notRecyclable",
       "action": "Dry waste, but not for recycling",
       "text": "Expanded polystyrene foam is almost entirely air, so collecting and carrying it costs more than the plastic ever recovered from it. Very few recyclers take it.",
-      "source": { "document": "General recycling practice", "scope": "general" }
+      "source": {
+        "document": "General recycling practice",
+        "scope": "general"
+      }
     },
     {
       "id": "rule-ps",
-      "when": { "material": ["ps"] },
+      "when": {
+        "material": ["ps"]
+      },
       "verdict": "notRecyclable",
       "action": "Dry waste, but not for recycling",
       "text": "Polystyrene, resin code 6, is seldom accepted for recycling in India. It still belongs with your dry waste rather than your wet waste, but do not expect it to be recycled.",
-      "source": { "document": "General recycling practice", "scope": "general" }
+      "source": {
+        "document": "General recycling practice",
+        "scope": "general"
+      }
     },
     {
       "id": "rule-pet",
-      "when": { "material": ["pet"] },
+      "when": {
+        "material": ["pet"]
+      },
       "verdict": "recyclable",
       "action": "Dry waste",
       "text": "PET, resin code 1, is the most widely recycled plastic in India. Empty it and keep it with your dry waste.",
@@ -95,7 +132,9 @@
     },
     {
       "id": "rule-hdpe",
-      "when": { "material": ["hdpe"] },
+      "when": {
+        "material": ["hdpe"]
+      },
       "verdict": "recyclable",
       "action": "Dry waste",
       "text": "High density polyethylene, resin code 2, the plastic of milk and detergent bottles, is readily recycled. Empty it and keep it with your dry waste.",
@@ -107,7 +146,9 @@
     },
     {
       "id": "rule-ldpe",
-      "when": { "material": ["ldpe"] },
+      "when": {
+        "material": ["ldpe"]
+      },
       "verdict": "recyclable",
       "action": "Dry waste",
       "text": "Low density polyethylene, resin code 4, in a solid form such as a squeeze bottle or a lid, is a recyclable plastic under the resin codes the Plastic Waste Management Rules use.",
@@ -119,7 +160,9 @@
     },
     {
       "id": "rule-pp",
-      "when": { "material": ["pp"] },
+      "when": {
+        "material": ["pp"]
+      },
       "verdict": "recyclable",
       "action": "Dry waste",
       "text": "Polypropylene, resin code 5, used for tubs, lids and food containers, is a recyclable plastic. Empty it and keep it with your dry waste.",
@@ -131,15 +174,22 @@
     },
     {
       "id": "rule-pvc",
-      "when": { "material": ["pvc"] },
+      "when": {
+        "material": ["pvc"]
+      },
       "verdict": "checkManually",
       "action": "Check the packaging yourself",
       "text": "PVC, resin code 3, is a recyclable resin on paper, but very few recyclers in India accept it and it is not safe to assume yours will. Worth asking locally rather than guessing.",
-      "source": { "document": "General recycling practice", "scope": "general" }
+      "source": {
+        "document": "General recycling practice",
+        "scope": "general"
+      }
     },
     {
       "id": "rule-other-plastic",
-      "when": { "material": ["other_plastic"] },
+      "when": {
+        "material": ["other_plastic"]
+      },
       "verdict": "checkManually",
       "action": "Check the packaging yourself",
       "text": "Resin code 7 simply means other. It covers many unrelated plastics with no single answer between them, so there is no one rule to apply here.",
@@ -151,7 +201,9 @@
     },
     {
       "id": "rule-composite-laminate",
-      "when": { "material": ["composite_laminate"] },
+      "when": {
+        "material": ["composite_laminate"]
+      },
       "verdict": "notRecyclable",
       "action": "Dry waste, but not for recycling",
       "text": "Multilayered packaging, such as a snack packet or a drink carton, bonds plastic, paper or foil into a single sheet that cannot be pulled apart again. The Plastic Waste Management Rules treat it as its own category rather than as a recyclable plastic.",
@@ -163,7 +215,9 @@
     },
     {
       "id": "rule-glass",
-      "when": { "material": ["glass"] },
+      "when": {
+        "material": ["glass"]
+      },
       "verdict": "recyclable",
       "action": "Dry waste",
       "text": "Glass can be recycled over and over without losing quality. Empty it, keep it whole if you can, and keep it with your dry waste.",
@@ -175,7 +229,9 @@
     },
     {
       "id": "rule-aluminium",
-      "when": { "material": ["aluminium"] },
+      "when": {
+        "material": ["aluminium"]
+      },
       "verdict": "recyclable",
       "action": "Dry waste",
       "text": "Aluminium is one of the most valuable things in your dry waste and is recycled again and again with very little loss. Empty it and keep it with your dry waste.",
@@ -187,7 +243,9 @@
     },
     {
       "id": "rule-steel",
-      "when": { "material": ["steel"] },
+      "when": {
+        "material": ["steel"]
+      },
       "verdict": "recyclable",
       "action": "Dry waste",
       "text": "Steel and tin are pulled out magnetically during sorting, which makes them among the most reliably recycled materials. Empty it and keep it with your dry waste.",
@@ -199,7 +257,9 @@
     },
     {
       "id": "rule-cardboard",
-      "when": { "material": ["cardboard"] },
+      "when": {
+        "material": ["cardboard"]
+      },
       "verdict": "recyclable",
       "action": "Dry waste",
       "text": "Corrugated cardboard is recycled readily as long as it stays dry. Flatten it, keep it away from your wet waste, and keep it dry until it is collected.",
@@ -211,7 +271,9 @@
     },
     {
       "id": "rule-paper",
-      "when": { "material": ["paper"] },
+      "when": {
+        "material": ["paper"]
+      },
       "verdict": "recyclable",
       "action": "Dry waste",
       "text": "Clean dry paper is recycled readily. Once paper is wet or greasy the fibres are spoiled and it is no longer worth recycling, so keep it dry and away from your wet waste.",
@@ -227,33 +289,46 @@
       "verdict": "checkManually",
       "action": "Check the packaging yourself",
       "text": "Nothing in this rule set covers that combination, so there is no cited rule to stand behind an answer. Checking it yourself beats a guess dressed up as a verdict.",
-      "source": { "document": "General recycling practice", "scope": "general" }
+      "source": {
+        "document": "General recycling practice",
+        "scope": "general"
+      }
     }
   ],
   "notes": [
     {
       "id": "note-symbol-faded",
-      "when": { "recyclingSymbol": ["faded"] },
+      "when": {
+        "recyclingSymbol": ["faded"]
+      },
       "text": "The recycling symbol was faded, so the material was judged from the shape and the surface as well."
     },
     {
       "id": "note-symbol-absent",
-      "when": { "recyclingSymbol": ["absent"] },
+      "when": {
+        "recyclingSymbol": ["absent"]
+      },
       "text": "There was no recycling symbol to read, so the material was judged from the shape and the surface alone."
     },
     {
       "id": "note-symbol-unknown",
-      "when": { "recyclingSymbol": ["unknown"] },
+      "when": {
+        "recyclingSymbol": ["unknown"]
+      },
       "text": "It could not tell whether there is a recycling symbol, so the material was judged from the shape and the surface alone."
     },
     {
       "id": "note-contamination-unknown",
-      "when": { "contamination": ["unknown"] },
+      "when": {
+        "contamination": ["unknown"]
+      },
       "text": "How clean the inside is could not be seen, so rinse it before you go by this answer."
     },
     {
       "id": "note-photo-fair",
-      "when": { "photoQuality": ["fair"] },
+      "when": {
+        "photoQuality": ["fair"]
+      },
       "text": "The photo was usable but not sharp, so every read behind this answer is a little less certain than usual."
     }
   ]

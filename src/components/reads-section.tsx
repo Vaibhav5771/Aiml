@@ -122,7 +122,9 @@ export function ReadsSection({
 
   return (
     <View className={cn('gap-2', className)}>
-      <SectionLabel>{nothingPromoted ? 'What I saw' : 'What the answer rested on'}</SectionLabel>
+      <SectionLabel className="font-inter text-auth-ink-soft">
+        {nothingPromoted ? 'What I saw' : 'What the answer rested on'}
+      </SectionLabel>
 
       <View className="gap-2">
         {promoted.map((key) => row(key, true))}
@@ -139,7 +141,7 @@ export function ReadsSection({
             onPress={toggle}
             className="focus-ring min-h-[48px] justify-center items-center px-3 rounded-tile active:opacity-60"
           >
-            <Text className="text-body font-semibold text-accent">{label}</Text>
+            <Text className="text-body font-inter-bold text-auth-link">{label}</Text>
           </Pressable>
         ) : null}
       </View>

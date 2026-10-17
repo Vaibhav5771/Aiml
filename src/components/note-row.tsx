@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 
-import { noteIcon } from '@/theme';
+import { authColors } from '@/theme';
 import { cn } from '@/tw/cn';
 import { Text, View } from '@/tw';
 
@@ -15,18 +15,18 @@ export function NoteRow({ children, className }: { children: string; className?:
   return (
     <View
       className={cn(
-        'flex-row gap-2 bg-note-surface border border-note-edge rounded-card p-4',
+        'flex-row gap-2 bg-auth-surface border border-auth-hairline rounded-card p-4',
         className,
       )}
     >
       <Ionicons
         name="information-circle-outline"
         size={18}
-        color={noteIcon}
+        color={authColors.inkSoft}
         accessibilityElementsHidden
         importantForAccessibility="no-hide-descendants"
       />
-      <Text className="flex-1 text-label text-ink-soft">{children}</Text>
+      <Text className="flex-1 text-label font-inter text-auth-ink-soft">{children}</Text>
     </View>
   );
 }

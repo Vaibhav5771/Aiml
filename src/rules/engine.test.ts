@@ -10,24 +10,28 @@ import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 
 import type {
+  Agreement,
   ConstructionCode,
   ContaminationCode,
   FormCode,
   MaterialCode,
   PhotoQualityCode,
+  SecondOpinion,
   SymbolCode,
   VisionRead,
 } from '@/vision/types';
 
-import { BANDS, SOURCE_SCOPES, bandFor } from '@/vision/types';
+import { BANDS, MATERIAL_CODES, SOURCE_SCOPES, bandFor } from '@/vision/types';
 
 import { FEATURE_NAMES } from '@/ml/features';
 import { scoreWith } from '@/ml/score';
 import type { ModelArtifact } from '@/ml/types';
 
 import {
+  DISAGREEMENT_GATE_ID,
   LEARNED_GATE_ID,
   MIN_DECIDING_SCORE,
+  MIN_DISAGREEMENT_SCORE,
   NO_MATCH_CONFIDENCE,
   PUNE_RULES,
   RINSE_CLAUSE,
@@ -783,5 +787,119 @@ describe('the authority scope (AC-6)', () => {
         `${record.id} claims scope "${record.source.scope}"`,
       );
     }
+  });
+});
+
+/**
+ * A second opinion from the image classifier, as the proxy would send it.
+ *
+ * `material` is deliberately absent by default: whether the classifier's label
+ * maps to a material is the proxy's business, and the engine must decide on
+ * `agrees` alone. A test that had to set a material to make the gate fire
+ * would be testing a coupling that does not exist.
+ */
+function seen(agrees: Agreement, score = 90): SecondOpinion {
+  return { label: 'takeaway cups', score, agrees, modelVersion: 'recycling-net-11@v1' };
+}
+
+/** A read with a second opinion attached. */
+function readSeen(agrees: Agreement, score?: number, codes: Partial<Codes> = {}): VisionRead {
+  return { ...read(codes), classifier: seen(agrees, score) };
+}
+
+describe('the disagreement gate', () => {
+  test('refuses a verdict the written rules would have given, when the two models conflict', () => {
+    // A clean PET tub decides `recyclable` on its own. The ONLY thing changed
+    // here is a confident classifier that saw a different material family.
+    assert.equal(decide(read()).verdict, 'recyclable');
+
+    const v = decide(readSeen('disagree'));
+    assert.equal(v.verdict, 'checkManually');
+    assert.equal(v.rule.id, DISAGREEMENT_GATE_ID);
+    assert.equal(v.rule.text, textOf(DISAGREEMENT_GATE_ID));
+  });
+
+  test('cites the classifier, never a municipal or national document', () => {
+    const v = decide(readSeen('disagree'));
+    assert.equal(v.rule.source.scope, 'model');
+    assert.match(v.rule.source.document, /Recycling-Net-11/);
+    assert.equal(v.rule.source.url, undefined);
+  });
+
+  test('ignores a disagreement the classifier is not confident about', () => {
+    // The floor is what stops a model that has never seen damaged Indian
+    // packaging from overruling a resin code it cannot even read.
+    const below = decide(readSeen('disagree', MIN_DISAGREEMENT_SCORE - 1));
+    assert.equal(below.verdict, 'recyclable');
+
+    const at = decide(readSeen('disagree', MIN_DISAGREEMENT_SCORE));
+    assert.equal(at.verdict, 'checkManually', 'the threshold is inclusive');
+  });
+
+  test('treats agreement and no opinion as nothing at all', () => {
+    for (const agrees of ['agree', 'no_opinion'] as const) {
+      const v = decide(readSeen(agrees, 99));
+      assert.equal(v.verdict, 'recyclable', `${agrees} changed the verdict`);
+      assert.deepEqual(v, decide(read()), `${agrees} changed the verdict in some other way`);
+    }
+  });
+
+  test('is skipped entirely when no second opinion arrived', () => {
+    // The unconfigured service, the sleeping Space, the timeout and the reply
+    // that would not parse all reach the engine as this one absence, and all
+    // four have to behave exactly as the engine did before the classifier
+    // existed (spec 0005, AC-6).
+    assert.deepEqual(decide(read()), decide({ ...read(), classifier: undefined }));
+  });
+
+  test('never overrides a written stop check, however sure the classifier is', () => {
+    // A poor photo is a better explanation than a model argument, and it cites
+    // a document where the classifier cites only itself (spec 0005, AC-2).
+    const v = decide(readSeen('disagree', 100, { photoQuality: 'poor' }));
+    assert.equal(v.rule.id, 'gate-photo-unreadable');
+    assert.equal(v.rule.source.scope, 'general');
+  });
+
+  test('can only ever refuse: no read is promoted by consulting it (spec 0005 AC-3)', () => {
+    // The invariant the whole second opinion design exists to protect. Across
+    // every material, with every agreement value, the verdict is either the one
+    // the written rules reached alone or it is `checkManually`, and the
+    // confidence never rises.
+    //
+    // Driven by the runtime vocabulary rather than a list written here, so a
+    // material added to spec 0003 is covered the day it lands.
+    for (const material of MATERIAL_CODES) {
+      const alone = decide(read({ material }));
+
+      for (const agrees of ['agree', 'disagree', 'no_opinion'] as const) {
+        for (const score of [0, MIN_DISAGREEMENT_SCORE - 1, MIN_DISAGREEMENT_SCORE, 100]) {
+          const withSecond = decide(readSeen(agrees, score, { material }));
+
+          const unchanged = withSecond.verdict === alone.verdict;
+          assert.ok(
+            unchanged || withSecond.verdict === 'checkManually',
+            `${material}/${agrees}/${score}: ${alone.verdict} became ${withSecond.verdict}`,
+          );
+          assert.ok(
+            withSecond.confidence <= alone.confidence,
+            `${material}/${agrees}/${score}: confidence rose from ${alone.confidence} to ${withSecond.confidence}`,
+          );
+        }
+      }
+    }
+  });
+
+  test('rests on no single read, so the screen blames no attribute for it', () => {
+    // Its `when` is empty, so `decidedOn` is empty, so `blockedBy` says
+    // nothing. Naming an attribute here would be blaming a read that was fine.
+    const v = decide(readSeen('disagree'));
+    assert.deepEqual(v.decidedOn, []);
+    assert.equal(v.confidence, NO_MATCH_CONFIDENCE);
+  });
+
+  test('is reported by decidingRecord, so storage and the screen agree', () => {
+    const { record, kind } = decidingRecord(PUNE_RULES, readSeen('disagree'));
+    assert.equal(record.id, DISAGREEMENT_GATE_ID);
+    assert.equal(kind, 'checkManually');
   });
 });

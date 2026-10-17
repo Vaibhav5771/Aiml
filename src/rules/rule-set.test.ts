@@ -32,7 +32,13 @@ import type {
   VisionAttributes,
 } from '@/vision/types';
 
-import { LEARNED_GATE_ID, MATERIAL_CONFIDENCE_GATE_ID, PUNE_RULES, matchFirst } from './index';
+import {
+  DISAGREEMENT_GATE_ID,
+  LEARNED_GATE_ID,
+  MATERIAL_CONFIDENCE_GATE_ID,
+  PUNE_RULES,
+  matchFirst,
+} from './index';
 import type { Condition, Gate, Rule, SourceScope } from './types';
 
 const SCOPES: readonly SourceScope[] = [
@@ -159,11 +165,18 @@ describe('the rule set', () => {
         MATERIAL_CONFIDENCE_GATE_ID,
         'gate-multi-material',
         'gate-heavy-residue',
-        // Spec 0005 puts the learned check last, and position in this array is
+        // The two model driven checks come last, and position in this array is
         // the only thing enforcing it. A read halted by any written check above
-        // never reaches the model, and moving this line would break that
+        // never reaches either model, and moving these lines would break that
         // quietly, which is why the order is asserted whole rather than by
         // membership.
+        //
+        // The disagreement check sits ahead of the learned one because it is
+        // the one that can fire today: it needs only the classifier's answer,
+        // while the learned gate waits on a trained artifact that is still a
+        // stub. Between two model citations either order is defensible; what
+        // may never move is their position behind the four written checks.
+        DISAGREEMENT_GATE_ID,
         LEARNED_GATE_ID,
       ],
     );
@@ -176,10 +189,10 @@ describe('the rule set', () => {
     // condition among the gates, a written check would start firing on
     // everything.
     assert.deepEqual(GATES[GATES.length - 1].when, {});
-    assert.equal(
-      GATES.filter((g) => Object.keys(g.when).length === 0).length,
-      1,
-      'only the learned check may have an empty condition',
+    assert.deepEqual(
+      GATES.filter((g) => Object.keys(g.when).length === 0).map((g) => g.id),
+      [DISAGREEMENT_GATE_ID, LEARNED_GATE_ID],
+      'only the two model driven checks may have an empty condition',
     );
   });
 
@@ -195,13 +208,25 @@ describe('the rule set', () => {
     assert.equal(learned.source.url, undefined, 'a model citation has no page to link to');
   });
 
-  test('gives the model no say anywhere but its own gate (spec 0005 AC-4)', () => {
+  test('gives a model no say anywhere but its own gate (spec 0005 AC-4)', () => {
     const scoped = CITED.filter((r) => r.source.scope === 'model');
     assert.deepEqual(
       scoped.map((r) => r.id),
-      [LEARNED_GATE_ID],
-      'only the learned check may cite the model',
+      [DISAGREEMENT_GATE_ID, LEARNED_GATE_ID],
+      'only a stop check may cite a model, and never a rule that decides a verdict',
     );
+  });
+
+  test('cites the disagreement check to the classifier, with no page to link to', () => {
+    const gate = GATES.find((g) => g.id === DISAGREEMENT_GATE_ID);
+    assert.ok(gate !== undefined, `no gate with id ${DISAGREEMENT_GATE_ID}`);
+    assert.equal(gate.source.scope, 'model');
+    // It has to name which model disagreed. A citation reading "a model" tells
+    // the reader nothing they could go and check.
+    assert.match(gate.source.document, /Recycling-Net-11/);
+    // Same rule as the learned gate: a model citation rests on a measurement,
+    // not on a document, so there is no page that would back it up.
+    assert.equal(gate.source.url, undefined, 'a model citation has no page to link to');
   });
 
   test('keeps the gate the engine finds by id (AC-4)', () => {

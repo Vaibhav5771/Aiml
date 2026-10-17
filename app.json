@@ -11,6 +11,7 @@
       "icon": "./assets/expo.icon"
     },
     "android": {
+      "package": "com.recyclens.app",
       "adaptiveIcon": {
         "backgroundColor": "#F5F5F7",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -41,7 +42,10 @@
         }
       ],
       "expo-font",
-      "expo-sqlite"
+      "expo-sqlite",
+      "./plugins/with-abi-splits",
+      "@clerk/expo",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true,

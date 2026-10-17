@@ -18,12 +18,13 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 5 | Data model | Foundation | in-progress |
 | 6 | Design system & UI foundation | Foundation | in-progress |
 | 7 | Walking skeleton | Skeleton | in-progress |
-| 8 | Capture a photo | Journey 1 | planned |
+| 8 | Capture a photo | Journey 1 | in-progress |
 | 9 | The verdict screen | Journey 1 | in-progress |
-| 10 | Waiting and failure states | Journey 1 | planned |
-| 11 | Scan history list | Journey 2 | planned |
+| 10 | Waiting and failure states | Journey 1 | in-progress |
+| 11 | Scan history list | Journey 2 | in-progress |
 | 12 | Past scan detail | Journey 2 | planned |
 | 13 | Learned second opinion | Learned stage | in-progress |
+| 14 | Home tab | Journey 1 | existing |
 
 ## Foundations
 
@@ -103,7 +104,7 @@ code in `src/vision/`, `src/app/dev-scan.tsx`
   - [x] The spec 0003 vocabulary promoted to runtime values, each type derived from its own list so a list and the type it mirrors can no longer drift apart
   - [x] The parts that outlive the skeleton: `prepare.ts` downscales and encodes the photo, `client.ts` makes the one call the app ever makes, `validate.ts` refuses a body that does not match the contract, `errors.ts` names every way it can fail
   - [x] The throwaway `dev-scan` route, reporting all four stages separately so a broken chain names its own weak link, reached from a dev only link on Scan
-  - [ ] One real photo run end to end on your phone against your deployed proxy — written, typechecking and unit tested, but it needs the feature 3 deploy and your device, so this one is yours to run
+  - [ ] One real photo run end to end on your phone against your deployed proxy — the chain now runs inside the real capture flow rather than a dev screen (feature 8 deleted `dev-scan.tsx` as planned), it typechecks, bundles and is unit tested, but the device run is still yours
 - [ ] Verify it: `/check verify walking skeleton`
 - [ ] Test it: `/test walking skeleton`
 
@@ -114,7 +115,13 @@ The core recurring action, built all the way through. Every step and every state
 ### 8. Capture a photo
 Open the camera, frame the packaging, take the shot, or pick one from the gallery instead. Includes asking for the camera, surviving a refusal, and letting you retake a bad shot.
 **Done when:** you can capture or pick a photo, look at it before sending, retake it, and the app still behaves sensibly when camera permission is refused.
+code in `src/screens/scan/`, `src/vision/failures.ts`
 - [ ] Build it: `/develop capture a photo`
+  - [x] The real pipeline behind the shutter: capture, prepare, the proxy call, the rules, the save, the verdict screen, with the 1.2 second fake delay and the `/result/demo` navigation gone
+  - [x] The demo removed for good: `src/vision/mock.ts` and `src/app/dev-scan.tsx` deleted, with the result screen's mock branch and the dev link that reached it
+  - [x] One run per photo however many times the shutter is pressed, and a retry that resends the photo already taken rather than asking for a new one
+  - [ ] The camera, the gallery, the permission refusal and a real verdict confirmed on the device — it typechecks, lints, bundles and the suite is green, but a camera needs a phone
+- [ ] Verify it: `/check verify capture a photo`
 
 ### 9. The verdict screen
 The heart of the product: the answer, then what it saw, then the rule that turned one into the other. Three outcomes, recyclable, not recyclable, and check manually, each explained in plain words a non expert can follow.
@@ -132,7 +139,13 @@ spec [0007](../specs/0007-verdict-screen/index.md) · code in `src/screens/resul
 ### 10. Waiting and failure states
 Everything between taking the photo and reading the answer, and everything that can go wrong on the way: thinking, no network, the service failed, nothing recognised in the photo.
 **Done when:** every failure has its own screen state with a way forward, and no failure leaves a spinner running or a blank screen behind.
+code in `src/vision/failures.ts`, `src/screens/scan/`
 - [ ] Build it: `/develop waiting and failure states`
+  - [x] All sixteen failure codes given their own title, explanation and one button, as a `Record` so a new code cannot be added without someone deciding what it says
+  - [x] Retake against retry told apart, so a deployment fault never asks for a new photo of a perfectly good item
+  - [x] The thinking state floored at 1.2 seconds, so a fast failure reads as the app having tried rather than as a flicker
+  - [ ] Each state seen on the device, including the offline one — written and bundling, the sweep is yours
+- [ ] Verify it: `/check verify waiting and failure states`
 
 ## Journey 2: Look back at what you scanned
 
@@ -141,7 +154,15 @@ Starts only once journey 1 is genuinely finished, polish and edge states include
 ### 11. Scan history list
 Every past scan held on the device, newest first, each with its photo, its verdict, and when it happened.
 **Done when:** a scan appears in the list straight after you take it, survives closing and reopening the app, and the empty state explains itself before you have scanned anything.
+code in `src/screens/history/`, `src/components/history-row.tsx`, `src/components/verdict-pill.tsx`, `src/app/(tabs)/history.tsx`
 - [ ] Build it: `/develop scan history list`
+  - [x] `HistoryRow` and `VerdictPill` built, the two primitives feature 6 deliberately left until a real list existed to design them against, both reading the verdict from the one `VERDICT` record
+  - [x] The real list: a `FlatList` over the summary only projection, refreshing on focus so a fresh scan appears without a reload, pull to refresh, and a row opening `/result/[id]`, the same route a fresh verdict lands on
+  - [x] The three non list states: the empty state that explains itself, the first read, and `db_unavailable` as a screen with a retry rather than an exception
+  - [x] `whenLabel` as a pure, clock injected helper with its own node tests, so the list says "2 hours ago" where the verdict screen says the full timestamp
+  - [x] The last dev scaffolding deleted for good: `src/app/dev-data.tsx` and the dev link on Scan that reached it
+  - [ ] The list seen on the device: a scan appearing straight after capture, surviving a cold restart, and the empty state before anything is scanned — it typechecks, lints, the suite is green and the token check is clean, but this one needs your phone
+- [ ] Verify it: `/check verify scan history list`
 
 ### 12. Past scan detail
 Reopen an old scan and read the whole answer again exactly as it was, or delete it for good.
@@ -155,15 +176,22 @@ Starts once journey 1 is genuinely finished, because the photos you label there 
 ### 13. Learned second opinion · Beta
 A trained model that reads the scores the vision stage produced and judges how far they can be trusted, then hands that judgment to the rule engine as one more input. The engine still picks the verdict and still names the document behind it.
 **Done when:** a scan's scores pass through the trained model before the engine decides, the model is measured against the rule only baseline on a held out set of damaged packaging photos, and no verdict reaches the screen without the cited rule that backs it.
-spec [0005](../specs/0005-learned-second-opinion/index.md) · code in `src/ml/`, `src/rules/`, `src/vision/types.ts`
+spec [0005](../specs/0005-learned-second-opinion/index.md) · code in `src/ml/`, `src/rules/`, `src/vision/types.ts`, `proxy/api/classifier.ts`, `classifier/`
 - [x] Design it (spec): `/architect learned second opinion`
 - [ ] Build it: `/develop learned second opinion`
   - [x] The contract widened and the gate in place with the model stubbed: `LearnedTrust`, the third parameter on `decideWith`, `gate-learned-unreliable` last among the gates, the `model` source scope, `src/ml/` with its scorer and the unavailable path, and the three fields feature 5 must store (AC-1 through AC-7, AC-14, AC-15)
+  - [x] A second opinion that actually runs today, beside the stubbed one: `Recycling-Net-11` called from the proxy, compared with the vision read by material family, carried through the validator and storage, shown on the verdict screen, and driving its own `gate-models-disagree` that keeps spec 0005's monotonic caution. **Unsanctioned by the spec** — it is a neural net where the spec designed a logistic regression, so `/architect` still owes a ratification
+  - [x] Its own serving: Hugging Face carries no provider for this model, and a compute Space needs a paid plan, so `classifier/` is the service that runs it. Deployed to Google Cloud Run on 2026-10-16, free at this volume, scaling to zero, with the proxy pointed at it. `colab.ipynb` remains as the no-account fallback
   - [ ] The labelling kit and the dataset: the `ml/` scaffold, the gate survival audit on the first 50 photos, then 300 photos shot and independently labelled by two of you, with kappa reported (AC-8, AC-9, AC-16)
   - [ ] The training pipeline, reproducible and drift proof: gate survival filtering, group aware splitting, feature sets chosen by cross validation on the training split only, a fixed seed, and shared fixtures that stop the two extractors diverging (AC-10, AC-13, AC-17)
   - [ ] The evaluation and the shipped model: precision against the coverage matched baseline, both risk coverage curves, the threshold chosen as a named point, and the trained artifact swapped in for the stub (AC-11, AC-12)
 - [ ] Verify it: `/check verify learned second opinion`
 - [ ] Test it: `/test learned second opinion`
+
+### 14. Home tab · existing
+A third tab beside Scan and History: a landing read on what has been scanned so far (real counts from the on device store, nothing invented) and what Recyclens can recognise, with Scan one tap away.
+Built directly rather than through `/architect` or `/scope`, the way Clerk auth was. Styled in the existing Apple inspired tokens (`docs/design.md`), not the warm `screen-shots/` palette: that palette is scoped to sign-in and sign-up only, and extending it here would have reversed a decision spec 0002 already made on purpose.
+code in `src/screens/home/`, `src/app/(tabs)/home.tsx`, `src/app/(tabs)/_layout.tsx`
 
 ## Deferred
 

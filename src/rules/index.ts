@@ -125,9 +125,11 @@ export function assess(read: VisionRead): ScanLearnedFields {
 
 export { decideWith, decidingRecord, matchFirst, matches } from './engine';
 export {
+  DISAGREEMENT_GATE_ID,
   LEARNED_GATE_ID,
   MATERIAL_CONFIDENCE_GATE_ID,
   MIN_DECIDING_SCORE,
+  MIN_DISAGREEMENT_SCORE,
   NO_MATCH_CONFIDENCE,
   RINSE_CLAUSE,
 } from './engine';

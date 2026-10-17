@@ -105,8 +105,8 @@ export function VerdictCard({
         </View>
 
         <View className="flex-1 gap-1">
-          <Text className={cn('text-verdict font-bold', tone)}>{word}</Text>
-          <Text className="text-body font-medium text-ink-soft">{action}</Text>
+          <Text className={cn('text-verdict font-display', tone)}>{word}</Text>
+          <Text className="text-body font-inter text-auth-ink-soft">{action}</Text>
         </View>
       </View>
     </View>

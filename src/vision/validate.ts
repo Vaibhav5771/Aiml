@@ -16,8 +16,15 @@
  * Pure, no network, no device. Covered by `validate.test.ts`.
  */
 
-import { ATTRIBUTE_ORDER, VOCABULARY } from './types';
-import type { AttributeKey, VisionAttributes, VisionRead } from './types';
+import { ATTRIBUTE_ORDER, MATERIAL_CODES, VOCABULARY } from './types';
+import type {
+  Agreement,
+  AttributeKey,
+  MaterialCode,
+  SecondOpinion,
+  VisionAttributes,
+  VisionRead,
+} from './types';
 
 /** The caps spec 0003 makes a wire guarantee. Checked, not re-applied: a longer field means drift. */
 const MAX_ITEM_NAME = 60;
@@ -25,6 +32,14 @@ const MAX_DISPLAY = 60;
 const MAX_NOTE = 160;
 
 const BANDS: readonly string[] = ['high', 'medium', 'low'];
+
+/** The classifier's own label, verbatim. Long enough for every one of its 11. */
+const MAX_LABEL = 40;
+
+/** Pinned by the proxy, e.g. `recycling-net-11@v1`. */
+const MAX_MODEL_VERSION = 40;
+
+const AGREEMENTS: readonly string[] = ['agree', 'disagree', 'no_opinion'];
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -82,11 +97,62 @@ export function parseVisionRead(body: unknown): VisionRead | undefined {
   const attributes = body.attributes;
   if (!ATTRIBUTE_ORDER.every((key) => isAttribute(key, attributes[key]))) return undefined;
 
+  const classifier = parseSecondOpinion(body.classifier);
+
   return {
     itemName: body.itemName,
     ...(body.note === undefined ? {} : { note: body.note }),
     // Checked key by key immediately above, which is what earns this cast. It
     // is the one place in the app where a wire shape becomes a typed one.
     attributes: attributes as unknown as VisionAttributes,
+    ...(classifier === undefined ? {} : { classifier }),
   };
+}
+
+/**
+ * The classifier's block, or nothing.
+ *
+ * TOLERANT, and that is the one place this file bends its own rule. Everything
+ * above refuses the whole read on a field it does not recognise, because a
+ * half valid set of attributes is the outcome that would let a bad read reach
+ * a verdict. The second opinion is the opposite case: it is evidence the
+ * verdict can do without, and a proxy that has started sending a shape this
+ * build does not understand must not cost the user their answer. So a block
+ * that fails any check here is dropped, and the read travels without it.
+ *
+ * That collapses a malformed second opinion into the same absence as a Space
+ * that was asleep, which is deliberate: `src/rules/` must treat both as
+ * "nobody disagreed", and there is no third behaviour for it to get wrong.
+ */
+export function parseSecondOpinion(value: unknown): SecondOpinion | undefined {
+  if (!isRecord(value)) return undefined;
+
+  const { label, score, material, agrees, modelVersion } = value;
+
+  if (!isText(label, MAX_LABEL)) return undefined;
+  if (!isText(modelVersion, MAX_MODEL_VERSION)) return undefined;
+  if (typeof agrees !== 'string' || !AGREEMENTS.includes(agrees)) return undefined;
+  if (typeof score !== 'number' || !Number.isInteger(score) || score < 0 || score > 100) {
+    return undefined;
+  }
+
+  // Absent is legitimate, a code outside the vocabulary is not. The proxy maps
+  // two of the eleven labels to no material at all, so this has to tell "the
+  // classifier has no material opinion" apart from "the two vocabularies have
+  // drifted", and only the first may travel.
+  if (material !== undefined && !(typeof material === 'string' && isMaterial(material))) {
+    return undefined;
+  }
+
+  return {
+    label,
+    score,
+    agrees: agrees as Agreement,
+    modelVersion,
+    ...(material === undefined ? {} : { material: material as MaterialCode }),
+  };
+}
+
+function isMaterial(code: string): code is MaterialCode {
+  return (MATERIAL_CODES as readonly string[]).includes(code);
 }

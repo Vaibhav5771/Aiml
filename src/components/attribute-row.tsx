@@ -55,21 +55,28 @@ export function AttributeRow({
   className?: string;
 }) {
   return (
-    <View className={cn('bg-card border border-hairline rounded-card p-4 gap-2', className)}>
+    <View
+      className={cn(
+        'bg-auth-surface border border-auth-hairline rounded-card p-4 gap-2',
+        className,
+      )}
+    >
       <View className="flex-row items-start gap-2">
         <IconTile icon={ICONS[attributeKey]} />
 
         <View className="flex-1 gap-1">
-          <Text className="text-label text-ink-soft">{ATTRIBUTE_LABEL[attributeKey]}</Text>
+          <Text className="text-label font-inter text-auth-ink-soft">
+            {ATTRIBUTE_LABEL[attributeKey]}
+          </Text>
           {attribute === undefined ? (
-            <Text className="text-body text-ink-soft">Not recorded</Text>
+            <Text className="text-body font-inter text-auth-ink-soft">Not recorded</Text>
           ) : (
-            <Text className="text-body font-semibold text-ink">{attribute.display}</Text>
+            <Text className="text-body font-inter-bold text-auth-ink">{attribute.display}</Text>
           )}
         </View>
 
         {attribute === undefined ? null : (
-          <Text className={cn('text-label font-bold', CONFIDENCE_TEXT_TONE[tone])}>
+          <Text className={cn('text-label font-inter-bold', CONFIDENCE_TEXT_TONE[tone])}>
             {confidenceText(attribute.confidence)}
           </Text>
         )}

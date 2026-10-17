@@ -181,12 +181,62 @@ export type VisionAttributes = Attributes<'full'>;
 /** Every attribute without its score. What the screens read. */
 export type DisplayAttributes = Attributes<'display'>;
 
+/**
+ * Whether the two models saw the same kind of thing.
+ *
+ * `no_opinion` is not a disagreement. It is what the classifier returns when
+ * its label names no material in this vocabulary (`batteries` is not
+ * packaging; `disposable plates` is an item, not a material) or when either
+ * side answered `unknown`. Two models declining to guess is not a conflict.
+ */
+export type Agreement = 'agree' | 'disagree' | 'no_opinion';
+
+/**
+ * What the image classifier made of the same photo.
+ *
+ * A COPY of `Classification` in `proxy/api/classifier.ts`, kept by hand for
+ * the same reason the attribute vocabulary above is: `proxy/AGENTS.md` forbids
+ * the app and the proxy importing each other. Change a field here and you must
+ * change it there.
+ *
+ * `prithivMLmods/Recycling-Net-11`, a SigLIP2 fine tune over 11 waste classes,
+ * reached through the service in `classifier/`. It reads a photograph where
+ * Gemini reads a resin code, so the two are wrong in uncorrelated ways and
+ * their disagreement is a signal neither produces alone.
+ *
+ * Absent whenever the second opinion did not arrive: no service configured, a
+ * Space still waking, a timeout, a reply that did not parse. The app may never
+ * tell those apart and must never need to, so all four look like this field
+ * not being there (spec 0005, AC-6).
+ */
+export type SecondOpinion = {
+  /** The classifier's own top label, verbatim, e.g. `takeaway cups`. */
+  label: string;
+  /** 0 to 100, matching how every other score in this product is expressed. */
+  score: number;
+  /** That label in this project's vocabulary. Absent when it names no material. */
+  material?: MaterialCode;
+  /** Against the material Gemini read, compared by family rather than by code. */
+  agrees: Agreement;
+  /** Which model and which label map judged it, e.g. `recycling-net-11@v1`. */
+  modelVersion: string;
+};
+
 /** Exactly what `POST /api/vision` returns on a 200. */
 export type VisionRead = {
   itemName: string;
   /** An optional caveat, 160 characters or fewer. */
   note?: string;
   attributes: VisionAttributes;
+  /**
+   * The classifier's view of the same photo, when there was one.
+   *
+   * Optional at the type level because it is optional on the wire, and that
+   * optionality is the contract rather than an oversight: a build with no
+   * classifier configured, and a build whose Space is asleep, both produce
+   * reads without it, and every reader downstream has to work anyway.
+   */
+  classifier?: SecondOpinion;
 };
 
 export type VerdictKind = 'recyclable' | 'notRecyclable' | 'checkManually';
@@ -380,6 +430,19 @@ export type StoredScan = Verdict &
     /** The rule set build that decided it, e.g. "1.1.0". */
     ruleSetVersion: string;
     attributes: StoredAttributes;
+    /**
+     * What the image classifier said, when it answered.
+     *
+     * Stored, unlike the six attributes' provenance, because it is the only
+     * record of the second model's view: a scan reopened next month has to be
+     * able to say what disagreed with Gemini and how sure it was, and the
+     * photo alone cannot answer that once the Space has moved on a version.
+     *
+     * Absent on every scan saved before this column existed, and on every scan
+     * taken while the classifier was unreachable. Those are the same absence
+     * on purpose; see `SecondOpinion`.
+     */
+    classifier?: SecondOpinion;
   };
 
 /**

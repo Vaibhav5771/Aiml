@@ -13,8 +13,9 @@ This is **not** React Native. It runs on Vercel's Node runtime as its own deploy
 | `api/vision.ts` | The handler: request validation, the Gemini call, the retry, the deadline, and the error taxonomy |
 | `api/schema.ts` | The attribute vocabulary, declared once in `zod`. Produces the validator, the types and the JSON schema handed to Gemini |
 | `api/prompt.ts` | The instruction text and `PROMPT_VERSION` |
+| `api/classifier.ts` | The second opinion: the classifier call, the label map, and the family level agreement check |
 | `vercel.json` | The function timeout. See Gotchas, this is the risk in the design |
-| `.env.example` | The one variable this needs, `GEMINI_API_KEY` |
+| `.env.example` | The three variables this reads: `GEMINI_API_KEY` (required), `CLASSIFIER_URL` and `CLASSIFIER_TOKEN` (both optional) |
 
 ## Commands
 
@@ -35,13 +36,18 @@ Set the Vercel project's **root directory to `proxy`**, so Vercel never tries to
 - Validate the request before doing anything expensive. A bad request should never reach Gemini and cost a call.
 - Validate Gemini's response against the attribute schema before returning it. A malformed model response is an error, not something to pass through to the app.
 - The handler is a pure request to response function with no module level mutable state. Serverless instances are reused between invocations, so anything you keep at module scope leaks across requests.
-- `GEMINI_API_KEY` is read from the environment and never logged, never returned in an error body, and never committed. `.env` is gitignored.
+- `GEMINI_API_KEY` is read from the environment and never logged, never returned in an error body, and never committed. `.env` is gitignored. `CLASSIFIER_TOKEN` is held to the same rule.
+- **The second opinion may never fail a request.** `api/classifier.ts` returns an outcome on every path and throws on none. When the classifier is unconfigured, cold, slow or broken, the response is exactly what Gemini alone produced, minus the `classifier` field. Spec 0005 AC-6 is the rule.
 
 ## Gotchas
 
 - **The function timeout is the real risk in this whole design.** A Gemini vision call on a large photo can take several seconds, and the default is short. `vercel.json` asks for `maxDuration: 60`, but that has not been confirmed against the free tier yet. Check it before building anything heavier on top. If 60 seconds is not available, spec 0001 names the fallback and what it costs you.
 - The app resizes photos to roughly a 1568px long edge before sending, so a request body should land near 500KB once base64 encoded. A much larger body means the app side resize did not run.
 - **The attribute vocabulary is declared once, in `api/schema.ts`.** `src/vision/types.ts` in the app carries a copy kept by hand, because the app and the proxy may not import each other. Change a code in one and you must change it in the other; nothing catches that drift until a validation failure in production. Spec 0003 names this the most likely thing here to bite you.
+- **Agreement is asked by material FAMILY, never code to code.** The classifier sees a photograph and cannot read a resin code, so its best plastic answer is `other_plastic`. Comparing that against Gemini's `pp` as strings would report a disagreement on nearly every plastic item in the world. `MATERIAL_FAMILY` in `api/classifier.ts` is what makes the comparison honest, and `composite_laminate` stands alone in it so that "a paper cup is not paper" survives as a real signal.
+- **The classifier runs beside the Gemini call, not after it.** Inference needs only the photo; only the agreement needs Gemini's answer. `beginSecondOpinion` fires the request before `readPackaging` is awaited, so the second opinion costs no wall clock. Make it sequential and you add its latency to every scan.
+- **Hugging Face serves no provider for `Recycling-Net-11`, and no token changes that.** `inferenceProviderMapping` on the model is `{}` and it appears in no hf-inference listing, so `router.huggingface.co` answers `Model not supported` rather than a classification. No waste classifier is served there to swap to either. The model runs on the service in [`classifier/`](../classifier/README.md) instead — same weights, its own `SiglipImageProcessor`, on a free Space. Its reply shape is hf-inference's on purpose, so `parseClassification` never learned the difference.
+- **A cold `CLASSIFIER_URL` is normal, not broken.** A free Space sleeps after about 48 hours and wakes in 30 to 60 seconds, well past this function's 8 second classifier budget. The first scan after a long gap gets a Gemini-only answer by design. `curl <space>/health` before a demo.
 - **`@google/genai` has two unrelated error families and exports only one of them.** `interactions.create` throws the internal family (`RateLimitError` extends `APIError` extends `GeminiNextGenAPIClientError`), which is **not** an instance of the exported `ApiError`. An `instanceof` check against `ApiError` silently misses every real failure while a unit test holding a hand built one stays green. Discriminate on the numeric `status` instead, as `callErrorCode` does.
 
 ## Agent skills
@@ -51,5 +57,6 @@ Set the Vercel project's **root directory to `proxy`**, so Vercel never tries to
 ## Related specs
 
 - [spec 0001](../docs/specs/0001-stack-and-architecture/index.md): why this proxy exists, and the contract it has to honour.
+- [spec 0005](../docs/specs/0005-learned-second-opinion/index.md): the learned stage this classifier feeds. Note the spec designs a logistic regression over the six attributes; the classifier is a second, unsanctioned source of evidence and now drives its own gate, `gate-models-disagree`, beside the one the spec designed. It keeps spec 0005's invariant — it can only ever refuse — but it still needs ratifying by `/architect`.
 
 _Drafted by /audit from the repo, worth a quick human pass. Edit freely: once a line stops matching this draft, later runs treat it as curated and will flag rather than overwrite it._

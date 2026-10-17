@@ -14,9 +14,11 @@ import { Image as ExpoImage } from 'expo-image';
 import { Link as RouterLink } from 'expo-router';
 import React from 'react';
 import {
+  FlatList as RNFlatList,
   Pressable as RNPressable,
   ScrollView as RNScrollView,
   Text as RNText,
+  TextInput as RNTextInput,
   View as RNView,
   StyleSheet,
 } from 'react-native';
@@ -39,6 +41,32 @@ export const Pressable = (
   props: React.ComponentProps<typeof RNPressable> & { className?: string },
 ) => useCssElement(RNPressable, props, { className: 'style' });
 Pressable.displayName = 'CSS(Pressable)';
+
+export const TextInput = (
+  props: React.ComponentProps<typeof RNTextInput> & { className?: string },
+) => useCssElement(RNTextInput, props, { className: 'style' });
+TextInput.displayName = 'CSS(TextInput)';
+
+/**
+ * Styleable `FlatList`. Generic is preserved through the cast: `useCssElement`
+ * erases the item type, and a history list that forgot what a row holds would
+ * push the casts out into every caller instead of keeping one here.
+ */
+export const FlatList = (<ItemT,>(
+  props: React.ComponentProps<typeof RNFlatList<ItemT>> & {
+    className?: string;
+    contentContainerClassName?: string;
+  },
+) =>
+  useCssElement(RNFlatList, props, {
+    className: 'style',
+    contentContainerClassName: 'contentContainerStyle',
+  })) as <ItemT>(
+  props: React.ComponentProps<typeof RNFlatList<ItemT>> & {
+    className?: string;
+    contentContainerClassName?: string;
+  },
+) => React.ReactElement;
 
 export const ScrollView = (
   props: React.ComponentProps<typeof RNScrollView> & {

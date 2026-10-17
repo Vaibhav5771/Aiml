@@ -69,8 +69,10 @@ export function ConfidenceChip({
   const { tone, edge } = VERDICT[verdict];
 
   return (
-    <View className={cn('shrink border rounded-button px-3 py-1 bg-card', edge, className)}>
-      <Text className={cn('text-label font-bold', tone)}>{confidencePhrase(band, verdict)}</Text>
+    <View className={cn('shrink border rounded-button px-3 py-1 bg-auth-surface', edge, className)}>
+      <Text className={cn('text-label font-inter-bold', tone)}>
+        {confidencePhrase(band, verdict)}
+      </Text>
     </View>
   );
 }

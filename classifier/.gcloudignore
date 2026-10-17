@@ -1,0 +1,8 @@
+# What Cloud Build must NOT upload as build context.
+#
+# The image needs three files. The notebook and the README are documentation,
+# and shipping them would put this project's prose inside a container that
+# anyone who pulls the image can read.
+README.md
+colab.ipynb
+.gcloudignore

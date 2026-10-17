@@ -19,6 +19,7 @@ import type {
   SourceScope,
   ScanLearnedFields,
   ScanSummary,
+  SecondOpinion,
   StoredAttributes,
   StoredDisplayAttributes,
   StoredScan,
@@ -27,6 +28,7 @@ import type {
   VisionRead,
 } from '@/vision/types';
 import { ATTRIBUTE_ORDER, SOURCE_SCOPES, bandFor } from '@/vision/types';
+import { parseSecondOpinion } from '@/vision/validate';
 
 import { ATTRIBUTES_PAYLOAD_VERSION, READABLE_PAYLOAD_VERSIONS } from './schema';
 import { fail, ok, type Result } from './types';
@@ -56,6 +58,11 @@ export type ScanRow = {
   gate_fired: number;
   attributes: string;
   attributes_version: number;
+  /**
+   * The classifier's block as JSON. Null on a row written before
+   * `MIGRATIONS[2]`, and on any scan taken with no second opinion available.
+   */
+  classifier: string | null;
 };
 
 /**
@@ -88,6 +95,7 @@ export const SCAN_COLUMNS: readonly (keyof ScanRow)[] = [
   'gate_fired',
   'attributes',
   'attributes_version',
+  'classifier',
 ];
 
 /** The six columns `listScans` selects. */
@@ -265,6 +273,9 @@ export function buildScan(input: NewScan): StoredScan {
     region: input.ruleSet.region,
     ruleSetVersion: input.ruleSet.version,
     attributes: input.read.attributes,
+    // Absent rather than explicitly undefined, because `exactOptionalPropertyTypes`
+    // makes those two different types and `StoredScan` declares this optional.
+    ...(input.read.classifier === undefined ? {} : { classifier: input.read.classifier }),
   };
 }
 
@@ -294,6 +305,10 @@ export function toRow(scan: StoredScan): ScanRow {
     gate_fired: scan.gateFired ? 1 : 0,
     attributes: JSON.stringify(scan.attributes),
     attributes_version: ATTRIBUTES_PAYLOAD_VERSION,
+    // No payload version beside it, unlike `attributes`. The block is small,
+    // self describing and already carries `modelVersion`, which says more about
+    // what it meant than a schema number would.
+    classifier: scan.classifier === undefined ? null : JSON.stringify(scan.classifier),
   };
 }
 
@@ -333,9 +348,40 @@ export function fromRow(row: ScanRow): Result<StoredScan> {
     attributes,
   };
 
+  const classifier = readSecondOpinion(row.classifier);
+
   // `note` is optional on `Verdict`, so an absent note is an absent key rather
   // than an explicit undefined. The two are not the same under `exactOptionalPropertyTypes`.
-  return ok(row.note === null ? scan : { ...scan, note: row.note });
+  return ok({
+    ...scan,
+    ...(row.note === null ? {} : { note: row.note }),
+    ...(classifier === undefined ? {} : { classifier }),
+  });
+}
+
+/**
+ * The stored second opinion, or nothing.
+ *
+ * TOLERANT, like `readAttributes` above and for the stronger version of its
+ * reason. A scan's whole value is that it reopens months later saying exactly
+ * what it said on the day; a block this build cannot parse must cost the
+ * reader that block and never the scan. So every failure here, a null column,
+ * invalid JSON, a shape from a newer build, returns `undefined` and the screen
+ * shows no second opinion.
+ *
+ * It reuses the app's own wire validator rather than writing a second one.
+ * That is the point: the proxy owns this shape, `parseSecondOpinion` is the
+ * one place that knows it, and a row read back is held to exactly the contract
+ * a fresh response is held to.
+ */
+export function readSecondOpinion(json: string | null): SecondOpinion | undefined {
+  if (json === null) return undefined;
+
+  try {
+    return parseSecondOpinion(JSON.parse(json));
+  } catch {
+    return undefined;
+  }
 }
 
 /** A summary row, read back for the history list. */

@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '@/theme';
 
 /**
- * The two tab bottom navigation: Scan and History.
+ * The three tab bottom navigation: Home, Scan and History.
  *
  * This is the JS `Tabs` navigator rather than `NativeTabs`. The native one
  * renders real Material 3 navigation on Android, which looks native but
@@ -59,6 +59,16 @@ export default function TabsLayout() {
         tabBarLabelStyle: { fontSize: 13, fontWeight: '500' },
       }}
     >
+      <Tabs.Screen
+        name="home"
+        options={{
+          title: 'Home',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? 'home' : 'home-outline'} size={ICON_SIZE} color={color} />
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="index"
         options={{

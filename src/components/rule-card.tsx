@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
 
-import { colors } from '@/theme';
+import { authColors } from '@/theme';
 import { cn } from '@/tw/cn';
 import { Pressable, Text, View } from '@/tw';
 import type { AppliedRule } from '@/vision/types';
@@ -62,18 +62,18 @@ export function RuleCard({ rule, className }: { rule: AppliedRule; className?: s
   return (
     <View
       className={cn(
-        'flex-row gap-2 bg-card border border-hairline border-l-4 border-l-accent rounded-card p-4',
+        'flex-row gap-2 bg-auth-surface border border-auth-hairline border-l-4 border-l-auth-link rounded-card p-4',
         className,
       )}
     >
       <IconTile icon="reader-outline" />
 
       <View className="flex-1 gap-2">
-        <Text className="text-body text-ink">{rule.text}</Text>
+        <Text className="text-body font-inter text-auth-ink">{rule.text}</Text>
 
         {url === undefined ? (
           /* The citation reads as a source, so it takes the accent. 5.44:1. */
-          <Text className="text-label font-semibold text-accent">{document}</Text>
+          <Text className="text-label font-inter-bold text-auth-link">{document}</Text>
         ) : (
           <Pressable
             accessibilityRole="link"
@@ -85,11 +85,11 @@ export function RuleCard({ rule, className }: { rule: AppliedRule; className?: s
             className="focus-ring min-h-[48px] justify-center rounded-tile active:opacity-60"
           >
             <View className="flex-row items-center gap-1">
-              <Text className="flex-1 text-label font-semibold text-accent">{document}</Text>
+              <Text className="flex-1 text-label font-inter-bold text-auth-link">{document}</Text>
               <Ionicons
                 name="open-outline"
                 size={14}
-                color={colors.accent}
+                color={authColors.link}
                 // The label already says it opens. An icon saying so again is noise.
                 accessibilityElementsHidden
                 importantForAccessibility="no-hide-descendants"

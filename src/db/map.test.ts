@@ -483,3 +483,73 @@ describe('the confidence band (AC-2)', () => {
     assert.deepEqual(display.decidedOn, result.value.decidedOn);
   });
 });
+
+describe('the second opinion, stored and read back', () => {
+  const CLASSIFIER = {
+    label: 'takeaway cups',
+    score: 88,
+    material: 'composite_laminate',
+    agrees: 'disagree',
+    modelVersion: 'recycling-net-11@v1',
+  } as const;
+
+  function scanWithSecondOpinion(): StoredScan {
+    return buildScan({
+      id: 'abc-123',
+      scannedAt: SCANNED_AT,
+      photoUri: 'file:///documents/scans/abc-123.jpg',
+      read: { ...READ, classifier: { ...CLASSIFIER } },
+      verdict: VERDICT,
+      learned: LEARNED,
+      ruleSet: { region: 'Pune, India', version: '1.2.0' },
+    });
+  }
+
+  test('survives the round trip through a row unchanged', () => {
+    const out = fromRow(toRow(scanWithSecondOpinion()));
+    assert.ok(!isFailure(out));
+    assert.deepEqual(out.value.classifier, CLASSIFIER);
+  });
+
+  test('is a null column when there was no second opinion', () => {
+    // The ordinary case, not an error: no classifier configured, or its
+    // service was asleep. The column has to say so rather than hold `{}`.
+    assert.equal(toRow(sampleScan()).classifier, null);
+  });
+
+  test('is an absent key, not an explicit undefined, when read back without one', () => {
+    const out = fromRow(toRow(sampleScan()));
+    assert.ok(!isFailure(out));
+    assert.equal('classifier' in out.value, false);
+  });
+
+  test('a row written before the column existed still opens', () => {
+    // `MIGRATIONS[2]` added this column, so every scan taken before it has a
+    // null here. Spec 0006's whole promise is that such a row still reopens.
+    const row = { ...sampleRow(), classifier: null };
+    const out = fromRow(row);
+    assert.ok(!isFailure(out));
+    assert.equal(out.value.classifier, undefined);
+    assert.equal(out.value.itemName, 'Yogurt tub');
+  });
+
+  test('drops a damaged block rather than failing the whole scan', () => {
+    // The reader is tolerant for the same reason the wire validator is: a
+    // block this build cannot parse must cost the reader that block and never
+    // the scan, which is the only thing on the screen they came for.
+    for (const damaged of ['not json at all', '{"label":"x"}', '[]', 'null', '{}']) {
+      const out = fromRow({ ...sampleRow(), classifier: damaged });
+      assert.ok(!isFailure(out), `${damaged} failed the whole row`);
+      assert.equal(out.value.classifier, undefined, `${damaged} was let through`);
+      assert.equal(out.value.verdict, 'recyclable');
+    }
+  });
+
+  test('reaches the screen through the display projection', () => {
+    // Scores are stripped on the way out, but the second opinion is not a
+    // score and the screen needs all of it. This is what would catch a
+    // projection that quietly dropped it.
+    const scan = toDisplayScan(scanWithSecondOpinion());
+    assert.deepEqual(scan.classifier, CLASSIFIER);
+  });
+});

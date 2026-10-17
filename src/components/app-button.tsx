@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator } from 'react-native';
 
-import { colors } from '@/theme';
+import { authColors, colors } from '@/theme';
 import { cn } from '@/tw/cn';
 import { Pressable, Text, View } from '@/tw';
 
@@ -23,6 +23,7 @@ export function AppButton({
   label,
   icon,
   variant = 'primary',
+  tone = 'default',
   disabled = false,
   loading = false,
   onPress,
@@ -31,13 +32,22 @@ export function AppButton({
   label: string;
   icon?: IconName;
   variant?: 'primary' | 'secondary';
+  /** Signed-in summary screens reuse the auth flow's warm brand treatment. */
+  tone?: 'default' | 'auth';
   disabled?: boolean;
   loading?: boolean;
   onPress?: () => void;
   className?: string;
 }) {
   const isPrimary = variant === 'primary';
-  const tint = isPrimary ? colors.card : colors.primary;
+  const branded = tone === 'auth';
+  const tint = isPrimary
+    ? branded
+      ? authColors.ink
+      : colors.card
+    : branded
+      ? authColors.link
+      : colors.primary;
   // A button mid action must not fire again, whatever the caller passed.
   const inactive = disabled || loading;
 
@@ -50,7 +60,13 @@ export function AppButton({
       onPress={onPress}
       className={cn(
         'focus-ring flex-1 min-h-[52px] rounded-button items-center justify-center px-4',
-        isPrimary ? 'bg-primary' : 'bg-card border border-primary',
+        isPrimary
+          ? branded
+            ? 'bg-auth-primary'
+            : 'bg-primary'
+          : branded
+            ? 'bg-auth-surface border border-auth-link'
+            : 'bg-card border border-primary',
         inactive ? 'opacity-40' : 'active:opacity-85',
         className,
       )}
@@ -63,7 +79,13 @@ export function AppButton({
           <Text
             className={cn(
               'text-body font-semibold text-center',
-              isPrimary ? 'text-card' : 'text-primary',
+              isPrimary
+                ? branded
+                  ? 'font-inter-bold text-auth-ink'
+                  : 'text-card'
+                : branded
+                  ? 'font-inter-bold text-auth-link'
+                  : 'text-primary',
             )}
           >
             {label}

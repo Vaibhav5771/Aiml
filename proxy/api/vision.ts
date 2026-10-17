@@ -21,6 +21,11 @@
 
 import { GoogleGenAI } from '@google/genai';
 
+import {
+  beginSecondOpinion,
+  resolveSecondOpinion,
+  type ClassifierFailure,
+} from './classifier.js';
 import { PROMPT_VERSION, SYSTEM_INSTRUCTION, USER_PROMPT } from './prompt.js';
 import {
   geminiJsonSchema,
@@ -243,6 +248,14 @@ type LogFields = {
   geminiLatencyMs: number;
   requestSizeBase64Chars: number;
   raw?: string;
+  /*
+   * The classifier's own outcome, separate from the request's. A request is
+   * `ok` whether or not the second opinion arrived, so without this line there
+   * is no way to tell a healthy classifier from one that has been failing
+   * silently since the token expired.
+   */
+  classifier?: ClassifierFailure | 'ok';
+  classifierAgrees?: string;
 };
 
 /** One line per request. Never the image bytes, never the key. */
@@ -260,9 +273,18 @@ function log({ raw, ...fields }: LogFields): void {
 export async function handler(request: Request): Promise<Response> {
   let sizeChars = 0;
   let geminiLatencyMs = 0;
+  let classifier: ClassifierFailure | 'ok' | undefined;
+  let classifierAgrees: string | undefined;
 
   const done = (outcome: ErrorCode | 'ok', body: unknown, raw?: string): Response => {
-    log({ outcome, geminiLatencyMs, requestSizeBase64Chars: sizeChars, raw });
+    log({
+      outcome,
+      geminiLatencyMs,
+      requestSizeBase64Chars: sizeChars,
+      raw,
+      classifier,
+      classifierAgrees,
+    });
     return json(outcome === 'ok' ? 200 : STATUS[outcome], body);
   };
 
@@ -298,6 +320,14 @@ export async function handler(request: Request): Promise<Response> {
   const startedAt = Date.now();
 
   try {
+    /*
+     * Started BEFORE the Gemini call, not after it. The classifier needs only
+     * the photo, so running it here costs no wall clock that Gemini is not
+     * already spending. It never rejects, so it needs no `catch` and a path
+     * that abandons it unread leaks nothing.
+     */
+    const pending = beginSecondOpinion({ image, mimeType });
+
     const result = await readPackaging(
       geminiCall(process.env.GEMINI_API_KEY, { image, mimeType }, controller.signal),
       () => controller.signal.aborted,
@@ -305,7 +335,23 @@ export async function handler(request: Request): Promise<Response> {
 
     geminiLatencyMs = Date.now() - startedAt;
 
-    return result.ok ? done('ok', result.value) : fail(result.code, result.raw);
+    // No read means nothing to compare against, so the second opinion is
+    // dropped unread rather than reported on its own. A classification with no
+    // material read beside it is not evidence of anything.
+    if (!result.ok) return fail(result.code, result.raw);
+
+    const second = await resolveSecondOpinion(pending, result.value.attributes.material.code);
+
+    classifier = second.ok ? 'ok' : second.code;
+    classifierAgrees = second.ok ? second.value.agrees : undefined;
+
+    /*
+     * The field is ADDED to the read rather than folded into it. Nothing in
+     * `VisionRead` changes shape, so an older app build ignores it and behaves
+     * exactly as it does today, and spec 0005 keeps its rule that a learned
+     * opinion can never edit a written one.
+     */
+    return done('ok', second.ok ? { ...result.value, classifier: second.value } : result.value);
   } finally {
     clearTimeout(timer);
   }

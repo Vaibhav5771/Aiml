@@ -18,9 +18,9 @@ type IconName = React.ComponentProps<typeof Ionicons>['name'];
  * them would be a button that cannot work. Those outcomes show the primary
  * action alone (spec 0007, AC-9).
  *
- * Exactly one record qualifies today, and that is the honest size of this list
- * rather than a stub: taking another photo is the only next step in the Pune
- * rule set that lives inside this app.
+ * Two records qualify today, and both resolve to the same step for the same
+ * reason: the photo itself is what let the answer down, and taking another one
+ * is the only next step in the Pune rule set that lives inside this app.
  */
 export type NextStep = {
   readonly label: string;
@@ -28,14 +28,25 @@ export type NextStep = {
   readonly go: () => void;
 };
 
+const RETAKE: NextStep = {
+  label: 'Take another photo',
+  icon: 'camera',
+  // Back to Scan, which is the camera.
+  go: () => router.navigate('/'),
+};
+
 export const NEXT_STEP: Readonly<Record<string, NextStep>> = {
-  'gate-photo-unreadable': {
-    label: 'Take another photo',
-    icon: 'camera',
-    // Back to Scan, which is the camera. Feature 8 owns the capture flow and
-    // may want this to reopen the camera directly rather than the tab.
-    go: () => router.navigate('/'),
-  },
+  'gate-photo-unreadable': RETAKE,
+  /*
+   * A disagreement between the two models earns this where the other model
+   * driven stop check does not, and the difference is worth stating: the
+   * learned gate judges the READ and a second photo of the same item would
+   * likely score the same way, while a disagreement is often an artefact of
+   * this particular frame. The classifier centre crops to a square and sees no
+   * printed symbol at all, so an angle that puts the whole item in frame is a
+   * real move, not a shrug dressed up as a button.
+   */
+  'gate-models-disagree': RETAKE,
 };
 
 /**

@@ -7,16 +7,16 @@ import { NoteRow } from '@/components/note-row';
 import { ReadsSection } from '@/components/reads-section';
 import { RuleCard } from '@/components/rule-card';
 import { ScanPhoto } from '@/components/scan-photo';
+import { SecondOpinionRow } from '@/components/second-opinion-row';
 import { Screen } from '@/components/screen';
 import { SectionLabel } from '@/components/section-label';
 import { StateView } from '@/components/state-view';
 import { VerdictCard, verdictAnnouncement } from '@/components/verdict-card';
 import { isFailure, type DbErrorCode } from '@/db';
-import { LEARNED_GATE_ID, PUNE_RULES } from '@/rules';
+import { DISAGREEMENT_GATE_ID, LEARNED_GATE_ID, PUNE_RULES } from '@/rules';
 import { useScans } from '@/store/scans';
 import { colors } from '@/theme';
 import { ScrollView, Text, View } from '@/tw';
-import { getMockScan, hasMockScan } from '@/vision/mock';
 import type { Scan } from '@/vision/types';
 
 import { NEXT_STEP, blockedBy } from './next-step';
@@ -133,15 +133,21 @@ function Body({ scan, stored }: { scan: Scan; stored: boolean }) {
   // `gateFired` from the same record selection the verdict came from.
   const modelRefused = scan.gateFired || scan.rule.id === LEARNED_GATE_ID;
 
+  // The other model driven stop check. Named separately because it is a
+  // different model with a different reason, and the reliability line below
+  // would be a lie on a scan the classifier stopped: nothing scored this read,
+  // two readings of it simply conflicted.
+  const classifierRefused = scan.rule.id === DISAGREEMENT_GATE_ID;
+
   return (
-    <Screen edges={['bottom']}>
+    <Screen edges={['bottom']} className="bg-auth-background">
       <ScrollView contentContainerClassName="p-4 pb-8 gap-6" showsVerticalScrollIndicator={false}>
         {/* What was scanned. Small, and above the answer so the answer still leads. */}
         <View className="flex-row items-center gap-2">
           <ScanPhoto uri={scan.photoUri} itemName={scan.itemName} />
           <View className="flex-1 gap-1">
-            <Text className="text-label text-ink-soft">Scanned item</Text>
-            <Text className="text-body font-semibold text-ink">{scan.itemName}</Text>
+            <Text className="text-label font-inter text-auth-ink-soft">Scanned item</Text>
+            <Text className="text-body font-inter-bold text-auth-ink">{scan.itemName}</Text>
           </View>
         </View>
 
@@ -157,14 +163,28 @@ function Body({ scan, stored }: { scan: Scan; stored: boolean }) {
          * reader has to work out which of six observations the gate stopped
          * on, which is exactly the work this screen exists to do for them.
          */}
-        {blocked === undefined ? null : <Text className="text-body text-ink-soft">{blocked}</Text>}
+        {blocked === undefined ? null : (
+          <Text className="text-body font-inter text-auth-ink-soft">{blocked}</Text>
+        )}
 
         <View className="gap-2">
-          <SectionLabel>{refused ? 'Why I stopped' : 'The rule I applied'}</SectionLabel>
+          <SectionLabel className="font-inter text-auth-ink-soft">
+            {refused ? 'Why I stopped' : 'The rule I applied'}
+          </SectionLabel>
           <RuleCard rule={scan.rule} />
         </View>
 
         <ReadsSection attributes={scan.attributes} decidedOn={scan.decidedOn} />
+
+        {/*
+         * Directly under the six reads, because it is one more reading of the
+         * same photo rather than a second opinion on the verdict. Above the
+         * note, so a caveat about the reading still has the last word.
+         *
+         * Absent whenever no second opinion arrived, which is an ordinary
+         * state. Nothing above this line changes when it is missing.
+         */}
+        {scan.classifier ? <SecondOpinionRow classifier={scan.classifier} /> : null}
 
         {scan.note ? <NoteRow>{scan.note}</NoteRow> : null}
 
@@ -174,13 +194,15 @@ function Body({ scan, stored }: { scan: Scan; stored: boolean }) {
          * months later, and it must never compete with the answer itself (AC-12).
          */}
         <View className="gap-1">
-          <Text className="text-label text-ink-soft">Scanned {scannedAtLabel(scan.scannedAt)}</Text>
-          <Text className="text-label text-ink-soft">
+          <Text className="text-label font-inter text-auth-ink-soft">
+            Scanned {scannedAtLabel(scan.scannedAt)}
+          </Text>
+          <Text className="text-label font-inter text-auth-ink-soft">
             {scan.region} · rules {scan.ruleSetVersion}
           </Text>
 
           {stale ? (
-            <Text className="text-label font-semibold text-ink">
+            <Text className="text-label font-inter-bold text-auth-ink">
               The rules have changed since this scan. This is the answer exactly as it was given on
               the day.
             </Text>
@@ -188,14 +210,21 @@ function Body({ scan, stored }: { scan: Scan; stored: boolean }) {
 
           {/* AC-19: named, never scored. The trust number reaches no state of this screen. */}
           {modelRefused ? (
-            <Text className="text-label text-ink-soft">
+            <Text className="text-label font-inter text-auth-ink-soft">
               Held back by reliability model {scan.modelVersion}
+            </Text>
+          ) : null}
+
+          {/* Same rule, the other model: named, and never given a say in the verdict. */}
+          {classifierRefused && scan.classifier ? (
+            <Text className="text-label font-inter text-auth-ink-soft">
+              Held back by a disagreement with {scan.classifier.modelVersion}
             </Text>
           ) : null}
 
           {/* AC-13: the answer survived, the record of it did not. Say so plainly. */}
           {stored ? null : (
-            <Text className="text-label font-semibold text-ink">
+            <Text className="text-label font-inter-bold text-auth-ink">
               This scan could not be saved, so it is not in your history.
             </Text>
           )}
@@ -209,13 +238,24 @@ function Body({ scan, stored }: { scan: Scan; stored: boolean }) {
          */}
         <View className="flex-row gap-2">
           {nextStep === undefined ? (
-            <AppButton label="Scan another" icon="camera" onPress={() => router.navigate('/')} />
+            <AppButton
+              label="Scan another"
+              icon="camera"
+              tone="auth"
+              onPress={() => router.navigate('/')}
+            />
           ) : (
             <>
-              <AppButton label={nextStep.label} icon={nextStep.icon} onPress={nextStep.go} />
+              <AppButton
+                label={nextStep.label}
+                icon={nextStep.icon}
+                tone="auth"
+                onPress={nextStep.go}
+              />
               <AppButton
                 label="Scan another"
                 variant="secondary"
+                tone="auth"
                 onPress={() => router.navigate('/')}
               />
             </>
@@ -242,7 +282,7 @@ function FromMemory() {
 
 /** A scan read back by its id: a fresh one, or one reopened from history. */
 function FromStorage() {
-  const { id, photo } = useLocalSearchParams<{ id: string; photo?: string }>();
+  const { id } = useLocalSearchParams<{ id: string }>();
   const open = useScans((state) => state.open);
   const [state, setState] = useState<ScreenState>({ kind: 'loading' });
 
@@ -257,32 +297,21 @@ function FromStorage() {
         return;
       }
 
-      /*
-       * The demo scans, and the only reason this branch exists. Feature 8
-       * replaces the Scan screen's placeholder navigation with the real
-       * pipeline and deletes `src/vision/mock.ts`, and this branch goes with
-       * it. Until then it is the only way to reach this screen on a device,
-       * which the accessibility sweeps still outstanding on it need.
-       *
-       * Storage is asked FIRST, and only an id the mock actually recognises is
-       * answered here, so a real saved scan can never be shadowed by a mock.
-       */
-      if (result.error === 'scan_not_found' && hasMockScan(id)) {
-        setState({ kind: 'ready', scan: getMockScan(id, photo || undefined), stored: true });
-        return;
-      }
-
+      // Every scan on this screen is now a real one. Feature 8 replaced the
+      // Scan screen's placeholder navigation with the actual pipeline, so the
+      // hand written demo scans that used to be answered here, and
+      // `src/vision/mock.ts` with them, are gone.
       setState({ kind: 'unreadable', error: result.error });
     });
 
     return () => {
       alive = false;
     };
-  }, [id, photo, open]);
+  }, [id, open]);
 
   if (state.kind === 'loading') {
     return (
-      <Screen edges={['bottom']}>
+      <Screen edges={['bottom']} className="bg-auth-background">
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator color={colors.primary} />
         </View>
@@ -293,7 +322,7 @@ function FromStorage() {
   if (state.kind === 'unreadable') {
     const { title, explanation } = UNREADABLE[state.error];
     return (
-      <Screen edges={['bottom']}>
+      <Screen edges={['bottom']} className="bg-auth-background">
         <StateView
           icon="document-outline"
           title={title}

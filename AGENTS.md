@@ -38,6 +38,7 @@ npx expo-doctor             # diagnose dependency and config issues
 npx expo install --fix      # fix incompatible package versions
 npm run check:tokens        # fails when a raw colour, size, spacing or radius lands in src/
 npm run check:photoset      # runs the spec 0003 photo set against a deployed proxy, spends Gemini quota
+npm run check:classifier    # runs photos against the classifier service alone, no proxy and no Gemini
 ```
 
 Run lint and typecheck before declaring any task done.
@@ -87,4 +88,5 @@ Three collections are installed under `.agents/skills/`, 39 skills in all. The b
 ## Context files
 
 - [proxy/AGENTS.md](proxy/AGENTS.md): the vision proxy. A different runtime and deploy from the app, and the only place a secret lives.
+- [classifier/README.md](classifier/README.md): the second opinion's inference service, and the project's **third deploy target** after the app and the proxy. Python on Google Cloud Run, because Hugging Face serves no provider for `Recycling-Net-11` and a compute Space needs a paid plan. The app never learns this URL; only the proxy does, so the host can change without rebuilding the app.
 - Design system: build all UI to [docs/design.md](docs/design.md), which answers what colour, size, spacing or radius to use. Token values live in `src/global.css`, never in a component.

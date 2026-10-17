@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import { router } from 'expo-router';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Linking, StyleSheet } from 'react-native';
 
 import { AppHeader } from '@/components/app-header';
@@ -10,75 +10,112 @@ import { IconTile } from '@/components/icon-tile';
 import { LoadingOverlay } from '@/components/loading-overlay';
 import { Screen } from '@/components/screen';
 import { StateView } from '@/components/state-view';
+import { isFailure } from '@/db';
+import { PUNE_RULES, assess, decide } from '@/rules';
+import { useScans } from '@/store/scans';
 import { colors } from '@/theme';
 import { cn } from '@/tw/cn';
 import { Pressable, Text, View } from '@/tw';
+import { readPackaging } from '@/vision/client';
+import type { VisionErrorCode } from '@/vision/errors';
+import { RECOVERY_LABEL, VISION_FAILURE } from '@/vision/failures';
+import { usePreparedPhoto } from '@/vision/prepare';
+import type { Capture } from '@/vision/prepare';
 
 /**
- * Scan, the home screen.
+ * Scan, the home screen, and the whole pipeline behind the shutter.
  *
- * The camera is real; what happens after the shutter is not yet. Feature 7
- * built the chain behind it (`src/vision/prepare.ts` and
- * `src/vision/client.ts`, provable today on the Dev: the chain screen), and
- * feature 8 is what replaces the fake delay below with it.
+ * Feature 8 (Capture a photo) is this file. What it replaced was a 1.2 second
+ * delay followed by navigation to a hand written demo scan; what runs now is
+ * the real chain, and every stage of it is a stage that can fail:
+ *
+ *   capture -> prepare -> the proxy (Gemini, and the classifier beside it)
+ *           -> the rules -> storage -> the verdict screen
+ *
+ * The pieces were all built already and this is where they finally meet.
+ * `prepare.ts` and `client.ts` came from feature 7, `decide` and `assess` from
+ * features 4 and 13, `save` from feature 5. Nothing here reimplements any of
+ * them; it sequences them and decides what a person sees at each point.
+ *
+ * NOTHING ENDS ON A SPINNER. Every exit from the run below is a verdict
+ * screen, an unsaved verdict screen, or a named failure with one button. That
+ * is feature 10's requirement, and `VISION_FAILURE` is what makes it a
+ * compile error to add a failure with no way out of it.
  */
 
 /**
  * The thinking state stays up for at least this long.
  *
- * Capture can finish in 200ms or take two seconds. Without a floor the
- * overlay would flash and look like a glitch; with one it reads as the app
- * doing something. The real vision call will usually exceed this anyway.
+ * A real read takes seconds, so this floor almost never applies to a success.
+ * It applies to the fast failures: without it, an offline phone would flash
+ * the overlay for 40 milliseconds and snap to an error, which reads as a
+ * glitch rather than as the app having tried.
  */
 const MIN_READING_MS = 1200;
+
+/** What the screen is doing. It is in exactly one of these at a time. */
+type Phase =
+  | { readonly kind: 'idle' }
+  /** A photo is in hand and the chain is running over it. */
+  | { readonly kind: 'running'; readonly capture: Capture; readonly attempt: number }
+  /** The chain gave way. The photo is kept, so a retry need not retake it. */
+  | { readonly kind: 'failed'; readonly capture: Capture; readonly error: VisionErrorCode };
 
 export function ScanScreen() {
   const [permission, requestPermission] = useCameraPermissions();
   const [torch, setTorch] = useState(false);
-  const [reading, setReading] = useState(false);
+  const [phase, setPhase] = useState<Phase>({ kind: 'idle' });
   const cameraRef = useRef<CameraView>(null);
 
-  function goToResult(photoUri?: string) {
-    setReading(false);
-    router.push({
-      pathname: '/result/[id]',
-      params: { id: 'demo', photo: photoUri ?? '' },
-    });
+  const reading = phase.kind === 'running';
+
+  function begin(capture: Capture) {
+    setPhase({ kind: 'running', capture, attempt: 0 });
   }
 
   /**
-   * Stands in for the real pipeline: resize, send to the proxy, read the
-   * attributes back, run the rules. All four exist now; feature 8 replaces the
-   * wait with them, and feature 10 owns what the failures look like.
+   * Resend the photo already taken.
+   *
+   * The attempt counter is not bookkeeping: it is the `key` on the run below,
+   * so a retry mounts a fresh component rather than asking a finished one to
+   * start again. The run guards itself against running twice, which is what
+   * keeps a double tap from spending two Gemini calls, and a new key is the
+   * only honest way past that guard.
    */
-  function readPackaging(capture: () => Promise<string | undefined>) {
-    if (reading) return;
-    setReading(true);
-    const startedAt = Date.now();
-
-    capture()
-      .catch(() => undefined)
-      .then((uri) => {
-        const elapsed = Date.now() - startedAt;
-        setTimeout(() => goToResult(uri), Math.max(0, MIN_READING_MS - elapsed));
-      });
+  function retry() {
+    if (phase.kind !== 'failed') return;
+    setPhase({ kind: 'running', capture: phase.capture, attempt: Date.now() });
   }
 
-  function onShutter() {
-    readPackaging(async () => {
-      const shot = await cameraRef.current?.takePictureAsync({ quality: 0.8 });
-      return shot?.uri;
-    });
+  async function onShutter() {
+    if (reading) return;
+    const shot = await cameraRef.current?.takePictureAsync({ quality: 1 });
+    // Quality 1 here, because the downscale belongs to `prepare`, which is
+    // sized by spec 0001. Letting the camera compress first would throw away
+    // detail from a faded symbol before the step that budgets for it runs.
+    if (shot === undefined) {
+      // The shutter itself failed, which is rare and has no photo behind it,
+      // so there is nothing to retry and the only honest recovery is another
+      // shot. `photo_unreadable` already says exactly that.
+      setPhase({
+        kind: 'failed',
+        capture: { uri: '', width: 0, height: 0 },
+        error: 'photo_unreadable',
+      });
+      return;
+    }
+    begin({ uri: shot.uri, width: shot.width, height: shot.height });
   }
 
   async function onPickFromGallery() {
+    if (reading) return;
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
-      quality: 0.8,
+      quality: 1,
     });
     if (result.canceled || !result.assets[0]) return;
-    const uri = result.assets[0].uri;
-    readPackaging(async () => uri);
+    const asset = result.assets[0];
+    begin({ uri: asset.uri, width: asset.width, height: asset.height });
   }
 
   // Permission not answered yet. Expo returns null on the very first render.
@@ -125,6 +162,39 @@ export function ScanScreen() {
     );
   }
 
+  /*
+   * A failure takes the whole screen rather than sitting over the viewfinder.
+   * Three of these are deployment faults with a paragraph of explanation
+   * behind them, and a caption floating over live video is the wrong place to
+   * read one.
+   */
+  if (phase.kind === 'failed') {
+    const failure = VISION_FAILURE[phase.error];
+    return (
+      <Screen>
+        <AppHeader />
+        <StateView
+          icon={failure.recover === 'retake' ? 'camera-outline' : 'cloud-offline-outline'}
+          title={failure.title}
+          explanation={failure.explanation}
+          action={{
+            label: RECOVERY_LABEL[failure.recover],
+            icon: failure.recover === 'retake' ? 'camera' : 'refresh',
+            onPress: failure.recover === 'retake' ? () => setPhase({ kind: 'idle' }) : retry,
+          }}
+          secondaryAction={
+            // Only where the photo is still worth keeping. After a retake
+            // there is nothing to go back to, so offering it would be a button
+            // that does nothing.
+            failure.recover === 'retry'
+              ? { label: 'Take a different photo', onPress: () => setPhase({ kind: 'idle' }) }
+              : undefined
+          }
+        />
+      </Screen>
+    );
+  }
+
   return (
     <Screen>
       <AppHeader />
@@ -141,6 +211,10 @@ export function ScanScreen() {
          * Framing guides, held clear of the helper text below them. Their
          * colour sits over live video rather than over an app surface, so it
          * is on the drift check allow list rather than in the palette.
+         *
+         * They are also load bearing beyond framing: the classifier centre
+         * crops to a square before it scores, so an item outside these corners
+         * is an item the second opinion never sees.
          */}
         <View className="absolute top-6 left-6 w-7 h-7 border-t-2 border-l-2 border-[#FFFFFFE6] rounded-tl-tile" />
         <View className="absolute top-6 right-6 w-7 h-7 border-t-2 border-r-2 border-[#FFFFFFE6] rounded-tr-tile" />
@@ -155,12 +229,27 @@ export function ScanScreen() {
           </View>
         )}
 
-        {reading && (
-          <LoadingOverlay
-            title="Reading the packaging..."
-            detail="Checking material and local rules"
-          />
-        )}
+        {phase.kind === 'running' ? (
+          <>
+            <LoadingOverlay
+              title="Reading the packaging..."
+              detail="Checking material and local rules"
+            />
+            {/*
+             * Keyed on the photo AND the attempt, so a new photo and a retry
+             * of the same one both mount a fresh run. Rendered here rather
+             * than above the camera because `usePreparedPhoto` takes its
+             * capture at render time and so cannot be called before one
+             * exists.
+             */}
+            <ScanRun
+              key={`${phase.capture.uri}#${phase.attempt}`}
+              capture={phase.capture}
+              onSettled={() => setPhase({ kind: 'idle' })}
+              onFailed={(error) => setPhase({ kind: 'failed', capture: phase.capture, error })}
+            />
+          </>
+        ) : null}
       </View>
 
       <View className="flex-row items-center justify-around px-6 pb-4 pt-1">
@@ -189,35 +278,125 @@ export function ScanScreen() {
           onPress={() => setTorch((on) => !on)}
         />
       </View>
-
-      {/*
-       * The only way into the two dev screens, and only in development.
-       * Feature 8 deletes the chain link with `src/app/dev-scan.tsx`, and
-       * feature 11 deletes the data one with `src/app/dev-data.tsx`.
-       */}
-      {__DEV__ ? (
-        <View className="flex-row items-center justify-center gap-6 pb-2">
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Open the vision chain dev screen"
-            onPress={() => router.push('/dev-scan')}
-            className="focus-ring active:opacity-85"
-          >
-            <Text className="text-label text-ink-soft">Dev: the chain</Text>
-          </Pressable>
-
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel="Open the data layer dev screen"
-            onPress={() => router.push('/dev-data')}
-            className="focus-ring active:opacity-85"
-          >
-            <Text className="text-label text-ink-soft">Dev: data layer</Text>
-          </Pressable>
-        </View>
-      ) : null}
     </Screen>
   );
+}
+
+/**
+ * One photo, all the way to a screen. Renders nothing.
+ *
+ * A component rather than a function, and not by choice: SDK 57 made the image
+ * manipulator a hook, so the work can only start from inside something that
+ * renders, and the hook takes its capture at render time. Mounting it is the
+ * only way to begin.
+ *
+ * It calls exactly one of its two callbacks, exactly once. `onFailed` means
+ * the chain gave way and the photo is still worth keeping; `onSettled` means
+ * the screen has moved on and the camera should be idle behind it.
+ */
+function ScanRun({
+  capture,
+  onSettled,
+  onFailed,
+}: {
+  capture: Capture;
+  onSettled: () => void;
+  onFailed: (error: VisionErrorCode) => void;
+}) {
+  const prepare = usePreparedPhoto(capture);
+  const save = useScans((state) => state.save);
+
+  /*
+   * Runs exactly once per mount. A ref rather than a dependency list, because
+   * the manipulator context is not promised to keep its identity between
+   * renders, and a second run would spend another Gemini call and another
+   * classifier call on a photo already in flight.
+   */
+  const started = useRef(false);
+
+  useEffect(() => {
+    if (started.current) return;
+    started.current = true;
+
+    let live = true;
+    const startedAt = Date.now();
+
+    /** Hold the overlay up for its floor, then do the thing. */
+    const settle = (go: () => void) => {
+      const waited = Date.now() - startedAt;
+      setTimeout(
+        () => {
+          if (live) go();
+        },
+        Math.max(0, MIN_READING_MS - waited),
+      );
+    };
+
+    const run = async () => {
+      const prepared = await prepare();
+      if (!prepared.ok) {
+        settle(() => onFailed(prepared.error));
+        return;
+      }
+
+      // The one network call the app ever makes. Gemini reads the packaging
+      // and the classifier reads the photograph beside it; both arrive here as
+      // one validated `VisionRead`, and the second opinion is simply a field
+      // on it that may or may not be there.
+      const result = await readPackaging(prepared.photo);
+      if (!result.ok) {
+        settle(() => onFailed(result.error));
+        return;
+      }
+
+      /*
+       * The rules decide, not the models. Both of them are inputs to `decide`
+       * and neither can reach a verdict on its own: the written gates run
+       * first, then the classifier's disagreement, then the learned score, and
+       * every one of those three can only ever answer "check manually".
+       *
+       * Pure and synchronous, so there is no failure to handle between here
+       * and storage. A read always produces a verdict.
+       */
+      const verdict = decide(result.value);
+      const learned = assess(result.value);
+
+      const saved = await save({
+        // What was SENT, not what the camera wrote. A saved scan has to show
+        // the same pixels the verdict was read from.
+        sourcePhotoUri: prepared.photo.uri,
+        read: result.value,
+        verdict,
+        learned,
+        ruleSet: { region: PUNE_RULES.region, version: PUNE_RULES.version },
+      });
+
+      settle(() => {
+        /*
+         * A storage failure must never swallow an answer. The store has
+         * already put the finished scan in `pending`, so the unsaved route
+         * shows it in full and says, in one line near the bottom, that it is
+         * not in your history (spec 0007, AC-13).
+         */
+        if (isFailure(saved)) {
+          router.push('/result/unsaved');
+        } else {
+          router.push({ pathname: '/result/[id]', params: { id: saved.value.id } });
+        }
+        // Reset the camera behind the result, so coming back lands on a
+        // viewfinder rather than on a spinner for a scan already read.
+        onSettled();
+      });
+    };
+
+    void run();
+
+    return () => {
+      live = false;
+    };
+  }, [prepare, save, onFailed, onSettled]);
+
+  return null;
 }
 
 /**

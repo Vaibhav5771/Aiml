@@ -87,6 +87,43 @@ export const MATERIAL_CONFIDENCE_GATE_ID = 'gate-material-unreadable';
  */
 export const LEARNED_GATE_ID = 'gate-learned-unreliable';
 
+/**
+ * The gate the image classifier drives.
+ *
+ * A second model reads the same photo (`prithivMLmods/Recycling-Net-11`, via
+ * the service in `classifier/`) and the proxy compares its answer with
+ * Gemini's by material family. When the two disagree, neither can be trusted
+ * to have been the right one, and this gate is what turns that into a refusal
+ * rather than a coin toss.
+ *
+ * Like the two gates above it, its trigger is a number rather than a set of
+ * codes, so a `Condition` cannot express it and the engine finds its record by
+ * id. Its `when` is empty for the same reason theirs are: the record carries
+ * the wording and the citation, the trigger lives here.
+ *
+ * Placed after the four written gates and before the learned one. The written
+ * checks always get first refusal, because a poor photo is a better
+ * explanation than a model argument and cites a document rather than a model
+ * (spec 0005, AC-2). `rule-set.test.ts` asserts the whole order.
+ */
+export const DISAGREEMENT_GATE_ID = 'gate-models-disagree';
+
+/**
+ * How sure the classifier has to be before its disagreement may stop a verdict.
+ *
+ * PROVISIONAL, and the number most worth measuring in this feature. Without a
+ * floor, an 8% guess from a model that has never seen damaged Indian packaging
+ * could overrule a clean resin code read off the triangle, and the app would
+ * refuse to answer constantly. With one too high, the case the integration
+ * exists for, a lined paper cup the vision stage calls `paper`, slips through.
+ *
+ * 70 is chosen as the point where the classifier is past "leaning" and into
+ * "confident": its own reported accuracy is 91% on its own held out split, and
+ * nothing has yet measured it on our photos. Retune it when the spec 0003
+ * photo set runs through both models and the disagreements can be counted.
+ */
+export const MIN_DISAGREEMENT_SCORE = 70;
+
 /** Whether every attribute the condition names holds. An omitted key means "any value". */
 export function matches(when: Condition, a: VisionAttributes): boolean {
   return ATTRIBUTE_ORDER.every((key) => {
@@ -152,14 +189,27 @@ function sourceFrom(source: Source): RuleSource {
     : { document: source.document, scope: source.scope, url: source.url };
 }
 
-/** A gate fires on its condition, or on one of the two thresholds a condition cannot express. */
-function fires(gate: Gate, a: VisionAttributes, learned: LearnedTrust | undefined): boolean {
+/** A gate fires on its condition, or on one of the three thresholds a condition cannot express. */
+function fires(gate: Gate, read: VisionRead, learned: LearnedTrust | undefined): boolean {
+  const a = read.attributes;
+
   if (gate.id === LEARNED_GATE_ID) {
     // The learned record carries an empty `when`, so without this branch
     // `matches` would fire it on every read. No trust value means the model
     // was never consulted, and a check that cannot be consulted cannot refuse:
     // that is the whole of the unavailable path (spec 0005, AC-6).
     return learned !== undefined && learned.score < learned.threshold;
+  }
+  if (gate.id === DISAGREEMENT_GATE_ID) {
+    // Empty `when` again, so the same guard applies. Three conditions, all
+    // required: a second opinion arrived at all, it actually conflicts, and it
+    // was confident enough to be worth heeding. `no_opinion` is not a
+    // disagreement and must never reach here as one, which is why the check is
+    // for the exact code rather than for "not agree".
+    const second = read.classifier;
+    return (
+      second !== undefined && second.agrees === 'disagree' && second.score >= MIN_DISAGREEMENT_SCORE
+    );
   }
   if (gate.id === MATERIAL_CONFIDENCE_GATE_ID && a.material.score < MIN_DECIDING_SCORE) {
     return true;
@@ -225,7 +275,7 @@ export function decidingRecord(
   // outrank a poor photo, a joined construction or heavy residue, and none of
   // those can be overturned by a model: position in the array is the priority,
   // and the learned record sits at the end of it.
-  const gate = ruleSet.gates.find((g) => fires(g, a, learned));
+  const gate = ruleSet.gates.find((g) => fires(g, read, learned));
   if (gate !== undefined) return { record: gate, kind: 'checkManually' };
 
   // The last record carries an empty `when` and so matches everything, which

@@ -37,3 +37,21 @@ export const verdictColors = {
 
 /** The info icon on a caveat row. */
 export const noteIcon = '#6E6E73';
+
+/**
+ * The warm brand flow, mirroring the `auth-*` tokens in `global.css`. It is
+ * also used by Home, History and Result. `ink`/`primary`/`leaf` are the exact brand swatches,
+ * `primary` is a fill colour only, and `link` is a derived stand-in for
+ * anywhere `primary` would otherwise be used as text.
+ */
+export const authColors = {
+  background: '#F5ECD9',
+  surface: '#F7F2E6',
+  hairline: 'rgba(21,17,13,0.14)',
+  ink: '#03180C',
+  inkSoft: '#58544D',
+  primary: '#F97A1B',
+  link: '#B94415',
+  spark: '#F35A1B',
+  leaf: '#43A64C',
+} as const;

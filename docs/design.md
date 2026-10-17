@@ -112,6 +112,22 @@ whose phone is set to large text has set it for a reason. Prefer `min-h-` over
 `h-` on anything containing words, and let rows reflow rather than truncate: a
 wrapped line is readable, an ellipsis is not.
 
+### Brand typography and warm surfaces
+
+`font-display` (Bluu Next, bold only) and `font-inter` / `font-inter-bold`
+(Inter) are loaded once in `src/app/_layout.tsx` and declared in
+`src/global.css` beside the rest of the type tokens. They set the brand voice
+for welcome/authentication and the signed-in Home, History and Result screens.
+Its headline also carries its own size, `text-welcome-heading` (40px), bigger
+than `text-title`, because the reference mock's two line "Recycle garbage"
+only reads as a display headline at that size. Still not a fifth general
+size: it is paired with `font-display` the same way `text-auth-heading` is
+paired with it on sign-in and sign-up.
+`--font-sans` still carries every other screen, for the reason recorded next
+to it: the Android system font ships four weights for free, and `project.md`
+records that this app deliberately ships no other webfont. Reach for these two
+again only for another genuine brand moment, not as a general purpose face.
+
 ## Spacing
 
 Tailwind's default 4px base, which is already right for Android, so nothing is
@@ -250,9 +266,21 @@ Values and behaviour live in the files; this is the map.
 | `StateView` | one screen filling state: icon, title, explanation, up to two actions. Every non happy path is built from this |
 | `LoadingOverlay` | the scrim over live content while the app is thinking |
 
-Feature 6 deliberately did **not** build `VerdictPill`, `HistoryRow` or
-`EmptyList`. There is no real history screen to design them against yet, and a
-primitive invented ahead of its first caller is a guess. Journey 2 builds them.
+### History
+
+| Component | What it is |
+|---|---|
+| `VerdictPill` | a verdict at list size: icon, word and colour, in a tinted pill |
+| `HistoryRow` | one past scan: thumbnail, item name, verdict pill, when it happened |
+
+Feature 6 deliberately did **not** build these. There was no real history
+screen to design them against, and a primitive invented ahead of its first
+caller is a guess. Feature 11 built them against the real list.
+
+`EmptyList` was never built, and deliberately so: `StateView` already renders
+an icon, a title, an explanation and an action, which is exactly what an empty
+list needs. History's empty state is a `StateView`, and a second component
+wrapping the first would have been a name, not a design.
 
 ### A note on confidence colour
 

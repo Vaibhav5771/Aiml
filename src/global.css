@@ -24,9 +24,10 @@
  * 2. The type scale is Apple's iOS scale (34 / 28 / 17 / 13), not the 48px web
  *    scale. A 48px hero on a 360px phone is not a hero, it is a wrapping mess.
  *
- * 3. This replaced the warm eco palette from `docs/figma-prototype-prompt.md`
- *    and `screen-shots/`. Those documents now describe something the app is
- *    not. That is a deliberate decision, recorded here so nobody has to guess.
+ * 3. The warm brand palette from `docs/figma-prototype-prompt.md` is used by
+ *    the welcome/auth flow and the signed-in Home, History and Result screens.
+ *    The live Scan view remains on the neutral camera palette so its controls
+ *    do not compete with the image being framed.
  *
  * `npm run check:tokens` fails the build when a value lands outside this file.
  */
@@ -69,6 +70,68 @@
     /* The caveat row */
     --color-note-surface: #f5f5f7;
     --color-note-edge: rgba(0, 0, 0, 0.08);
+
+    /*
+     * The brand treatment: sign-in, sign-up, welcome, Home, History and Result.
+     * `auth-background`/`auth-surface`/`auth-hairline`
+     * were sampled from `screen-shots/login.png` and `screen-shots/signup.png`
+     * (prompts/login-signup.md). `auth-ink`, `auth-primary` and `auth-leaf`
+     * were corrected to the exact brand swatches given afterwards
+     * (#03180C / #F97A1B / #43A64C), not the screenshot's own sampled pixels.
+     * Every other screen keeps reading the Apple palette above.
+     *
+     * `auth-primary` is a FILL colour only now, not text: at full brightness
+     * it is 2.7:1 on `auth-background` and on white, which fails 4.5:1 either
+     * as a link or as white button text. `auth-ink` (the brand's own near
+     * black) sits on top of it instead, at 6.9:1, so both the button and its
+     * label stay exactly the given brand colours.
+     *
+     * `auth-link` is NOT one of the three given swatches. Plain text in
+     * `auth-primary` fails contrast on `auth-background` the same way it does
+     * as button text, and none of the three swatches clear 4.5:1 as plain
+     * text except `auth-ink` itself, which would leave "Forgot password?"
+     * indistinguishable from body copy. This is the closest in-family orange
+     * that does clear it (4.6:1), carried over from the first pass at this
+     * palette before the exact brand hex existed. If an accessible brand
+     * orange ever gets defined for text, replace this with it.
+     *
+     * `auth-spark` and `auth-leaf` are decorative only, an icon accent and a
+     * logo mark, and never carry text, so neither is held to that bar. Same
+     * exemption class as the camera overlay colours in
+     * `scripts/check-tokens.mjs`: measuring a decoration against a text
+     * contrast ratio would be a lie about what the number is for.
+     */
+    --color-auth-background: #f5ecd9;
+    --color-auth-surface: #f7f2e6;
+    --color-auth-hairline: rgba(21, 17, 13, 0.14);
+    --color-auth-ink: #03180c;
+    --color-auth-ink-soft: #58544d;
+    --color-auth-primary: #f97a1b;
+    --color-auth-link: #b94415;
+    --color-auth-spark: #f35a1b;
+    --color-auth-leaf: #43a64c;
+
+    /*
+     * `font-display` (BluuNext-Bold) runs wider per letter than the system
+     * bold face the Apple scale's `text-title` (28px) was measured against,
+     * so "Welcome back" and "Create account" wrapped to two lines at that
+     * size. This is a dedicated size for this one use — a display heading set
+     * in BluuNext — rather than shrinking `text-title` itself and changing
+     * every screen titled with the system font.
+     */
+    --text-auth-heading: 23px;
+    --text-auth-heading--line-height: calc(28 / 23);
+
+    /*
+     * The welcome screen's headline, set in `font-display` (BluuNext-Bold).
+     * Bigger than `text-title`, on purpose: the reference mock's "Recycle
+     * garbage" wraps across two short lines, which only reads as a deliberate
+     * display headline at this size rather than an oversized screen title.
+     * Same reasoning as `text-auth-heading` just above: a dedicated size for
+     * one `font-display` use, not a change to the four size Apple scale.
+     */
+    --text-welcome-heading: 40px;
+    --text-welcome-heading--line-height: calc(56 / 40);
 
     /*
      * Apple's iOS type scale, not the web one. FOUR SIZES, no more.
@@ -121,6 +184,19 @@
     --radius-card: 18px;
     --radius-frame: 24px;
     --radius-button: 980px;
+
+    /*
+     * The two brand fonts, loaded once at app start by `useFonts` in
+     * `src/app/_layout.tsx` and registered under these exact names (Expo's
+     * font loader keys a custom font by the name you pass it, not by its file
+     * name). They are additive to the system stack below, not a replacement
+     * of it: `--font-sans` still carries every screen this app already has,
+     * for the reasons recorded there. `font-display` and `font-inter*` are
+     * opt-in utilities for the welcome screen's brand moment only.
+     */
+    --font-display: 'BluuNext-Bold';
+    --font-inter: 'Inter_400Regular';
+    --font-inter-bold: 'Inter_700Bold';
   }
 }
 

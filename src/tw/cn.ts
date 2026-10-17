@@ -22,7 +22,7 @@ import { extendTailwindMerge } from 'tailwind-merge';
 const merge = extendTailwindMerge({
   extend: {
     classGroups: {
-      'font-size': ['text-label', 'text-body', 'text-title', 'text-verdict'],
+      'font-size': ['text-label', 'text-body', 'text-title', 'text-verdict', 'text-auth-heading'],
       rounded: [
         'rounded-bar',
         'rounded-tile',

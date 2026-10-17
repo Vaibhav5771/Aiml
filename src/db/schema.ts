@@ -90,6 +90,23 @@ export const MIGRATIONS: readonly string[] = [
    */
   `ALTER TABLE scan ADD COLUMN rule_source_scope TEXT;
   ALTER TABLE scan ADD COLUMN decided_on TEXT;`,
+
+  /*
+   * The second opinion: what the image classifier made of the same photo.
+   *
+   * One nullable JSON column rather than five typed ones, and that is the
+   * considered choice rather than the lazy one. The block is written and read
+   * whole, nothing queries or sorts by any field inside it, and the shape is
+   * owned by `proxy/api/classifier.ts` rather than by this table. A new field
+   * there should cost a tolerant read here, not a sixth migration.
+   *
+   * Nullable because its absence is a real and ordinary state, not a gap: a
+   * row written before this column existed, a scan taken with no classifier
+   * configured, and one taken while its service was asleep all mean the same
+   * thing downstream, that nobody disagreed. `readSecondOpinion` in `map.ts`
+   * collapses every one of them to `undefined` on the way out.
+   */
+  `ALTER TABLE scan ADD COLUMN classifier TEXT;`,
 ];
 
 /** The `user_version` a fully migrated database reports. */

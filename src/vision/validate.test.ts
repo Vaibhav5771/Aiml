@@ -13,7 +13,7 @@
 import assert from 'node:assert/strict';
 import { describe, test } from 'node:test';
 
-import { parseVisionRead } from './validate';
+import { parseSecondOpinion, parseVisionRead } from './validate';
 
 /** One attribute valid in every respect, so each test can break exactly one thing. */
 const attribute = (code: string, overrides: Record<string, unknown> = {}) => ({
@@ -218,5 +218,99 @@ describe('parseVisionRead', () => {
   test('ignores fields it does not know about', () => {
     const read = parseVisionRead(withAttribute('material', attribute('pp', { hue: 'blue' })));
     assert.equal(read?.attributes.material.code, 'pp');
+  });
+});
+
+describe('parseSecondOpinion', () => {
+  /** What `proxy/api/classifier.ts` actually sends on a good day. */
+  function block(overrides: Record<string, unknown> = {}): unknown {
+    return {
+      label: 'takeaway cups',
+      score: 88,
+      material: 'composite_laminate',
+      agrees: 'disagree',
+      modelVersion: 'recycling-net-11@v1',
+      ...overrides,
+    };
+  }
+
+  test('reads the block the proxy sends', () => {
+    assert.deepEqual(parseSecondOpinion(block()), {
+      label: 'takeaway cups',
+      score: 88,
+      material: 'composite_laminate',
+      agrees: 'disagree',
+      modelVersion: 'recycling-net-11@v1',
+    });
+  });
+
+  test('accepts a label that maps to no material at all', () => {
+    // Two of the classifier's eleven labels name no material in this
+    // vocabulary. An absent `material` is a real answer, not a missing field.
+    const out = parseSecondOpinion(block({ label: 'batteries', material: undefined }));
+    assert.ok(out !== undefined);
+    assert.equal('material' in out, false, 'an absent material must be an absent key');
+    assert.equal(out.agrees, 'disagree');
+  });
+
+  test('refuses a material outside the vocabulary, because that is drift', () => {
+    // The opposite case to the one above, and the reason they cannot share a
+    // branch: no material is fine, a material this build has never heard of
+    // means the two hand kept vocabularies have come apart.
+    assert.equal(parseSecondOpinion(block({ material: 'bioplastic' })), undefined);
+  });
+
+  test('refuses every malformed shape rather than guessing at it', () => {
+    for (const bad of [
+      undefined,
+      null,
+      'takeaway cups',
+      [],
+      block({ label: '' }),
+      block({ label: 'x'.repeat(41) }),
+      block({ agrees: 'maybe' }),
+      block({ agrees: undefined }),
+      block({ score: -1 }),
+      block({ score: 101 }),
+      block({ score: 88.5 }),
+      block({ score: '88' }),
+      block({ modelVersion: '' }),
+      block({ modelVersion: undefined }),
+    ]) {
+      assert.equal(parseSecondOpinion(bad), undefined, `accepted ${JSON.stringify(bad)}`);
+    }
+  });
+});
+
+describe('parseVisionRead, with a second opinion', () => {
+  const classifier = {
+    label: 'hard plastic',
+    score: 74,
+    material: 'other_plastic',
+    agrees: 'agree',
+    modelVersion: 'recycling-net-11@v1',
+  };
+
+  test('carries the classifier block through when it is valid', () => {
+    const read = parseVisionRead(body({ classifier }));
+    assert.ok(read !== undefined);
+    assert.deepEqual(read.classifier, classifier);
+  });
+
+  test('drops a malformed block but keeps the read', () => {
+    // The one place this file is tolerant, and the reason is worth stating in
+    // a test: the second opinion is evidence the verdict can do without, so a
+    // proxy sending a shape this build cannot read must not cost the user
+    // their answer.
+    const read = parseVisionRead(body({ classifier: { label: 'x', score: 'lots' } }));
+    assert.ok(read !== undefined, 'a bad second opinion must never fail the whole read');
+    assert.equal(read.classifier, undefined);
+    assert.equal(read.itemName, 'Yogurt tub');
+  });
+
+  test('is absent, not undefined, when the proxy sent none', () => {
+    const read = parseVisionRead(body());
+    assert.ok(read !== undefined);
+    assert.equal('classifier' in read, false);
   });
 });

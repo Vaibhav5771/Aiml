@@ -3,6 +3,8 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "dependencies": {
+    "@clerk/expo": "^4.13.0",
+    "@expo-google-fonts/inter": "^0.4.2",
     "@expo/vector-icons": "^15.0.2",
     "@tailwindcss/postcss": "^4.3.3",
     "clsx": "^2.1.1",
@@ -17,6 +19,7 @@
     "expo-image-picker": "~57.0.20",
     "expo-linking": "~57.0.12",
     "expo-router": "~57.0.25",
+    "expo-secure-store": "~57.0.4",
     "expo-splash-screen": "~57.0.9",
     "expo-sqlite": "~57.0.4",
     "expo-status-bar": "~57.0.1",
@@ -47,14 +50,15 @@
   },
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
+    "android": "expo run:android",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "check:format": "prettier --check .",
-    "test": "node --import tsx --experimental-test-module-mocks --test src/db/map.test.ts src/ml/score.test.ts src/rules/engine.test.ts src/rules/rule-set.test.ts src/screens/result/next-step.test.ts src/vision/validate.test.ts",
+    "test": "node --import tsx --experimental-test-module-mocks --test src/db/map.test.ts src/ml/score.test.ts src/rules/engine.test.ts src/rules/rule-set.test.ts src/screens/history/when.test.ts src/screens/result/next-step.test.ts src/vision/validate.test.ts",
     "check:tokens": "node ./scripts/check-tokens.mjs",
-    "check:photoset": "node ./scripts/check-photoset.mjs"
+    "check:photoset": "node ./scripts/check-photoset.mjs",
+    "check:classifier": "node scripts/check-classifier.mjs"
   },
   "private": true,
   "overrides": {

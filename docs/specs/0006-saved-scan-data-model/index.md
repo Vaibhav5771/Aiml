@@ -214,7 +214,7 @@ The project builds by Journey, so this plan drives one scan all the way through 
 
 - [ ] Feature 8 owns producing the downscaled JPEG that `saveScan` copies, and owns calling `saveScan` before routing to `/result/<id>`. This spec defines the contract but cannot wire it, because the capture flow does not exist yet.
 - [ ] Feature 9 owns the wording of the quiet line that says a scan was not saved. This spec guarantees the error value reaches the screen and nothing more.
-- [ ] Feature 11 deletes `src/app/dev-data.tsx` when it builds the real history list.
+- [x] Feature 11 deletes `src/app/dev-data.tsx` when it builds the real history list. Done on 2026-10-16, with the dev link on Scan and its route registration in `src/app/_layout.tsx`.
 - [ ] `Source.scope` (municipal, state, national) is still dropped on the way into `AppliedRule`, so a saved scan does not record how far its cited document's authority reached. Deliberately left alone here to keep the boundary spec 0004 drew; worth revisiting when feature 9 decides whether a screen shows a national citation differently from a Pune one.
 - [ ] Revisit pagination in `listScans` if the history list starts feeling slow. The summary projection buys a lot of headroom, so this is a symptom driven change, not a scheduled one.
 - [ ] Root `AGENTS.md` does not yet name `src/db/` or `src/store/` conventions. Once this is built, `/sync` should record where storage code lives and that the data layer returns error values rather than throwing.
